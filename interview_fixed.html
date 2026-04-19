@@ -28,6 +28,51 @@
       --text: #18212f;
       --muted: #526173;
       --hover-card: #f3f9fb;
+      --answer-text: #2d3e50;
+      --tab-hover-bg: #e8f7f4;
+      --code-bg: #f5f5f5;
+      --code-text: #1a1a2e;
+      --answer-border: rgba(0, 141, 122, 0.2);
+      --answer-bg: rgba(0, 141, 122, 0.02);
+      --grid-color1: rgba(0, 141, 122, 0.08);
+      --grid-color2: rgba(47, 111, 228, 0.06);
+    }
+
+    /* Dark Mode — system preference + manual toggle share one set of vars */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --card: #161b22;
+        --border: #30363d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --hover-card: #1c2128;
+        --answer-text: #c9d1d9;
+        --tab-hover-bg: #1a2f2b;
+        --code-bg: #0d1117;
+        --code-text: #79c0ff;
+        --answer-border: rgba(0, 141, 122, 0.35);
+        --answer-bg: rgba(0, 141, 122, 0.06);
+      }
+    }
+
+    body.dark-mode {
+      --bg: #0a0e27;
+      --surface: #1a1f3a;
+      --card: #1a1f3a;
+      --border: #2d3454;
+      --text: #e8eef5;
+      --muted: #9ca3af;
+      --hover-card: #252d4a;
+      --answer-text: #d1d5e0;
+      --tab-hover-bg: #1d2a42;
+      --code-bg: #0a0e27;
+      --code-text: #60a5fa;
+      --answer-border: rgba(0, 141, 122, 0.4);
+      --answer-bg: rgba(0, 141, 122, 0.08);
+      --accent: #00d4aa;
+      --accent2: #60a5fa;
     }
 
     html {
@@ -45,14 +90,16 @@
     }
 
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: linear-gradient(rgba(0, 141, 122, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(47, 111, 228, .06) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
-    }
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid-color1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color2) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
 
     h2 {
       position: relative;
@@ -63,7 +110,7 @@
       line-height: 1.05;
       text-align: center;
       letter-spacing: -.02em;
-      background: linear-gradient(135deg, #162033 20%, var(--accent2) 55%, var(--accent) 100%);
+      background: linear-gradient(135deg, var(--text) 20%, var(--accent2) 55%, var(--accent) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -92,15 +139,50 @@
       padding: 10px 18px;
       transition: all .2s;
       white-space: nowrap;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .tab:hover,
     .tab.active {
-      background: #e8f7f4;
+      background: var(--tab-hover-bg);
       border-color: var(--accent);
       color: var(--accent);
       box-shadow: 0 8px 22px rgba(0, 141, 122, .12);
     }
+
+    .tab.custom-tab .delete-tab-btn {
+      display: inline-flex;
+    }
+    .delete-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 0;
+      line-height: 1;
+      transition: all 0.15s;
+      margin-left: 4px;
+      flex-shrink: 0;
+    }
+
+    .delete-tab-btn:hover {
+      background: #ff4444;
+      border-color: #ff4444;
+      color: white;
+      transform: scale(1.15);
+    }
+
 
     .content {
       display: none;
@@ -190,13 +272,22 @@
     }
 
     .study-btn:hover {
-      background: #00695c;
+      background: color-mix(in srgb, var(--accent) 80%, black);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 141, 122, 0.3);
     }
 
     .study-btn:active {
       transform: translateY(0);
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, #2f6fe4 0%, #0e5cc4 100%);
+    }
+
+    .upload-btn:hover {
+      background: linear-gradient(135deg, #1e5bc8 0%, #0a3fa8 100%);
+      box-shadow: 0 4px 12px rgba(47, 111, 228, 0.3);
     }
 
     .search-stats {
@@ -239,9 +330,26 @@
       color: var(--accent);
     }
 
-    .uds-qa-list {
-      margin-top: 22px;
+    .answer-list {
+      margin: 14px 0 0 26px;
+      padding: 10px 14px 10px 20px;
+      background: var(--answer-bg);
+      border-left: 3px solid var(--answer-border);
+      border-radius: 4px;
+      line-height: 1.75;
+      color: var(--answer-text);
     }
+
+    .answer-list li {
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .answer-content {
+      display: block;
+    }
+
+
 
     .uds-section {
       margin-bottom: 26px;
@@ -267,34 +375,64 @@
 
     .uds-question {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 10px;
-      padding: 14px 16px;
-      transition: border-color .2s, background .2s;
+      border: 2px solid var(--border);
+      border-left: 5px solid var(--accent);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      padding: 16px 18px;
+      transition: all .3s ease;
+      box-shadow: 0 2px 8px rgba(0, 141, 122, 0.05);
     }
 
     .uds-question[open],
     .uds-question:hover {
       background: var(--hover-card);
-      border-color: rgba(0, 141, 122, .38);
+      border-color: rgba(0, 141, 122, .5);
+      border-left-color: var(--accent);
+      box-shadow: 0 6px 20px rgba(0, 141, 122, 0.12);
     }
 
     .uds-question summary {
       color: var(--text);
       cursor: pointer;
+      font-weight: 600;
+      line-height: 1.6;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      user-select: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .uds-question summary::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 18px;
       font-weight: bold;
-      line-height: 1.5;
+      margin-top: -2px;
+      transition: transform .3s ease;
+      min-width: 16px;
+    }
+
+    .uds-question[open] summary::before {
+      transform: rotate(90deg);
     }
 
     .uds-question p {
-      color: var(--muted);
-      line-height: 1.6;
-      margin: 12px 0 0;
+      color: var(--answer-text);
+      line-height: 1.8;
+      margin: 16px 0 0 26px;
+      font-size: 14px;
+      font-weight: 400;
+      background: var(--answer-bg);
+      padding: 12px 14px;
+      border-left: 3px solid var(--answer-border);
+      border-radius: 4px;
     }
 
     .code-block {
-      background: #f5f5f5;
+      background: var(--code-bg);
       border-left: 4px solid var(--accent);
       border-radius: 4px;
       font-family: 'Courier New', monospace;
@@ -303,6 +441,11 @@
       padding: 12px;
       overflow-x: auto;
       position: relative;
+    }
+
+    .code-block pre {
+      color: var(--code-text);
+      margin: 0;
     }
 
     .copy-btn {
@@ -321,14 +464,39 @@
     }
 
     .copy-btn:hover {
-      background: #006b5f;
+      background: color-mix(in srgb, var(--accent) 80%, black);
     }
 
     .copy-btn.copied {
-      background: #28a745;
+      background: #2da44e;
     }
 
-    @keyframes fadeUp {
+    /* Dark mode toggle button */
+    #darkToggle {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      z-index: 100;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #darkToggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+
       from {
         opacity: 0;
         transform: translateY(10px);
@@ -338,24 +506,180 @@
         opacity: 1;
         transform: translateY(0);
       }
-    }
+    
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       body {
-        padding: 36px 14px 56px;
+        padding: 36px 12px 56px;
+        font-size: 14px;
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        margin-bottom: 24px;
       }
 
       .tabs {
         justify-content: flex-start;
+        gap: 8px;
+        max-width: 100%;
       }
 
       .tab {
-        flex: 1 1 calc(50% - 10px);
-        text-align: center;
+        flex: 0 1 auto;
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: fit-content;
       }
 
       .content {
-        padding: 22px 18px;
+        padding: 18px 14px;
+        width: 100%;
+        border-radius: 12px;
+      }
+
+      .study-toolbar {
+        margin: 16px auto;
+        padding: 12px;
+        width: 100%;
+      }
+
+      .study-controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-input {
+        width: 100%;
+        min-width: auto;
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .toolbar-buttons {
+        width: 100%;
+        gap: 6px;
+      }
+
+      .study-btn {
+        flex: 1;
+        padding: 6px 10px;
+        font-size: 11px;
+        min-width: 0;
+      }
+
+      .uds-question p {
+        margin: 12px 0 0 20px;
+        padding: 10px 10px;
+        font-size: 13px;
+      }
+
+      .uds-section h4 {
+        font-size: 16px;
+        margin: 16px 0 10px;
+      }
+
+      h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      ul {
+        margin-left: 16px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 24px 10px 48px;
+        font-size: 13px;
+      }
+
+      h2 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        margin-bottom: 16px;
+      }
+
+      .tabs {
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+
+      .tab {
+        padding: 6px 10px;
+        font-size: 11px;
+        border-radius: 6px;
+      }
+
+      .delete-tab-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+
+      .content {
+        padding: 14px 10px;
+        border-radius: 10px;
+      }
+
+      .study-toolbar {
+        padding: 10px;
+        margin: 12px auto;
+      }
+
+      .search-input {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .study-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+      }
+
+      .uds-question {
+        margin-bottom: 8px;
+        padding: 10px 12px;
+      }
+
+      .uds-question summary {
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .uds-question p {
+        margin: 10px 0 0 16px;
+        padding: 8px 8px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .uds-section h4 {
+        font-size: 14px;
+        margin: 12px 0 8px;
+      }
+
+      ul {
+        margin-left: 14px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .code-block {
+        font-size: 11px;
+        padding: 8px;
+        margin: 8px 0;
+      }
+
+      .copy-btn {
+        padding: 4px 8px;
+        font-size: 10px;
       }
     }
 
@@ -365,27 +689,29 @@
 
 <body>
 
+<button id="darkToggle" onclick="toggleDarkMode()" title="Toggle dark/light mode">🌙 Dark</button>
+
 <h2>🚗 Automotive Software Testing Interview Guide</h2>
 
 <div class="tabs">
-  <div class="tab active" onclick="openTab('adb', this)">ADB</div>
-  <div class="tab" onclick="openTab('adas', this)">ADAS Testing</div>
-  <div class="tab" onclick="openTab('automotiveSw', this)">Automotive Testing</div>
-  <div class="tab" onclick="openTab('bluetooth', this)">Bluetooth</div>
-  <div class="tab" onclick="openTab('clanguage', this)">C Language</div>
-  <div class="tab" onclick="openTab('can', this)">CAN Protocol</div>
-  <div class="tab" onclick="openTab('cantp', this)">CAN TP</div>
-  <div class="tab" onclick="openTab('canoe', this)">CANoe</div>
-  <div class="tab" onclick="openTab('capl', this)">CAPL Scripting</div>
-  <div class="tab" onclick="openTab('embedded-c', this)">Embedded C</div>
-  <div class="tab" onclick="openTab('features', this)">Feature Testing</div>
-  <div class="tab" onclick="openTab('hilbench', this)">HIL Bench</div>
-  <div class="tab" onclick="openTab('infotainment', this)">Infotainment</div>
-  <div class="tab" onclick="openTab('logs', this)">Logs</div>
-  <div class="tab" onclick="openTab('python', this)">Python</div>
-  <div class="tab" onclick="openTab('qfil', this)">QFIL</div>
-  <div class="tab" onclick="openTab('teraterm', this)">Tera Term</div>
-  <div class="tab" onclick="openTab('uds', this)">UDS Diagnostics</div>
+  <div class="tab active" data-tab-id="adb" onclick="openTab('adb', this)">ADB</div>
+  <div class="tab" data-tab-id="adas" onclick="openTab('adas', this)">ADAS Testing</div>
+  <div class="tab" data-tab-id="automotiveSw" onclick="openTab('automotiveSw', this)">Automotive Testing</div>
+  <div class="tab" data-tab-id="bluetooth" onclick="openTab('bluetooth', this)">Bluetooth</div>
+  <div class="tab" data-tab-id="clanguage" onclick="openTab('clanguage', this)">C Language</div>
+  <div class="tab" data-tab-id="can" onclick="openTab('can', this)">CAN Protocol</div>
+  <div class="tab" data-tab-id="cantp" onclick="openTab('cantp', this)">CAN TP</div>
+  <div class="tab" data-tab-id="canoe" onclick="openTab('canoe', this)">CANoe</div>
+  <div class="tab" data-tab-id="capl" onclick="openTab('capl', this)">CAPL Scripting</div>
+  <div class="tab" data-tab-id="embedded-c" onclick="openTab('embedded-c', this)">Embedded C</div>
+  <div class="tab" data-tab-id="features" onclick="openTab('features', this)">Feature Testing</div>
+  <div class="tab" data-tab-id="hilbench" onclick="openTab('hilbench', this)">HIL Bench</div>
+  <div class="tab" data-tab-id="infotainment" onclick="openTab('infotainment', this)">Infotainment</div>
+  <div class="tab" data-tab-id="logs" onclick="openTab('logs', this)">Logs</div>
+  <div class="tab" data-tab-id="python" onclick="openTab('python', this)">Python</div>
+  <div class="tab" data-tab-id="qfil" onclick="openTab('qfil', this)">QFIL</div>
+  <div class="tab" data-tab-id="teraterm" onclick="openTab('teraterm', this)">Tera Term</div>
+  <div class="tab" data-tab-id="uds" onclick="openTab('uds', this)">UDS Diagnostics</div>
 </div>
 
 <!-- Study Tools Bar -->
@@ -397,13 +723,15 @@
       <button onclick="collapseAllAnswers()" class="study-btn collapse-btn" title="Collapse all answers">📕 Collapse All</button>
       <button onclick="exportToClipboard(this)" class="study-btn export-btn" title="Copy all to clipboard">📋 Copy All</button>
       <button onclick="printStudyGuide()" class="study-btn print-btn" title="Print for studying">🖨️ Print</button>
+      <button onclick="promptUploadJSON()" class="study-btn upload-btn" title="Upload JSON file">⬆️ Upload JSON</button>
+      <input type="file" id="jsonUploadInput" accept=".json,application/json" style="display: none;" onchange="handleJsonUpload(event)">
     </div>
   </div>
   <div class="search-stats" id="searchStats"></div>
 </div>
 
 <!-- Automotive Software Testing -->
-<div id="automotiveSw" class="content active">
+<div id="automotiveSw" class="content">
   <h3>Automotive Software Testing</h3>
   <ul>
     <li>STLC (Software Testing Life Cycle) and SDLC (Software Development Life Cycle)</li>
@@ -513,7 +841,7 @@
 </div>
 
 <!-- ADB -->
-<div id="adb" class="content">
+<div id="adb" class="content active">
   <h3>Android Debug Bridge (ADB)</h3>
   <ul>
     <li>ADB commands and device connectivity</li>
@@ -663,31 +991,286 @@
   <h3>Interview Questions</h3>
   <div id="embedded-c-qa-list" class="uds-qa-list"></div>
 </div>
-</div>
 
 
 
 <script>
 
 
-  function openTab(tabId, element) {
-    // hide all content
-    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  /* ── Dark mode toggle ──────────────────────────────────── */
+  function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('darkToggle');
+  if (btn) {
+    btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+  }
+  try { 
+    localStorage.setItem('darkMode', isDark ? '1' : '0'); 
+  } catch(e) {}
+}
 
-    // remove active tab
+  // Apply saved preference on load
+  (function() {
+    try {
+      if (localStorage.getItem('darkMode') === '1') {
+        document.body.classList.add('dark-mode');
+        const btn = document.getElementById('darkToggle');
+        if (btn) btn.textContent = '☀️ Light';
+      }
+    } catch(e) {}
+  })();
+
+  /* ── Tab switching ──────────────────────────────────────── */
+  function openTab(tabId, element) {
+    // Validate tabId is a safe non-empty string (alphanumeric + hyphens only)
+    if (!tabId || !/^[\w-]+$/.test(tabId)) return;
+
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
 
-    // show selected content
     const contentElement = document.getElementById(tabId);
-    if (contentElement) {
-      contentElement.classList.add('active');
-    }
-    element.classList.add('active');
+    if (contentElement) contentElement.classList.add('active');
+    if (element) element.classList.add('active');
 
     // Clear search when switching tabs
-    document.getElementById('searchBox').value = '';
-    document.getElementById('searchStats').textContent = '';
+    const searchBox = document.getElementById('searchBox');
+    if (searchBox) searchBox.value = '';
+    const statsDiv = document.getElementById('searchStats');
+    if (statsDiv) { statsDiv.textContent = ''; statsDiv.classList.remove('active'); }
     filterQuestions();
+  }
+
+
+  // Global variable to store current upload section
+  let currentUploadSection = null;
+
+  /* Sanitize text for safe use as textContent (not innerHTML) */
+  function sanitizeText(str) {
+    return String(str).trim().slice(0, 80); // max 80 chars, string-only
+  }
+
+  /* Convert section name to a safe DOM ID */
+  function toSafeId(name) {
+    return 'custom-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+  }
+
+  function promptUploadJSON() {
+    const raw = prompt('📝 Enter section name for the new tab:', '');
+    if (raw === null) return; // cancelled
+
+    const sectionName = sanitizeText(raw);
+    if (!sectionName) {
+      alert('❌ Section name cannot be empty.');
+      return;
+    }
+
+    const tabId = toSafeId(sectionName);
+    if (!tabId || tabId === 'custom-') {
+      alert('❌ Section name must contain at least one letter or number.');
+      return;
+    }
+
+    if (document.getElementById(tabId)) {
+      alert('❌ A tab with that name already exists.');
+      return;
+    }
+
+    currentUploadSection = { name: sectionName, id: tabId };
+    alert('✅ Now select your JSON file.');
+    openFilePickerForJSON();
+  }
+
+  // Open file picker with proper error handling
+  function openFilePickerForJSON() {
+    try {
+      const fileInput = document.getElementById('jsonUploadInput');
+      if (!fileInput) {
+        alert('❌ Error: Upload control not found');
+        currentUploadSection = null;
+        return;
+      }
+      
+      // Reset value to allow same file selection
+      fileInput.value = '';
+      
+      // Click to open file dialog
+      fileInput.click();
+      
+    } catch (error) {
+      alert('❌ Error opening file picker: ' + error.message);
+      currentUploadSection = null;
+    }
+  }
+
+  // Create a new tab dynamically — uses safe DOM, no innerHTML injection
+  function createNewTab(tabId, tabName) {
+    const tabsContainer = document.querySelector('.tabs');
+    if (!tabsContainer) return;
+
+    const newTab = document.createElement('div');
+    newTab.className = 'tab custom-tab';
+    newTab.dataset.tabId = tabId;
+    const label = document.createTextNode(tabName + ' ');
+    newTab.appendChild(label);
+
+    // Delete button
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-tab-btn';
+    delBtn.title = 'Delete this tab';
+    delBtn.textContent = '✕';
+    delBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      deleteTab(tabId, newTab);
+    });
+    newTab.appendChild(delBtn);
+
+    newTab.addEventListener('click', function(e) {
+      if (e.target !== delBtn) openTab(tabId, newTab);
+    });
+
+    tabsContainer.appendChild(newTab);
+  }
+
+  // Delete custom tab — safe version
+  function deleteTab(tabId, tabElement) {
+    if (!tabId || !/^[\w-]+$/.test(tabId)) return;
+
+    const contentDiv = document.getElementById(tabId);
+    const tabLabel = tabElement ? tabElement.dataset.tabId || tabId : tabId;
+
+    if (!confirm('Delete this custom tab? This cannot be undone.')) return;
+
+    // Check if this tab is currently active
+    const wasActive = tabElement && tabElement.classList.contains('active');
+
+    if (tabElement) tabElement.remove();
+    if (contentDiv) contentDiv.remove();
+
+    // If deleted tab was active, activate the first available tab
+    if (wasActive) {
+      const firstTab = document.querySelector('.tab');
+      if (firstTab) {
+        const firstId = firstTab.dataset.tabId;
+        if (firstId) openTab(firstId, firstTab);
+      }
+    }
+  }
+
+  // Create new content div dynamically — safe DOM, no innerHTML injection
+  function createNewContent(tabId, tabName) {
+    try {
+      const body = document.body;
+
+      const newContent = document.createElement('div');
+      newContent.id = tabId;
+      newContent.className = 'content';
+
+      const heading = document.createElement('h3');
+      heading.textContent = tabName; // safe textContent
+      newContent.appendChild(heading);
+
+      const qaList = document.createElement('div');
+      qaList.id = tabId + '-qa-list';
+      qaList.className = 'uds-qa-list';
+      newContent.appendChild(qaList);
+
+      body.appendChild(newContent);
+    } catch (error) {
+      console.error('Error creating content:', error);
+    }
+  }
+
+  // Handle JSON file upload with section name
+  function handleJsonUpload(event) {
+    try {
+      const file = event.target.files[0];
+
+      if (!file) {
+        currentUploadSection = null;
+        return;
+      }
+
+      if (!currentUploadSection) {
+        alert('❌ Error: Section name not set. Please try again.');
+        return;
+      }
+
+      // Validate file type by name and MIME
+      const validMime = ['application/json', 'text/json', 'text/plain'];
+      if (!file.name.toLowerCase().endsWith('.json')) {
+        alert('❌ Only .json files are allowed.\n\nFile: ' + file.name);
+        event.target.value = '';
+        currentUploadSection = null;
+        return;
+      }
+
+      // Guard max file size: 5 MB
+      if (file.size > 5 * 1024 * 1024) {
+        alert('❌ File too large. Maximum size is 5 MB.');
+        event.target.value = '';
+        currentUploadSection = null;
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+
+          if (!Array.isArray(jsonData)) {
+            alert('❌ JSON must be an array.\n\nExample:\n[\n  {"section": "Topic", "questions": [{"q": "Q?", "a": "A"}]}\n]');
+            currentUploadSection = null;
+            return;
+          }
+
+          // Validate each entry has section + questions array
+          for (let i = 0; i < jsonData.length; i++) {
+            const entry = jsonData[i];
+            if (typeof entry !== 'object' || !entry.section || !Array.isArray(entry.questions)) {
+              alert('❌ Invalid structure at index ' + i + '.\nEach item needs "section" (string) and "questions" (array).');
+              currentUploadSection = null;
+              return;
+            }
+          }
+
+          const { name: sectionName, id: tabId } = currentUploadSection;
+
+          // Hide all
+          document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+          // Create tab + content
+          createNewTab(tabId, sectionName);
+          createNewContent(tabId, sectionName);
+          renderQuestionsTab(tabId + '-qa-list', jsonData);
+
+          // Activate new tab — find by dataset.tabId
+          const newTab = Array.from(document.querySelectorAll('.tab.custom-tab'))
+                              .find(t => t.dataset.tabId === tabId);
+          if (newTab) openTab(tabId, newTab);
+
+          alert('✅ Tab "' + sectionName + '" created with ' + jsonData.length + ' section(s).');
+          currentUploadSection = null;
+
+        } catch (parseError) {
+          alert('❌ JSON parse error: ' + parseError.message);
+          currentUploadSection = null;
+        }
+      };
+
+      reader.onerror = function() {
+        alert('❌ Error reading file.');
+        currentUploadSection = null;
+      };
+
+      reader.readAsText(file);
+      event.target.value = '';
+
+    } catch (error) {
+      alert('❌ Unexpected error: ' + error.message);
+      currentUploadSection = null;
+    }
   }
 
   // Search and filter questions — scoped to the active tab only
@@ -811,11 +1394,20 @@
 
   const automotiveSwQaData = [
     {
-      section: "Software Testing Fundamentals",
+      section: "STLC & Testing Methodology",
       questions: [
-        { q: "What is STLC and explain each phase?", a: "STLC (Software Testing Life Cycle) consists of: Planning (define scope, resources), Analysis (identify test requirements), Design (create test cases), Execution (run tests), Closure (report results). Each phase ensures systematic testing and quality assurance." },
-        { q: "What types of testing do you perform in automotive?", a: "Smoke testing (basic functionality), Sanity testing (specific functionality), Regression testing (ensure fixes don't break existing), Integration testing (component interaction), System testing (end-to-end), UAT (user acceptance). Also: functional, non-functional, performance, security testing." },
-        { q: "Explain V-model vs Agile testing approach.", a: "V-model: Sequential, each development phase has corresponding test phase, rigid structure. Agile: Iterative, continuous testing during sprints, flexible adaptation to changes. Automotive uses both: V-model for safety-critical systems, Agile for supporting features." }
+        { q: "1. What is STLC and explain each phase?", a: "STLC (Software Testing Life Cycle) consists of: (1) Planning - define scope, objectives, resources. (2) Analysis - identify testable requirements. (3) Design - create test cases, scenarios. (4) Execution - run tests, log defects. (5) Closure - report metrics, lessons learned." },
+        { q: "2. What types of testing exist in automotive?", a: "Smoke (basic functionality), Sanity (post-fix verify), Regression (existing still works), Integration (modules together), System (vs requirements), UAT (customer validation), Functional (features work), Performance (speed/memory), Security (vulnerabilities), Localization (multi-language)." },
+        { q: "3. Explain V-model testing approach.", a: "V-model: Sequential where each dev phase has test phase (Requirements->Test Planning, Design->Test Design, Code->Unit Test). Rigid structure, thorough documentation, early defect detection, good for fixed requirements." },
+        { q: "4. Explain Agile testing approach.", a: "Agile: Iterative testing during sprints (1-4 weeks). Testing immediately after coding, continuous feedback, deployment possible every sprint. Benefits: early detection. Challenges: less documentation, may miss edge cases." },
+        { q: "5. What is defect lifecycle?", a: "New -> Assigned -> Fixed -> Ready for Retest -> Retest -> Closed (or Reopened). Severity: Critical (blocker), High (major), Medium (minor), Low. Priority based on business impact. Tracked in Jira, Azure DevOps, TFS." },
+        { q: "6. What is traceability matrix?", a: "Document linking requirements to test cases ensuring coverage. Columns: Req ID, Description, Test Case ID, Status. Ensures complete coverage, supports ISO 26262 compliance, facilitates regression testing. Mandatory for safety-critical systems." },
+        { q: "7. How do you estimate testing effort?", a: "Methods: (1) Percentage of Dev - 30-50% of dev time. (2) Work Breakdown Structure - estimate each task. (3) Three-Point Estimation - use optimistic/realistic/pessimistic. Factors: complexity, automation level, experience, compliance needs." },
+        { q: "8. What is test data management?", a: "Creating, maintaining test data for testing. Challenges: data privacy (PII masking), realistic scale, business rule validity. Solutions: production data anonymization, synthetic generation, test pools, versioning." },
+        { q: "9. How do you manage test execution?", a: "Plan: create test schedule, allocate resources. Execute: run test cases, log results/defects. Monitor: track completion %, defect trends. Report: status updates, metrics, risks. Tools: TMS (Test Management Systems), CI/CD pipelines for automation." },
+        { q: "10. What is continuous testing?", a: "Automated tests run on every code commit in CI/CD pipeline. Tools: Jenkins, GitLab CI execute tests. Frameworks: pytest, JUnit, robot framework. Benefits: early detection, rapid feedback, reduced test time, quality improvement." },
+        { q: "11. What is root cause analysis in testing?", a: "RCA investigates why defects occurred (not just fixing symptoms). Process: Identify defect, analyze causal chain, determine root causes, implement preventive actions. Techniques: 5 Whys, Fishbone diagram. Reduces recurring defects, improves product quality." },
+        { q: "12. Explain ISO 26262 compliance requirements.", a: "ISO 26262 (Functional Safety for road vehicles) mandates ASIL rating (A/B/C/D). Requires: hazard analysis, architectural design, systematic testing, V&V activities, failure analysis. Higher ASIL needs more rigorous testing, documentation, and independence. Critical for safety-critical automotive systems." }
       ]
     }
   ];
@@ -1924,35 +2516,12 @@
   ];
 
   function convertBulletPointsToHTML(text) {
-    // Check if text contains numbered bullets like (1), (2), etc.
-    if (!text.match(/\(\d+\)/)) {
-      return text;  // Return as is if no bullets found
-    }
+    // Optimized: Check if text contains numbered bullets like (1), (2), etc.
+    const bulletPattern = /\(\d+\)/;
+    if (!bulletPattern.test(text)) return text;
 
-    // Split by pattern (number) and filter out empty strings
-    const parts = text.split(/(\(\d+\))/);
-    const items = [];
-    let currentItem = '';
-
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-      
-      if (part.match(/\(\d+\)/)) {
-        if (currentItem.trim()) {
-          items.push(currentItem.trim());
-        }
-        currentItem = '';
-      } else {
-        currentItem += part;
-      }
-    }
-    
-    if (currentItem.trim()) {
-      items.push(currentItem.trim());
-    }
-
-    // Filter out empty items and return as array
-    return items.filter(item => item.length > 0);
+    const parts = text.split(bulletPattern).filter(p => p.trim());
+    return parts.length > 1 ? parts : text;
   }
 
   function renderQuestionsTab(containerId, qaData, isCApl = false) {
@@ -1990,13 +2559,11 @@
         if (Array.isArray(bulletItems) && bulletItems.length > 1) {
           // Create unordered list if multiple bullet points found
           const ul = document.createElement('ul');
-          ul.style.marginLeft = '20px';
-          ul.style.lineHeight = '1.6';
+          ul.className = 'answer-list';
           
           bulletItems.forEach(bulletText => {
             const li = document.createElement('li');
             li.textContent = bulletText;
-            li.style.marginBottom = '8px';
             ul.appendChild(li);
           });
           
@@ -2031,7 +2598,6 @@
           const codeContent = document.createElement('pre');
           codeContent.textContent = item.code;
           codeContent.style.margin = '0';
-          codeContent.style.color = 'var(--text)';
           
           codeBlock.appendChild(copyBtn);
           codeBlock.appendChild(codeContent);
@@ -2049,22 +2615,38 @@
 
   const infotainmentQaData = [
     {
-      section: "Infotainment System Testing",
+      section: "Infotainment System Architecture & Components",
       questions: [
-        { q: "What are the main components tested in infotainment systems?", a: "Audio systems (FM/AM/DAB/SiriusXM), Bluetooth connectivity, Wi-Fi, Navigation (GPS/Maps), Telephony (HFP), Media playback, Voice control, Android Auto/Apple CarPlay, HVAC control, Climate settings, Vehicle settings menu." },
-        { q: "How do you test Bluetooth audio quality?", a: "Verify connection establishment, test audio codec support (SBC, AAC, aptX, LDAC), measure latency between audio command and playback, test volume control, test pause/resume, verify no dropouts during call transitions, test audio quality in different environments." },
-        { q: "What are the key test scenarios for Android Auto integration?", a: "Connection establishment, app compatibility, voice command functionality, navigation routing, phone call handling, music streaming (Spotify, Google Play), screen mirroring quality, safety lock-out while driving, reconnection after disconnection." }
+        { q: "1. What are the main components of a modern infotainment system?", a: "Head Unit (main ECU: processor, memory, display controller). Audio subsystem (amplifier, speaker outputs, digital signal processing). Connectivity modules (Bluetooth SoC, Wi-Fi module, cellular modem). Navigation ECU (GPS receiver, map storage). Voice recognition module. HMI (Human-Machine Interface: touchscreen, steering wheel controls, physical buttons). CAN/LIN gateway interfaces to vehicle systems." },
+        { q: "2. Describe infotainment system testing strategy.", a: "Functional testing: audio, navigation, connectivity features. Integration testing: CAN/LIN communication with vehicle systems. Performance testing: responsiveness, boot time, codec processing. Stress testing: multiple simultaneous connections. Security testing: authentication, data privacy. Localization testing: multi-language, regional maps. Hardware compatibility: different Android/iOS versions, phone models." },
+        { q: "3. What audio codecs are tested and why?", a: "SBC (Subband Coding): baseline Bluetooth codec, mandatory, lower bitrate (~192 kbps). AAC (Advanced Audio Coding): better quality than SBC, common in iOS. aptX: licensed codec, lower latency (~32ms), better quality. aptX HD: high-definition variant for premium systems. LDAC: Sony codec, high-bitrate (up to 990 kbps), better quality. FLAC: lossless compression. Testing involves verifying bitrate, latency, quality metrics." },
+        { q: "4. How do you test GPS/Navigation functionality?", a: "Verify GPS signal acquisition time (Time to First Fix). Test accuracy in urban, rural, open sky conditions. Verify map loading and rendering performance. Test routing algorithms (fastest, shortest, eco routes). Test real-time traffic integration. Test POI (Points of Interest) search accuracy. Test lane guidance and turn guidance. Verify coordinates are correctly displayed. Test in high/low precision modes. Verify alternative route suggestions." },
+        { q: "5. Explain Hands-Free Profile (HFP) testing in automotive.", a: "HFP enables hands-free calling via Bluetooth. Test: phone pairing and connection, incoming call notifications, call acceptance/rejection, microphone audio path (echo, noise, clarity), speaker output quality, DTMF (dial tone) support, call transfer between phone/headset, battery status notification, signal strength indication, call waiting/hold functionality." },
+        { q: "6. What are key Apple CarPlay testing scenarios?", a: "Connection stability (wireless and USB-C), app compatibility (navigation, music, messaging, calls), voice control accuracy, Siri integration, screen mirroring quality and responsiveness, multi-app switching, handling disconnection/reconnection, driving mode lock-out, steering wheel control mapping, dashboard widget updates, notification handling." },
+        { q: "7. What are key Android Auto testing scenarios?", a: "Google Play Services integration, app compatibility (Google Maps, Waze, Spotify, etc.), Google Assistant voice commands, screen mirroring quality, safe driving mode enforcement, steering wheel controls, split-screen vs full-screen apps, app installation from car, phone hotspot stability, quick access to frequently used apps." },
+        { q: "8. How do you test Over-The-Air (OTA) updates for infotainment?", a: "Verify update download via Wi-Fi/cellular. Test installation process: file integrity validation (checksums, signatures), rollback capability if failed, power loss handling during update, system stability after update. Verify database (maps) updates seamlessly. Test user notification and scheduling. Measure update time. Test update in different battery states. Verify no data loss." },
+        { q: "9. Describe climate/HVAC integration testing.", a: "Verify CAN communication from infotainment display to HVAC ECU. Test temperature setpoint control (+/- buttons, slider), verify feedback from actual temperature sensors, test fan speed levels, test AC/heating mode selection, test seat heating/cooling if integrated, test defroster modes, verify safety lock-outs (no climate changes while driving if required), test multi-zone controls in premium vehicles." },
+        { q: "10. How do you test voice control functionality?", a: "Test wake word detection accuracy and false positive rate. Test speech recognition in different accents/languages. Test command accuracy in noisy environments (highway). Test command latency (response time). Test natural language understanding (\"Call Mom\" recognizes Mom in contacts). Test error handling (command not understood). Test privacy (voice data not sent unnecessarily). Test voice feedback confirmation." },
+        { q: "11. What are infotainment security testing requirements?", a: "Authentication: ensure only authorized devices connect via Bluetooth. Authorization: verify permission levels (access to contacts, calendar, messages). Data protection: encryption of personal data, PII compliance. Injection attacks: test against malformed CAN messages. Code execution: verify no buffer overflows in audio codec processing. Secure boot: verify bootloader security. Firmware signing: verify only signed updates install. Test against common CVEs in automotive infotainment systems." }
       ]
     }
   ];
 
   const adasQaData = [
     {
-      section: "ADAS Testing Fundamentals",
+      section: "ADAS Testing & SAE Automation Levels",
       questions: [
-        { q: "What is Adaptive Cruise Control (ACC) and how is it tested?", a: "ACC automatically maintains a set speed and distance from the vehicle ahead using radar/lidar sensors. Testing includes: target detection accuracy, distance maintenance, deceleration smoothness, speed control at different speeds, failsafe behavior when sensors fail, interaction with driver steering/braking." },
-        { q: "How do you test Automatic Emergency Braking (AEB)?", a: "Test collision detection range and accuracy, verify braking force application, test multiple scenarios (pedestrians, obstacles, vehicles), verify sensor data fusion, test failsafe (full braking if sensor failure detected), measure braking response time (typically < 500ms), test in various weather conditions." },
-        { q: "What are the challenges in testing Lane Keeping Assist?", a: "Lane detection accuracy varies with road markings quality, lighting conditions, and road geometry. Testing involves: lane boundary detection, steering command smoothness, resistance when driver actively steers, failsafe when lane not detected, interaction with curves, handling missing/faded lane markings." }
+        { q: "1. Explain SAE Levels of Autonomous Driving (0-5).", a: "Level 0 (No Automation): Driver does everything. Level 1 (Driver Assistance): Adaptive cruise or steering assistance. Level 2 (Partial Automation): Both longitudinal and lateral control (Tesla Autopilot, GM Super Cruise). Level 3 (Conditional): Car handles most driving, driver monitors. Level 4 (High): Car drives in defined areas without driver. Level 5 (Full): No steering wheel needed, any condition. Testing complexity increases with level." },
+        { q: "2. What is Adaptive Cruise Control (ACC) and how is it tested?", a: "ACC maintains set speed and distance from vehicle ahead using radar/lidar. Testing: radar target detection accuracy, distance maintenance (verify spacing maintained), deceleration smoothness, speed control at different speeds (highway/city), failsafe behavior on sensor failure, interaction with driver steering/braking, multi-target scenarios (following vehicle changes lanes)." },
+        { q: "3. How do you test Automatic Emergency Braking (AEB)?", a: "AEB detects imminent collision and applies brakes autonomously. Testing: collision detection range/accuracy, braking force application (verify deceleration rate), multiple scenarios (vehicles, pedestrians, bicycles, obstacles), sensor data fusion reliability, failsafe (full emergency braking on sensor failure), response time measurement (typically <500ms), weather conditions (rain, snow, fog), false positive rate." },
+        { q: "4. Describe Lane Keeping Assist (LKA) testing challenges.", a: "Lane detection varies with road markings, lighting, geometry. Testing: lane boundary detection accuracy (faded vs clear lines), steering command smoothness (micro-adjustments vs jerky), resistance when driver actively steers, failsafe when lane not detected, handling curves (radius > X meters), missing/faded lane markings, lane change detection, highway vs city roads." },
+        { q: "5. What is sensor fusion and how is it tested in ADAS?", a: "Sensor fusion combines data from multiple sensors (camera, radar, lidar, ultrasonic) for better accuracy. Testing: verify each sensor's individual accuracy, test fusion algorithms with sensor failures (degrade gracefully), test sensor redundancy (detect conflicting readings), test latency (fusion must be real-time), test in adverse conditions (one sensor unreliable while others work), cross-sensor validation." },
+        { q: "6. Explain Blind Spot Monitoring (BSM) testing.", a: "BSM detects vehicles in adjacent lanes. Testing: detection range verification (typically 30-50m), response time for alerts, false positive rate in highway traffic, handling multiple vehicles, temporary obstruction handling, performance in rain/snow, alert presentation (audible beep, visual indicator), disabling when appropriate (parking)." },
+        { q: "7. How do you test Parking Assistance systems?", a: "Testing automated parking: initial space detection (reverse camera), distance measurement accuracy, steering commands smoothness, abort capability (driver takes control), collision avoidance during auto-park, multi-point turns handling, different parking scenarios (parallel, perpendicular, angled), different vehicle sizes, obstacle detection (curbs, other vehicles)." },
+        { q: "8. What is SOTIF and why is it critical for ADAS?", a: "SOTIF (Safety of Intended Functionality - ISO 26262:2018 Part 11) ensures failures don't cause hazards. Testing: verify intended behavior not hazardous, identify functional insufficiencies (design flaws), mitigate known hazards, test under normal conditions, edge cases, and foreseeable misuse, verify failsafe states don't cause accidents, continuous validation as real-world usage expands." },
+        { q: "9. Describe edge case scenarios for ADAS testing.", a: "Edge cases: occlusion (parked cars blocking lane), extreme weather (heavy rain, snow blizzard), shadows/glare affecting vision, construction zones, animals on roadway, sudden obstacle appearance, vehicle failure (ABS failure during braking), sensor failure during maneuver, extreme speeds/accelerations, multi-vehicle interactions (platoons)." },
+        { q: "10. How do you perform failure mode analysis for ADAS?", a: "FMEA process: identify possible failures (sensor malfunction, processing delay, communication loss), analyze effects (safety consequence), estimate severity/likelihood. Mitigation strategies: redundancy (dual sensors), watchdog timers (detect freezes), plausibility checks (sanity validation), degradation (reduce automation level), failsafe (return control to driver), logging (record for analysis)." },
+        { q: "11. What real-world validation approaches are used for ADAS?", a: "Track testing (closed course): controlled scenarios, repeatability. Highway testing: real traffic, varied conditions. Urban testing: pedestrians, congestion, complex scenarios. Winter/summer testing: weather variations. Night/low-light testing: vision system challenges. Data logging: record all sensor inputs, decisions, outcomes. OTA monitoring: track post-release real-world performance, adjust thresholds as needed." }
       ]
     }
   ];
@@ -2073,9 +2655,16 @@
     {
       section: "CAN Transport Protocol (ISO 15765-2)",
       questions: [
-        { q: "What are the four frame types in CAN TP and their purposes?", a: "SF (Single Frame): Data fits in one frame (≤7 bytes). FF (First Frame): Indicates start of multi-frame transfer (14 bytes payload). CF (Consecutive Frame): Continuation of multi-frame data. FC (Flow Control): Receiver controls sender via Block Size and STmin. Each type has specific byte structure for segmentation." },
-        { q: "Explain the handshake between sender and receiver in CAN TP.", a: "Sender transmits FF with total message length. Receiver must respond with FC containing Block Size (0=no limit) and STmin (min delay between CFs). Sender waits for FC, then sends CFs according to block size. If more CFs needed after block, receiver sends another FC. Process repeats until all data transferred." },
-        { q: "What is STmin and why is it important?", a: "STmin (Separation Time minimum) is the minimum delay between consecutive CF frames as specified by receiver in Flow Control. It allows the receiver to process data at its own pace. Values range 0-127ms. Exceeding this causes receiver buffer underflow. Common issue: sender sending CFs too fast without respecting STmin, causing receiver to drop frames." }
+        { q: "1. What is CAN TP and why is it necessary?", a: "CAN TP (Transport Protocol) enables transfer of messages > 8 bytes over CAN. Raw CAN frames limited to 8 data bytes; CAN TP segments large messages across multiple frames. Defined in ISO 15765-2. Essential for diagnostics (UDS over CAN), software downloads, configuration. Handles segmentation, reassembly, flow control, timeout management." },
+        { q: "2. Describe the four CAN TP frame types.", a: "SF (Single Frame): 0-7 bytes data in one frame. First byte: 0x0N (N=data length). FF (First Frame): Start of multi-frame. First 2 bytes: 0x10NN (NN=data length high byte, or 0x10 followed by 4-byte length for CAN FD). CFs (Consecutive Frame): Data continuation. First byte: 0x2N (N=frame counter 0-15, wraps around). FC (Flow Control): Receiver tells sender when ready. Bytes: 0x3A BS STmin (A=flow status, BS=block size, STmin=separation time)." },
+        { q: "3. Explain the CAN TP handshake process.", a: "Sender: transmit FF with total message length. Receiver: receive FF, prepare buffer, transmit FC with block size and STmin. Sender: wait for FC, then send CFs (up to block size). Receiver: collect CFs, reassemble, verify sequence numbers. If more data: receiver sends another FC. Sender: continue CFs until all data sent. Receiver: complete reassembly, pass to application." },
+        { q: "4. What is STmin and Block Size?", a: "STmin (Separation Time minimum): minimum delay (in ms or units) between consecutive CF frames. Allows receiver time to process data. Range: 0x00-0x7F (0-127ms) or timing units. Block Size: number of CF frames receiver can accept before sending another FC. 0x00 = no block (no intermediate FC needed). Values 1-255 require FC after N frames. Too short STmin: receiver buffer overflows. Too large STmin: transfer very slow." },
+        { q: "5. What CAN TP timeout parameters must be tested?", a: "N_As (sender): timeout waiting to send FF/CF (typical 1000ms). N_Ar (receiver): timeout for receiving FF in established flow. N_Bs (sender): timeout waiting for FC after FF (typical 1000ms). N_Br (receiver): timeout for receiving next CF after current one. N_Cs (sender): timeout waiting to send next CF. N_Cr (receiver): timeout for receiving next CF (must be > N_Cs). Test: proper recovery (re-transmission or abort) when timeouts expire. Test partial message abandonment." },
+        { q: "6. Explain functional vs physical addressing in CAN TP.", a: "Functional addressing: one sender to multiple receivers (broadcast). Physical addressing: one-to-one communication. CAN TP handling differs: Functional requests don't require FC response; receiver processes independently. Physical requests require FC handshake. UDS diagnostics use both: tester sends functional requests to all ECUs (e.g., braking), then physical requests to specific ECU (e.g., single engine ECU for detailed diagnostics)." },
+        { q: "7. How do you test CAN TP error conditions?", a: "Errors to test: (1) Sender sends FF but never sends CFs (receiver timeout). (2) Receiver doesn't respond with FC (sender timeout). (3) Sequence number error (CF number skipped or repeated). (4) Block size violation (too many CFs without FC). (5) STmin violation (CFs arrive faster than allowed). (6) CRC errors in data. (7) Message abort scenarios. (8) Buffer overflow when message > buffer. Verify graceful error handling, proper error codes returned." },
+        { q: "8. What are common CAN TP implementation challenges?", a: "Challenges: (1) Tight timing constraints (real-time processing). (2) Buffer management (large messages need large buffers, memory limited in embedded systems). (3) DMA handling (direct memory access must work with segmentation). (4) Interrupt latency (missing FC response if overloaded). (5) Multiple simultaneous transfers (different IDs). (6) CAN FD compatibility (different max payload). (7) Non-standard addressing schemes (customer-specific extensions)." },
+        { q: "9. How does CAN TP integrate with UDS diagnostics?", a: "CAN TP is the transport layer for UDS over CAN. UDS services (read DID, write DID, ECU reset, etc.) sent as application data over CAN TP. Tester (diagnostic tool) sends UDS request via CAN TP SF/FF/CF sequence. ECU responds with UDS response via CAN TP. CAN TP handles all segmentation/reassembly, UDS layer only cares about the request/response data. Typical diagnostics: session control, read/write memory, perform specific actions (hard reset)." },
+        { q: "10. What is robustness testing for CAN TP?", a: "Robustness testing: inject intentional errors and verify recovery. Tests: (1) Valid/invalid frame sequences. (2) Duplicate frames (replay attack). (3) Out-of-order frames. (4) Corrupted SF/FF/CF/FC frames. (5) Missing frames in sequence. (6) Extremely large messages (>64KB). (7) Zero-length messages. (8) Rapid sequential transfers (stress test). (9) Interference with other CAN traffic. (10) ECU reset during transfer. Verify no memory leaks, buffer corruption, or crashes." }
       ]
     }
   ];
@@ -2084,9 +2673,16 @@
     {
       section: "Vector CANoe Tool",
       questions: [
-        { q: "What is the main purpose of CANoe and its key features?", a: "CANoe is Vector's comprehensive CAN bus analysis, simulation, and testing tool. Key features: real-time bus monitoring and decoding, CAPL scripting for simulation, measurement setup (trigger data, bus load analysis), test automation with pass/fail reporting, signal extraction and analysis, DBC support for signal interpretation, disturber function for error injection, panel designer for HMI simulation." },
-        { q: "How do you set up a measurement in CANoe?", a: "Load DBC file into CANoe. Enable channels you want to monitor. Set up Trigger conditions (e.g., specific message ID). Configure Graphic panels for signal visualization. Set Data Window filters to show relevant signals. Use Statistics window to monitor bus load and message rates. Start recording to capture traffic. Use Trace window to see decoded messages with timestamps." },
-        { q: "What is a Disturber in CANoe and how is it used?", a: "A Disturber in CANoe is a virtual node that can inject errors or anomalies into bus traffic for testing robustness. You can: send arbitrary CAN frames, send invalid data patterns, simulate bus faults (stuck dominant), modify signal values before they reach other nodes, create timing violations, test ECU behavior under fault conditions." }
+        { q: "1. What is CANoe and describe its main use cases.", a: "CANoe by Vector is an integrated development environment for CAN networks. Main uses: (1) Bus monitoring - decode and analyze CAN traffic in real-time, (2) Simulation - virtual ECUs behaving like real ones, (3) Testing - automated test execution with pass/fail reporting, (4) Diagnostics - UDS/ISO-TP testing, (5) Development - analyze signal timing, check data consistency, (6) Integration - connect hardware (interface boxes), (7) Documentation - capture traffic for analysis." },
+        { q: "2. Describe CANoe Architecture and main modules.", a: "CANoe consists of: Measurement Console (main window with tabs), Trace window (decode CAN messages with timestamps), Graphic Display (real-time signal visualization), Data Window (signal values spreadsheet), Statistics (bus load, message counts), Event Detectors (trigger on specific patterns), CAPL Editor (write simulation code), Configuration database (DBC file). Hardware integration: CAN interface (USB, Ethernet), supports multiple channels simultaneously." },
+        { q: "3. How do you load and interpret a DBC file in CANoe?", a: "Process: (1) Open CANoe project. (2) Add CAN database: Database menu -> Add -> select .dbc file. (3) CANoe parses all signal definitions, message structures, attributes. (4) In Trace window, signals automatically decode (raw bytes -> physical values). (5) In Graphic Display, select signals for visualization. (6) Data Window shows signal values from loaded database. (7) Attributes from DBC (min/max, units, cycle time) available for validation." },
+        { q: "4. Explain measurement setup and trigger configuration.", a: "Setup: (1) Enable CAN channels (CAN1, CAN2, etc.). (2) Select data recording options (memory or file). (3) Set filter criteria (specific message IDs, signal values). (4) Configure triggers: trigger on message arrival, signal change, value threshold. Trigger actions: pause recording, mark event, execute CAPL code. Advanced: start recording when condition met, conditional data capture (only record if message value > X)." },
+        { q: "5. How do you use the Graphic Display/Panel Designer?", a: "Panel Designer creates custom HMI for monitoring/controlling signals. Process: (1) Create new panel. (2) Add widgets (gauges, sliders, buttons, labels). (3) Bind widgets to signals via DBC. (4) Configure appearance (colors, ranges, thresholds). (5) Set up signal sending (button click transmits CAN message). (6) Deploy panel in Measurement window. Use case: simulate dashboard, test UI responsiveness, visualize signal changes over time." },
+        { q: "6. What is a Disturber and how do you configure it?", a: "Disturber: virtual ECU injecting test stimuli into CAN bus. Configuration: (1) Create Disturber node. (2) Define messages to transmit (frequency, data patterns). (3) Set fault scenarios (skip frame, send garbage data, signal out of range). (4) Trigger conditions: send disturber message every 100ms, or on receipt of specific message. (5) Monitor receiver ECU response. Use cases: robustness testing (how ECU handles invalid data), stress testing (bus saturation), fault injection testing." },
+        { q: "7. Explain CAPL scripting basics in CANoe.", a: "CAPL (CAN Access Programming Language): allows simulation and test logic. Basic structure: (1) Variable declarations at top. (2) Event handlers: 'on message', 'on signal', 'on timer', 'on key'. (3) Functions: calculate, validate, generate messages. (4) Built-in functions: message_send(), signal access, timer operations. (5) Conditional logic for complex scenarios. Example: 'on message 0x123 { if (msg.signal1 > 100) output(\"Signal exceeded\"); }'. Used for virtual ECUs, test scenarios, data logging." },
+        { q: "8. How do you create automated tests in CANoe?", a: "CANoe test automation: (1) Write CAPL code for test logic (stimuli, validation). (2) Define test cases with specific scenarios. (3) Set pass/fail criteria (signal value ranges, timing constraints). (4) Execute tests automatically, capture results. (5) Generate reports (PASS/FAIL, coverage metrics). (6) Integrate with CI/CD pipelines. Tools: Test Module (structured test creation), CAPL test functions. Typical tests: signal value validation, timing verification, error injection response." },
+        { q: "9. Describe signal tracing, filtering, and statistical analysis.", a: "Signal Tracing: Trace window displays CAN frames with decoded signals, timestamps, and value changes. Filtering options: (1) Message ID range (only show 0x100-0x200). (2) Signal value criteria (show only if signal > X). (3) Bus load analysis (identify heavy traffic periods). Statistics: Message rate, count, min/max values, data bytes, CRC errors. Tools: search for specific signal changes, export trace to CSV for external analysis, real-time or post-mortem analysis." },
+        { q: "10. How do you troubleshoot CAN communication issues in CANoe?", a: "Troubleshooting workflow: (1) Verify physical connection (CAN interface working). (2) Check messages arriving (Trace window). (3) Decode with DBC (signals correct?). (4) Monitor signal values (expected ranges?). (5) Check timing (cycle time as specified?). (6) Look for CRC errors, bit-stuffing issues. (7) Use Statistics to detect anomalies (message rate drops). (8) Simulate problem with Disturber (inject known error). (9) Use data export to analyze offline. (10) Compare with reference trace from known-good scenario." }
       ]
     }
   ];
@@ -3068,14 +3664,126 @@ on message * {
   ];
 
   const adbQaData = [
-    {
-      section: "Android Debug Bridge",
-      questions: [
-        { q: "What is ADB and what are the most common ADB commands?", a: "ADB (Android Debug Bridge) enables communication with Android devices over USB/network. Common commands: adb devices (list connected), adb shell (remote shell), adb logcat (view logs), adb install (install APK), adb push/pull (file transfer), adb forward (port forwarding), adb reboot (reboot device), adb kill-server (terminate ADB daemon)." },
-        { q: "How do you capture and filter logcat logs effectively?", a: "Use: adb logcat [tag]:[priority] to filter. Priorities: V(verbose), D(debug), I(info), W(warn), E(error), F(fatal). Example: adb logcat ActivityManager:I System:W | grep 'crash' for crash-related logs. Use logcat -c to clear, -G to set buffer size. Redirect to file: adb logcat > logfile.txt for offline analysis." },
-        { q: "How do you debug a custom Android app via ADB?", a: "adb shell am start -D -N package/activity starts app in debug mode. Use Android Studio debugger or connect external debugger. adb shell dumpsys to analyze system state. adb shell cmd to execute privileged commands. adb shell pm for package management (install, uninstall, permissions)." }
-      ]
-    }
+    { section: "1. ADB Fundamentals & Setup", questions: [
+      { q: "1. What is ADB and its primary purpose?", a: "ADB (Android Debug Bridge) is a command-line tool enabling communication with Android devices over USB/network. Allows installation of APKs, device log access, shell commands, file transfer, and app debugging. Client-server architecture: client on development machine, server manages connections, daemon runs on device." },
+      { q: "2. How do you enable USB debugging on an Android device?", a: "Settings -> About Phone -> Build Number (tap 7 times) -> Developer Options -> USB Debugging toggle ON. When connected via USB first time, tap 'Always Allow' on RSA fingerprint dialog. Alternatively: Settings -> Developer Options -> USB Debugging (if already visible)." },
+      { q: "3. What does 'adb devices' show and what are device states?", a: "'adb devices' lists connected devices with states: Device (ready), Offline (not responding), Unauthorized (awaiting auth), No Permissions (Linux permission issue), Bootloader (ROM mode). Serial number displayed next to each. Use 'adb kill-server' to restart if issues." },
+      { q: "4. How do you install an APK using ADB?", a: "'adb install <path>' installs APK. '-r' flag replaces existing. '-s <device_serial>' targets specific device. Example: 'adb -s 192.168.1.1:5555 install app.apk'. Success returns 'Success'; failures show NRC codes like 'INSTALL_FAILED_INVALID_APK'." },
+      { q: "5. What is logcat and how do you access it?", a: "'adb logcat' displays system and app logs in real-time. Filter: 'adb logcat <tag>:*' for specific tags. 'adb logcat *:W' shows warning level and above. Redirect: 'adb logcat > log.txt'. Clear: 'adb logcat -c'. Logcat shows timestamps, PIDs, log levels (V/D/I/W/E/F), essential for crash diagnosis." },
+      { q: "6. Difference between 'adb push' and 'adb pull'?", a: "'adb push <local> <device>' copies from machine to device. 'adb pull <device> <local>' copies from device to machine. Example: 'adb push file.txt /sdcard/' and 'adb pull /sdcard/log.txt .'. Preserves permissions and timestamps. Requires directory existence and sufficient permissions." },
+      { q: "7. How do you execute shell commands on Android?", a: "'adb shell' opens interactive shell. Single command: 'adb shell pm list packages'. 'adb shell dumpsys' shows system service state. 'adb root' restarts adbd as root (non-production devices only). Most commands run as 'shell' user; root needed for system access." },
+      { q: "8. What is ADB over TCP/IP?", a: "Connect via network instead of USB. 'adb tcpip <port>' restarts adbd in TCP mode. 'adb connect <ip>:<port>' establishes connection. Useful for devices with broken USB, remote testing, multi-device setups. Default port 5555. 'adb disconnect <ip>' closes connection." },
+      { q: "9. How do you clear ADB cache and logs?", a: "'adb logcat -c' clears logcat buffer. 'adb shell pm clear <package>' clears app data. 'adb kill-server' terminates ADB server (forces restart). 'adb start-server' restarts. These commands are useful for: isolating test scenarios, freeing device space, recovering from hung connections." },
+      { q: "10. What is 'adb reboot' used for?", a: "'adb reboot' reboots device. 'adb reboot bootloader' enters bootloader/fastboot mode. 'adb reboot recovery' enters recovery mode. Used for: firmware updates, error recovery, testing startup behavior, returning to factory state. USB debugging remains enabled after reboot." }
+    ]},
+    { section: "2. Package & App Management", questions: [
+      { q: "11. How do you list installed packages?", a: "'adb shell pm list packages' lists all packages. '-3' for third-party only, '-s' for system only, '-f' shows file paths. 'adb shell pm dump <package>' shows detailed info. 'adb shell dumpsys packages <package>' provides comprehensive package details including permissions and components." },
+      { q: "12. How do you uninstall an app via ADB?", a: "'adb shell pm uninstall <package>' removes app. '-k' flag keeps data. 'adb shell pm clear <package>' clears app data without uninstalling. System apps require: 'adb shell pm uninstall --user 0 <package>' or root access. Verify: 'adb shell pm list packages | grep <package>'." },
+      { q: "13. How do you grant/revoke permissions via ADB?", a: "'adb shell pm grant <package> <permission>' grants runtime permission. 'adb shell pm revoke <package> <permission>' revokes. 'adb shell dumpsys package <package> | grep android.permission' shows granted permissions. Essential for: testing permission-dependent features, forcing permission scenarios." },
+      { q: "14. How do you start an activity using ADB?", a: "'adb shell am start -n com.package/.Activity' starts activity with component format. 'adb shell am start -a android.intent.action.MAIN -n com.package/.MainActivity' starts main activity. Use '-W' to wait for launch and measure time. 'adb shell am force-stop <package>' terminates app." },
+      { q: "15. How do you monitor app lifecycle?", a: "'adb shell dumpsys activity activities' shows activity stack. 'adb shell am trace-ipc' measures IPC performance. 'adb shell am broadcast -a <action>' sends broadcast intents for testing event handling. 'adb shell ps | grep <package>' verifies process is running." },
+      { q: "16. How do you extract and inspect APK files?", a: "'adb shell pm path <package>' shows APK location. 'adb pull <path>' extracts APK to host. Extract contents: APK is ZIP format. Analyze: resources.arsc, AndroidManifest.xml, classes.dex. Used for: security audit, permission check, app structure analysis." },
+      { q: "17. How do you handle multiple installed versions of same app?", a: "Multiple versions stored separately in /data/app/. 'adb shell pm list packages -3' shows user packages (may have duplicates if multiple versions). Install with '-r' to replace. 'adb shell pm dump <package> | grep version' shows version info. Useful for: testing backward compatibility, testing upgrade paths." },
+      { q: "18. How do you check app signatures and certificates?", a: "Use 'apksigner verify -v <apk>' on APK file extracted via 'adb pull'. Alternatively, use keytool: 'keytool -printcert -jarfile <apk>' to view certificate. Check certificate fingerprints for security verification. Certificate validation is important for: app authenticity, updates from same developer, signing key validation." },
+      { q: "19. How do you disable/enable apps via ADB?", a: "'adb shell pm disable-user <package>' disables (device-level, user can't re-enable). 'adb shell pm enable <package>' enables. System app disable: 'adb shell pm disable-user --user 0 <package>'. 'adb shell pm list packages -d' shows disabled packages. Used for: disabling pre-loaded bloatware, testing graceful degradation." },
+      { q: "20. How do you test app updates and installations?", a: "'adb shell pm install -r app-v1.apk' installs version 1. 'adb shell pm install -r app-v2.apk' upgrades. 'adb shell dumpsys package <package> | grep version' verifies version. Test: data preservation, database migration, seamless upgrade. Capture: 'adb logcat | grep -E 'UPDATE|UPGRADE|INSTALL' for upgrade events." }
+    ]},
+    { section: "3. Logcat & Debugging", questions: [
+      { q: "21. What does 'adb logcat *:V' show?", a: "'adb logcat *:V' sets all tags to Verbose level (shows ALL logs). Other levels: D (Debug), I (Info), W (Warning), E (Error), F (Fatal). More practical: 'adb logcat *:W' (warnings and errors). Verbose logs can overwhelm; use filters for specific debugging." },
+      { q: "22. How do you filter logcat by tag?", a: "'adb logcat <tag>' shows only that tag. 'adb logcat <tag>:I' shows tag at Info level only. Multiple tags: 'adb logcat android.app:I system:W'. Exclude tags: 'adb logcat | grep -v <tag>'. Example: 'adb logcat ActivityManager:I | grep crash'." },
+      { q: "23. How do you capture app crashes from logcat?", a: "'adb logcat | grep -E 'CRASH|Exception|Fatal' captures crashes. 'adb logcat *:E' shows all errors. Look for 'AndroidRuntime' tag with 'FATAL EXCEPTION'. Extract stack trace showing exception type and line numbers. Save to file: 'adb logcat > crash.log'." },
+      { q: "24. How do you measure app launch time?", a: "'time adb shell am start -w com.package/.Activity' measures full launch time (TotalTime in ms). Repeat multiple times for average. Warm vs cold start: cold = app not in memory, warm = already cached. Lower launch time improves user experience. Target: < 500ms." },
+      { q: "25. How do you capture ANR (App Not Responding) traces?", a: "'adb shell ls /data/anr/' lists ANR files. 'adb pull /data/anr/anr_<timestamp>' extracts trace. Analyze: find blocked threads, identify locks/IO, trace backward to root cause. ANR occurs after ~5 seconds of main thread blocking. Common causes: main thread I/O, database locks, unresponsive service." },
+      { q: "26. How do you monitor memory usage?", a: "'adb shell dumpsys meminfo' shows system memory. 'adb shell dumpsys meminfo <package>' shows app memory (Java heap, native, graphics). 'adb shell procrank' lists all processes by memory. Look for: growing heap (memory leak), excessive PSS (shared), RSS (resident memory). Monitor over time." },
+      { q: "27. How do you capture heap dumps?", a: "'adb shell am send-heap-dump <pid> /sdcard/heap.hprof' triggers dump. 'adb pull /sdcard/heap.hprof' retrieves file. Analyze with Android Studio or MAT (Memory Analyzer Tool). Look for: retained object patterns, leaked object chains, excessive allocations. Heap dumps show memory state snapshot." },
+      { q: "28. How do you analyze battery stats?", a: "'adb shell dumpsys batterystats' shows per-app battery usage. 'adb shell dumpsys batteryproperties' shows current state. Look for: high CPU, wake locks, GPS usage, network traffic per app. Drain causes: always-on services, location updates, inefficient loops. Important for: user experience, energy ratings." },
+      { q: "29. How do you debug native crashes?", a: "'adb logcat | grep 'signal 11' or 'Segmentation Fault' detects native crashes. Use 'adb shell gdbserver +5039 --attach <pid>' to debug with GDB. Android Studio's debugger handles NDK automatically. Stack traces show memory addresses (needs symbolication to show source lines)." },
+      { q: "30. How do you capture performance profiling traces?", a: "'adb shell atrace -t 10 gfx sched freq' captures 10-second trace (graphics, scheduler, frequency scaling). Save and analyze in Android Studio Profiler. Atrace shows: frame drops, CPU throttling, I/O stalls, context switches. Essential for performance tuning." }
+    ]},
+    { section: "4. System & Hardware Testing", questions: [
+      { q: "31. How do you check device properties?", a: "'adb shell getprop' lists all system properties. 'adb shell getprop ro.build.version.android' gets Android version. 'adb shell getprop ro.product.model' gets device model. 'adb shell setprop <key> <value>' sets property (many need root). Properties describe: OS version, API level, device capabilities, locale." },
+      { q: "32. How do you control display settings?", a: "'adb shell wm size' shows display resolution. 'adb shell wm size 1080x1920' sets custom resolution (requires root). 'adb shell wm density' shows DPI. 'adb shell wm density 320' sets DPI. Test app at different resolutions/DPIs without physical device variety. Simulates: tablet, phone, small screen scenarios." },
+      { q: "33. How do you simulate network conditions?", a: "Emulator: 'adb emu network speed full/gprs/edge' sets speed. 'adb emu network delay 50' adds 50ms latency. Physical devices: use 'tc' (traffic control) tool or third-party apps. Test app behavior: slow network, latency, timeouts. Verify: retry logic, error handling, data usage." },
+      { q: "34. How do you control Wi-Fi via ADB?", a: "'adb shell svc wifi enable' turns Wi-Fi on. 'adb shell svc wifi disable' turns off. 'adb shell dumpsys wifistats' shows connection stats. 'adb logcat | grep WifiManager' captures Wi-Fi events. Test: connect/disconnect, network transition, data sync over Wi-Fi." },
+      { q: "35. How do you manage Bluetooth connections?", a: "'adb shell dumpsys bluetooth_manager' shows paired devices. 'adb logcat | grep -i bluetooth' captures BT events. Enable BT debug in Developer Options if available. Typical issues: pairing failures, audio quality, connection drops. Monitor: connection state, RSSI (signal strength)." },
+      { q: "36. How do you set battery level and charging state?", a: "'adb shell dumpsys battery set level <0-100>' simulates battery level. 'adb shell dumpsys battery set status <0-4>' sets state (0=unknown, 2=discharging, 5=charging). Test: low battery warnings, charging behavior, power save modes. Requires: Development device or emulator; not available on production devices." },
+      { q: "37. How do you monitor CPU and thermal state?", a: "'adb shell dumpsys cpuinfo' shows CPU usage by app. 'top -n 1' shows current CPU consumers. 'adb shell cat /sys/class/thermal/thermal_zone0/temp' reads thermal sensor. Look for: high CPU usage, thermal throttling, frequency scaling. Important: performance impact, battery drain, device stability." },
+      { q: "38. How do you test app permissions and SELinux?", a: "'adb shell getenforce' shows SELinux mode (Enforcing/Permissive). 'adb shell setenforce 0' switches to Permissive (debug mode). 'adb logcat | grep audit' shows SELinux denials. Understanding permissions critical for: modern Android security, debugging permission issues, compliance." },
+      { q: "39. How do you access file systems and manage files?", a: "'adb shell ls -la /data/data/<package>/' lists app private files. 'adb pull /data/data/<package>/files/config.txt .' extracts file. 'adb push config.txt /sdcard/' copies to device. With root: access /system/, /data/app/, other restricted directories. File management used for: backup, debugging data issues." },
+      { q: "40. How do you test device rotations and orientation?", a: "'adb shell dumpsys input' shows input state. Manually rotate device or use emulator controls. 'adb shell setprop debug.force_rtl true' forces RTL layout testing. Test app handles: lifecycle events, activity recreation, state preservation, orientation changes." }
+    ]},
+    { section: "5. Advanced Testing & Automation", questions: [
+      { q: "41. How do you use 'adb shell input' to simulate user interactions?", a: "'adb shell input text <text>' types text. 'adb shell input keyevent 4' sends back button (KEYCODE_BACK). 'adb shell input tap 500 1000' taps at coordinates. 'adb shell input swipe x1 y1 x2 y2 duration' performs swipe. 'adb shell input scroll x y' scrolls. Automates: UI testing without framework, gesture recognition tests." },
+      { q: "42. How do you simulate touch and multi-touch events?", a: "'adb shell input tap x y' = single touch. 'adb shell input motionevent DOWN x y' then 'UP' = touch sequence. Multi-touch requires: sending multiple motion events simultaneously or using frameworks. Used for: testing pinch-zoom, multi-finger gestures, edge-case touch handling." },
+      { q: "43. How do you test app in different locales?", a: "'adb shell setprop persist.sys.locale <locale>' sets system locale (e.g., 'en_US', 'fr_FR'). App must support locale via resources. Test: RTL languages (Arabic, Hebrew), text rendering, number/date formatting, currency. Reboot for some locale changes to take effect." },
+      { q: "44. How do you capture screen recordings?", a: "'adb shell screenrecord /sdcard/video.mp4' records screen (default 1280x720, 4Mbps, 180s). Options: '--size 1920x1080', '--bit-rate 8000000', '--time-limit 60'. 'adb pull /sdcard/video.mp4' retrieves file. Used for: UI documentation, bug reproduction, evidence capture." },
+      { q: "45. How do you use bugreport for comprehensive diagnostics?", a: "'adb bugreport' generates system state snapshot (Android 7.0+ saves to device /bugreport/). Contains: logcat, system logs, dumpsys output, battery state, memory info. 'adb pull /bugreport/' retrieves. Used for: complex issue analysis, system state documentation, sharing with manufacturers." },
+      { q: "46. How do you test GPS and location services?", a: "Emulator: 'adb emu geo nmea <longitude> <latitude>' sends GPS coordinates. Physical device: Google Location Services, setting Location Mode to 'High accuracy'. Mock locations: Developer Options -> Mock Location App. Test: GPS lock time, accuracy, indoor/outdoor behavior, location privacy." },
+      { q: "47. How do you simulate incoming calls and SMS?", a: "Emulator: 'adb emu sms send <number> <text>' simulates SMS. 'adb emu call <number>' simulates call. Test: message handling, call acceptance, audio routing, permission requests. Monitor: how app responds to notifications, background behavior during calls." },
+      { q: "48. How do you test app in airplane mode?", a: "'adb shell cmd connectivity airplane-mode enable' turns on (requires root). 'adb shell cmd connectivity airplane-mode disable' turns off. App should: detect offline state, queue operations, resume when online. Test: graceful degradation, error messages, user experience in offline mode." },
+      { q: "49. How do you forward local ports to device?", a: "'adb forward tcp:8080 tcp:8080' forwards host:8080 to device:8080. 'adb forward tcp:8080 localabstract:app-service' forwards to local abstract socket. 'adb forward --list' shows active forwards. 'adb forward --remove tcp:8080' removes. Used for: accessing device web servers, remote debugging, testing network services." },
+      { q: "50. How do you create scripts for test automation?", a: "Bash example: for cmd in 'adb logcat -c' 'adb shell am start -n ...' 'sleep 2' 'adb logcat > log.txt'; do $cmd; done. Python: subprocess calls. Integration: CI/CD pipelines run scripts automatically. Reusable scripts: device setup, app testing, log collection. Script benefits: repeatability, speed, consistency." }
+    ]},
+    { section: "6. CI/CD Integration & DevOps", questions: [
+      { q: "51. How do you integrate ADB into CI/CD pipelines?", a: "Install Android SDK with ADB. CI/CD script: adb start-server, adb devices, run test commands, collect results. Jenkins example: sh 'adb shell pm install app.apk'. GitHub Actions: uses-action to set up Android SDK. For emulator: create in pipeline or use cloud service. CI/CD runs tests: build -> install -> test -> collect -> report." },
+      { q: "52. How do you handle multiple devices in CI/CD?", a: "Script iterates through devices: devices=$(adb devices | awk 'NR>1...'); for device in $devices; do adb -s $device ...; done. Cloud services (Firebase Test Lab, AWS Device Farm) manage multiple devices automatically. Benefits: parallel testing, faster results, broader device coverage." },
+      { q: "53. How do you parse and report ADB command results?", a: "Capture output: result=$(adb shell <cmd>). Parse with: grep, sed, awk, regex. Python: subprocess.run capture_output=True, parse with string methods/regex. Report: pass/fail logic, generate reports (HTML, JSON, XML). Example: if [[ $result == *'Success'* ]]; then PASS; fi." },
+      { q: "54. How do you implement test retry logic with ADB?", a: "Script-based retry: for i in {1..3}; do adb <cmd> && break || sleep 2; done. Test fails initially due to: device not ready, app not installed, timing issues. Retry after small delay. Automated: reduces flakiness, improves reliability. Track: retry count, success rate." },
+      { q: "55. How do you manage test data in CI/CD environment?", a: "Pre-populate test data: 'adb push testdata.db /data/data/<package>/'. Use fixtures: clear data before test ('adb shell pm clear <package>'), run test, collect results. Data management: essential for reproducibility, consistency across runs. Handle: data isolation between tests." },
+      { q: "56. How do you generate test reports from ADB runs?", a: "Capture output to file. Parse results. Generate report (JSON, HTML, XML). Tools: Allure, TestRail, custom scripts. Report includes: test case, result (pass/fail), duration, error message. Integrate: send reports to dashboard, email notifications, CI/CD visualization." },
+      { q: "57. How do you handle ADB connection timeouts in scripts?", a: "Set timeout: 'timeout 30 adb shell <cmd>'. Check exit code: if [ $? -eq 124 ]; then TIMEOUT; fi. Retry: if adb fails, try kill-server and reconnect. Logging: record timeout events, analyze patterns. Production: alert on frequent timeouts, investigate device health." },
+      { q: "58. How do you collect and archive test artifacts?", a: "Collect: logs (adb pull /data/anr/), screenshots, videos, crash dumps. Archive: create timestamped folders, compress (tar, zip). Upload: to CI/CD artifact storage, cloud storage, or shared drive. Retention: set policies to clean old artifacts. Useful for: post-mortem analysis, debugging, compliance." },
+      { q: "59. How do you monitor device health in testing environment?", a: "Health checks: adb devices (connectivity), adb shell getprop (OS version), adb shell dumpsys battery (charge level). Automate: run health checks periodically, alert if device offline. Metrics: uptime, test success rate, device utilization. Dashboard: visualize device status." },
+      { q: "60. How do you implement cross-platform CI/CD with ADB?", a: "Android tests via ADB. iOS tests via similar tools (Xcode instruments, xcrun). Desktop/web tests separately. Single CI/CD pipeline orchestrates all. Results aggregated into unified report. Challenges: platform-specific setup, tool differences. Benefits: comprehensive testing, single source of truth." }
+    ]},
+    { section: "7. Troubleshooting & Best Practices", questions: [
+      { q: "61. How do you troubleshoot 'adb devices' showing 'offline' state?", a: "Device offline means daemon not responding. Fixes: (1) 'adb kill-server' (kill and restart). (2) Unplug/replug USB. (3) Check drivers (Windows). (4) 'adb root' might help. (5) Power cycle device. (6) Check USB cable quality. Prevention: stable power, quality cable, avoid rapid connect/disconnect." },
+      { q: "62. How do you fix 'unauthorized' device state?", a: "Device awaiting RSA fingerprint approval. Fix: (1) Unlock device. (2) Tap 'Always Allow' on fingerprint dialog. (3) Reauthorize: 'adb kill-server', reconnect. (4) On Linux: check udev rules. RSA fingerprint stored after first auth, subsequent connections auto-approve." },
+      { q: "63. How do you recover from device not detected by ADB?", a: "Troubleshooting: (1) Check USB connection physically. (2) 'lsusb' (Linux) / Device Manager (Windows) confirms device detected. (3) Install drivers if missing. (4) 'adb start-server'. (5) Different USB port. (6) Restart computer. (7) Check development phone settings (USB preferences)." },
+      { q: "64. How do you debug app installation failures?", a: "Check failure code: 'adb install app.apk' returns NRC. Common: INSTALL_FAILED_INVALID_APK (corrupt), INSTALL_FAILED_VERSION_DOWNGRADE (older version installed), INSTALL_FAILED_INSUFFICIENT_STORAGE (no space). Fixes: verify APK, uninstall old version, free device storage." },
+      { q: "65. How do you handle logcat buffer overflow?", a: "Logcat buffer limited (~1MB per buffer). Old logs lost when buffer full. Avoid: don't capture too much verbosity. Save periodically: 'adb logcat > log_$(date).txt'. Increase buffer: 'adb logcat -G 4M' (requires root). Filter output to reduce volume." },
+      { q: "66. How do you debug apps with private data directories?", a: "App private data in /data/data/<package>/. Requires root or 'adb shell' with elevated privileges. 'adb root' restarts daemon as root (development devices). Extract: 'adb pull /data/data/<package>/'. Useful for: database inspection, config analysis, cache review." },
+      { q: "67. How do you handle app crashes on older Android versions?", a: "Different ANR/crash handling per Android version. Test on target API level (emulator). Use 'adb logcat | grep AndroidRuntime' to capture exceptions. Stack traces may differ; check version-specific documentation. Compatibility: ensure app doesn't use newer APIs without version checks." },
+      { q: "68. What are common ADB command mistakes to avoid?", a: "Mistakes: (1) forgetting -s for multiple devices. (2) wrong path separators (/ vs \\\\). (3) no quotes around paths with spaces. (4) running root commands without adb root. (5) not clearing data between test runs. (6) ignoring exit codes in scripts. Best practice: quote paths, check exit codes, verify device state." },
+      { q: "69. How do you optimize ADB performance for large test suites?", a: "Optimize: (1) batch commands (run multiple in one shell session). (2) reuse adb server (don't kill-server repeatedly). (3) cache device list. (4) parallel execution on multiple devices. (5) avoid unnecessary adb calls. (6) pre-install apps once. Benchmarking: measure command time, identify bottlenecks." },
+      { q: "70. How do you secure ADB connection in production environment?", a: "Security: (1) disable USB debugging on production. (2) use ADB over TCP with auth. (3) network firewall to restrict access. (4) disable developer options. (5) physical device security. (6) monitor for unauthorized connections. Risk: ADB enables full device access; must prevent untrusted access." }
+    ]},
+    { section: "8. Advanced Features & Integration", questions: [
+      { q: "71. How do you use ADB with Docker containers?", a: "Run Android emulator in Docker. ADB connects: 'adb connect <docker_ip>:5555'. CI/CD: use Docker to standardize testing environment. Benefits: reproducibility, scalability, isolation. Example: Docker image with Android SDK, emulator, ADB configured." },
+      { q: "72. How do you profile app performance with ADB?", a: "Tools: Android Studio Profiler (CPU, memory, network, energy). Via ADB: 'adb shell am profile start --sampling 100 <package>', 'adb shell am profile stop <package>', 'adb pull /data/trace.trace'. Analyze: identify bottlenecks, CPU spikes, memory leaks." },
+      { q: "73. How do you test security vulnerabilities with ADB?", a: "Test: (1) permission exploits. (2) SELinux bypasses. (3) buffer overflows. (4) insecure data storage. (5) hardcoded credentials. (6) unencrypted network traffic. Tools: ADB shell access, logcat monitoring, file system inspection. Security testing: integral to safe app deployment." },
+      { q: "74. How do you integrate ADB with custom test frameworks?", a: "Framework design: wrapper around ADB commands, error handling, retry logic, result collection. Example: TestNG, JUnit wrappers calling ADB. Benefits: abstraction, reusability, maintainability. Example: @BeforeTest adb install app.apk; @Test run scenarios; @AfterTest adb pull logs." },
+      { q: "75. How do you handle ADB in headless environment (no display)?", a: "Headless: server without GUI. ADB works fine (command-line only). Use: SSH to remote server, run adb commands. Challenges: no interactive device selection, no visual output. Solutions: scripting, CI/CD, output redirection to files. Ideal for: automated testing, cloud labs." },
+      { q: "76. How do you use ADB with emulator snapshots?", a: "Emulator snapshots preserve state. 'adb emu avd snapshot list' lists snapshots. 'adb emu avd snapshot save <name>' saves. 'adb emu avd snapshot load <name>' loads. Benefits: fast test setup (no booting), reproducible scenarios, state preservation. Workflow: create snapshot at known state, load for each test." },
+      { q: "77. How do you debug intermittent app failures?", a: "Strategies: (1) long-running stress tests to trigger race conditions. (2) logcat monitoring over extended period. (3) system resource monitoring (memory, CPU). (4) analyze patterns (certain conditions trigger failure). (5) correlate with system events. Tools: ADB logging, profiler, system analyzer. Intermittent bugs: hardest to debug, require patient investigation." },
+      { q: "78. How do you test app updates and migrations?", a: "Workflow: (1) install v1: 'adb install app-v1.apk'. (2) verify state after install. (3) upgrade: 'adb install -r app-v2.apk'. (4) verify: data preserved, database migrated, features work. (5) regression test. Test scenarios: cold install, warm upgrade, forced stop then launch, uninstall/reinstall." },
+      { q: "79. How do you manage app signing keys with ADB?", a: "Signing verifies app authenticity. Debug signing (development): 'adb shell dumpsys package <package> | grep signing'. Release signing (production): must match stored key. Test: install debug APK, verify signature. Key management: secure storage, password protection, backup." },
+      { q: "80. How do you use ADB for competitive analysis?", a: "Analyze competitor apps: 'adb install competitor.apk', monitor behavior with logcat, capture network traffic, reverse-engineer APK structure, performance profiling. Insights: features, performance, monetization, user data collection. Legal: respect intellectual property, don't redistribute." }
+    ]},
+    { section: "9. Best Practices & Expert Tips", questions: [
+      { q: "81. What is the golden rule of ADB debugging?", a: "Always clear logs and app data before testing: 'adb logcat -c' and 'adb shell pm clear <package>'. This isolates the test scenario, eliminates historical noise, ensures reproducible results. Establish baseline: know what 'normal' looks like, detect deviations. Logs tell story: timestamp order reveals sequence of events." },
+      { q: "82. How do you document ADB commands for team reference?", a: "Create scripts with comments. Maintain wiki/docs: purpose, syntax, examples, common errors. Standardize: team uses same commands, tools, naming. Example: '# Install and launch app\\nadb install $APP\\nadb shell am start -n $PKG/.MainActivity'. Documentation reduces: learning curve, mistakes, inconsistencies." },
+      { q: "83. How do you balance automation vs manual testing with ADB?", a: "Automate: repetitive tasks, regression tests, setup/teardown. Manual: exploratory testing, edge cases, user experience. ADB as tool for both: automation backend (run from scripts), manual frontend (run commands interactively). Sweet spot: automate 80%, manual 20% of testing." },
+      { q: "84. What metrics matter for ADB testing?", a: "Metrics: (1) test pass rate. (2) execution time. (3) device uptime. (4) failure root causes. (5) performance (startup time, memory, CPU). (6) coverage (feature %, code %). Collect: build on metrics, analyze trends, identify patterns. Dashboard: visualize metrics, alert on anomalies." },
+      { q: "85. How do you handle device resource constraints?", a: "Constraints: limited RAM, storage, battery. Optimize tests: (1) run on lower-resource device to catch issues. (2) monitor memory, free periodically. (3) use emulator for controlled environment. (4) detect memory leaks early. Testing low-end devices: reveals: real-world bottlenecks, battery issues, performance problems." },
+      { q: "86. How do you transition from manual to automated testing?", a: "Phases: (1) manual testing to find issues and scenarios. (2) script frequent tests (adb commands). (3) build framework around scripts. (4) integrate into CI/CD. (5) expand coverage. Success factors: start small, focus on high-value tests, iterate, improve. ROI: automation pays off over time with repeated execution." },
+      { q: "87. How do you handle version compatibility in ADB scripts?", a: "Challenge: ADB commands differ between Android versions. Solution: (1) check Android version: 'adb shell getprop ro.build.version.sdk'. (2) conditional logic in scripts. (3) test on supported versions. (4) graceful fallback for unsupported features. Maintenance: update scripts as new Android releases occur." },
+      { q: "88. What is the role of ADB in DevOps culture?", a: "DevOps philosophy: continuous integration, automation, rapid feedback. ADB enables: automated testing, quick issue detection, fast iteration. Benefits: reduce deployment time, improve quality, enable rapid release cycles. DevOps mindset: test early, test often, fail fast. ADB tools: enable DevOps practices." },
+      { q: "89. How do you train new team members on ADB?", a: "Training: (1) start with basics (adb devices, adb shell). (2) hands-on practice. (3) common task walkthroughs (install, logcat, debugging). (4) pair programming sessions. (5) reference docs/scripts. Outcome: new members productive quickly, consistent practices. Documentation: invest in clarity, examples, troubleshooting." },
+      { q: "90. How do you stay current with ADB and Android evolution?", a: "Learning: (1) follow Android developer blog. (2) read official docs. (3) attend conferences/webinars. (4) experiment with new features. (5) share knowledge with team. Changes: new Android versions add/deprecate features. ADB evolves with platform. Staying current: ensures best practices, security, performance." }
+    ]},
+    { section: "10. Real-World Scenarios & Case Studies", questions: [
+      { q: "91. How would you debug an app that crashes only on certain devices?", a: "Scenario: app works on Pixel but crashes on Samsung. Investigation: (1) check device-specific properties ('adb shell getprop'). (2) differences: RAM, CPU, screen size, Android version, manufacturer customizations. (3) capture logcat on failing device. (4) compare with working device. (5) test on emulator with device configs. Root causes: device-specific driver bugs, manufacturer ROMs, resource limits." },
+      { q: "92. How would you handle a memory leak in production?", a: "Scenario: app slow after weeks of use. Process: (1) capture heap dump on user device. (2) analyze for leaked objects. (3) correlate with user's usage pattern (long sessions?). (4) identify object type holding memory. (5) trace reference chain to find leak. (6) fix and test. (7) deploy patch. Lessons: memory leak detection, root cause analysis, patch deployment." },
+      { q: "93. How would you investigate high battery drain?", a: "Scenario: app drains battery 5x faster than normal. Investigation: (1) 'adb shell dumpsys batterystats' per-app usage. (2) identify culprit (GPS, network, CPU). (3) logcat monitoring: wake locks, location updates. (4) profiler: CPU spikes, network requests. (5) optimize: reduce frequency, batch requests, efficient algorithms. Results: extended battery life, happy users." },
+      { q: "94. How would you validate an app on 100+ device models?", a: "Scale testing: (1) cloud device labs (Firebase Test Lab, AWS Device Farm). (2) ADB orchestrates: submit app, run tests on all devices, collect results. (3) automated: capture logs, screenshots, crash reports. (4) prioritize: test on representative device models, key Android versions. (5) analyze results: pass rate, failures per device. Tools: cloud platforms handle scale, ADB enables automation." },
+      { q: "95. How would you handle a critical bug found post-release?", a: "Crisis: app crashes on launch for many users. Response: (1) immediately get crash logs from affected users via reporting tool. (2) local reproduction using logs. (3) root cause analysis (analyze stack trace). (4) emergency fix (hotfix branch). (5) rapid testing (extensive testing + regression suite). (6) release patch. (7) verify fix via updated logs. Learning: automated crash testing during development could catch earlier." },
+      { q: "96. How would you test app resilience against network failures?", a: "Scenario: simulate bad network, server downtime. Testing: (1) emulator network speed/delay settings. (2) mock HTTP requests (return errors). (3) disconnect Wi-Fi/cellular. (4) verify: error handling, retry logic, user messaging. (5) app should gracefully degrade, recover when network returns. (6) user data preserved (not lost). Results: robust app handles real-world network issues." },
+      { q: "97. How would you audit app security?", a: "Security audit: (1) check permissions (too many?). (2) inspect stored data: encryption status, sensitive data exposure. (3) logcat for sensitive logging. (4) APK analysis: check libraries for known CVEs. (5) test: permission bypass, authentication bypasses. (6) network: HTTPS validation, certificate pinning. Results: vulnerabilities identified, fixed before release." },
+      { q: "98. How would you benchmark competitor apps?", a: "Competitive analysis: (1) install competitor app. (2) profile: startup time, memory, CPU, network usage. (3) feature comparison: functionality, UX, performance. (4) monetization: ads, IAP. (5) store reviews: user feedback, common issues. (6) internal comparison: where do we lag? Results: identify improvement areas, competitive advantages." },
+      { q: "99. How would you handle regression during feature development?", a: "Scenario: new feature broke existing functionality. Approach: (1) regression test suite (automated). (2) identify which test failed. (3) root cause: new code affected existing. (4) fix and re-test. (5) prevent: code review, automated testing, test coverage. Results: catch regressions early, maintain quality. Lesson: automated testing prevents regression." },
+      { q: "100. How would you plan long-term app quality strategy?", a: "Strategy: (1) automated testing: unit, integration, E2E via ADB. (2) continuous integration: every commit tested. (3) monitoring: crash reporting, performance metrics. (4) user feedback: reviews, support tickets. (5) regular audits: security, performance, compliance. (6) team training: best practices, tool mastery. (7) metrics-driven: measure, analyze, improve. Result: sustained high quality, user satisfaction, competitive edge." }
+    ]}
   ];
 
   const qfilQaData = [
