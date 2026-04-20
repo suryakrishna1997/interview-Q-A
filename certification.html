@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Android & CarPlay Certification — Interview Q&A</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --border: #1e2130;
+    --accent-android: #3ddc84;
+    --accent-apple: #c7a8ff;
+    --accent-shared: #5bc8f5;
+    --text: #e2e6f0;
+    --muted: #6b7280;
+    --answer-bg: #13161f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 40px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 700;
+    line-height: 1.2;
+    background: linear-gradient(135deg, var(--accent-android) 0%, var(--accent-shared) 50%, var(--accent-apple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Filter tabs */
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+
+  .filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover { color: var(--text); border-color: #333; }
+  .filter-btn.active[data-cat="all"] { background: #1e2130; color: var(--text); border-color: #444; }
+  .filter-btn.active[data-cat="android"] { background: rgba(61,220,132,0.12); color: var(--accent-android); border-color: var(--accent-android); }
+  .filter-btn.active[data-cat="carplay"] { background: rgba(199,168,255,0.12); color: var(--accent-apple); border-color: var(--accent-apple); }
+  .filter-btn.active[data-cat="shared"] { background: rgba(91,200,245,0.12); color: var(--accent-shared); border-color: var(--accent-shared); }
+
+  /* Search */
+  .search-wrap {
+    max-width: 480px;
+    margin: 0 auto 36px;
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 16px 10px 40px;
+    outline: none;
+    transition: border 0.2s;
+  }
+
+  .search-wrap input:focus { border-color: #444; }
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .search-wrap .icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Q&A list */
+  .qa-list { max-width: 860px; margin: 0 auto; }
+
+  .qa-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .qa-item:hover { border-color: #2a2f3d; }
+
+  .qa-item[data-cat="android"] .q-bar { border-left: 3px solid var(--accent-android); }
+  .qa-item[data-cat="carplay"] .q-bar { border-left: 3px solid var(--accent-apple); }
+  .qa-item[data-cat="shared"]  .q-bar { border-left: 3px solid var(--accent-shared); }
+
+  .q-bar {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 28px;
+    padding-top: 2px;
+  }
+
+  .q-text {
+    flex: 1;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .q-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  [data-cat="android"] .q-tag { background: rgba(61,220,132,0.12); color: var(--accent-android); }
+  [data-cat="carplay"] .q-tag { background: rgba(199,168,255,0.12); color: var(--accent-apple); }
+  [data-cat="shared"]  .q-tag { background: rgba(91,200,245,0.12);  color: var(--accent-shared); }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 13px;
+    transition: transform 0.25s;
+    min-width: 16px;
+    text-align: center;
+    padding-top: 3px;
+  }
+
+  .qa-item.open .chevron { transform: rotate(180deg); }
+
+  .a-body {
+    display: none;
+    padding: 0 18px 18px 60px;
+    background: var(--answer-bg);
+    border-top: 1px solid var(--border);
+  }
+
+  .qa-item.open .a-body { display: block; }
+
+  .a-body p { color: #b0b8cc; font-size: 14px; margin-top: 14px; }
+
+  .a-body ul, .a-body ol {
+    color: #b0b8cc;
+    font-size: 14px;
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+
+  .a-body li { margin-bottom: 6px; }
+
+  .a-body code {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    background: #1a1e2a;
+    border: 1px solid #2a2f3d;
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: #e2e6f0;
+  }
+
+  .a-body .highlight {
+    background: rgba(61,220,132,0.07);
+    border-left: 2px solid var(--accent-android);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #9dbba9;
+  }
+
+  [data-cat="carplay"] .a-body .highlight {
+    background: rgba(199,168,255,0.07);
+    border-left-color: var(--accent-apple);
+    color: #a99bbf;
+  }
+
+  [data-cat="shared"] .a-body .highlight {
+    background: rgba(91,200,245,0.07);
+    border-left-color: var(--accent-shared);
+    color: #8aafc0;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 60px 20px;
+    display: none;
+  }
+
+  .stats {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* Expand all */
+  .expand-all {
+    display: block;
+    margin: 0 auto 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .expand-all:hover { color: var(--text); border-color: #444; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Interview Prep Guide</div>
+  <h1>Android Auto & CarPlay Certification</h1>
+  <p>50 most-asked questions with detailed answers · Senior Test Engineer level</p>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" data-cat="all">All 50</button>
+  <button class="filter-btn" data-cat="android">Android Auto / AAOS</button>
+  <button class="filter-btn" data-cat="carplay">Apple CarPlay</button>
+  <button class="filter-btn" data-cat="shared">Common / Shared</button>
+</div>
+
+<div class="search-wrap">
+  <span class="icon">⌕</span>
+  <input type="text" id="searchInput" placeholder="Search questions…">
+</div>
+
+<div class="stats" id="stats">Showing 50 of 50 questions</div>
+<button class="expand-all" id="expandAll">Expand All</button>
+
+<div class="qa-list" id="qaList"></div>
+<div class="no-results" id="noResults">No questions found. Try different keywords.</div>
+
+<script>
+const QA = [
+  // ─── SHARED / COMMON ───────────────────────────────────────────────
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the difference between Android Auto, AAOS, and Apple CarPlay?",
+    a: `<p><strong>Android Auto</strong> is a phone-projection protocol — it mirrors a compatible Android phone's UI on the car's head unit display via USB or Wi-Fi. The phone runs the app; the HU just renders it.</p>
+    <p><strong>AAOS (Android Automotive OS)</strong> is a full-stack embedded OS that runs natively in the vehicle — no phone required. Apps are installed directly on the HU (e.g., Spotify, Google Maps built-in).</p>
+    <p><strong>Apple CarPlay</strong> is Apple's equivalent of Android Auto — a projection solution that mirrors a paired iPhone on the HU via USB (wired) or Wi-Fi (wireless). It uses the iAP2 protocol over USB and Bluetooth for wireless initiation.</p>
+    <div class="highlight">Key interview point: AAOS = embedded OS; Android Auto & CarPlay = projection protocols. Certification requirements differ significantly between the two paradigms.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the MirrorLink standard and how does it compare to CarPlay/Android Auto?",
+    a: `<p>MirrorLink is a CCC (Car Connectivity Consortium) standard for phone-to-car projection. Unlike CarPlay (Apple proprietary) and Android Auto (Google), MirrorLink was vendor-neutral and used RTP/RTSP for display mirroring over USB.</p>
+    <p>MirrorLink has largely been deprecated in favor of CarPlay and Android Auto since OEMs moved toward those ecosystems. Key difference: MirrorLink projected the phone's screen as-is; CarPlay/AA render a purpose-built automotive UI.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is iAP2 and why is it critical for CarPlay certification?",
+    a: `<p>iAP2 (iPod Accessory Protocol 2) is Apple's proprietary accessory communication protocol used over USB. It is the mandatory transport layer for wired CarPlay, handling authentication, session negotiation, and data exchange between the iPhone and the HU.</p>
+    <ul>
+      <li>CarPlay uses iAP2 + USB Audio Class 2.0 for audio routing</li>
+      <li>MFi (Made for iPhone) certification is a prerequisite — the HU must carry Apple's authentication chip (coprocessor)</li>
+      <li>iAP2 Bluetooth Transport is used for wireless CarPlay session handoff</li>
+    </ul>
+    <div class="highlight">Without an Apple-approved iAP2 auth coprocessor on the HU PCB, CarPlay simply will not connect — this is the first hardware gate in certification.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "Explain the concept of wired vs wireless projection in AA and CarPlay.",
+    a: `<p><strong>Wired:</strong> Phone connects via USB cable. Session setup is fast and stable. Audio is routed via USB Audio Class 2.0 (CarPlay) or AOA 2.0 (Android Auto). No pairing overhead.</p>
+    <p><strong>Wireless:</strong> Uses Bluetooth for initial session negotiation and Wi-Fi (typically Wi-Fi Direct / P2P on 5GHz band) for the actual data stream (video frames, audio, touch events). Requirements:</p>
+    <ul>
+      <li>CarPlay Wireless: BT 4.0+, Wi-Fi 802.11ac (5GHz), specific Wi-Fi Direct capabilities</li>
+      <li>AA Wireless: AOAWi-Fi, Wi-Fi Direct or SoftAP mode</li>
+    </ul>
+    <div class="highlight">Test coverage must include: BT pairing stability, Wi-Fi handshake timing, reconnection on signal drop, simultaneous USB charging during wireless session.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What testing tools do you use for CarPlay/Android Auto validation?",
+    a: `<ul>
+      <li><strong>ADB (Android Debug Bridge)</strong> — logcat, bugreport, app state inspection for AA/AAOS</li>
+      <li><strong>iOS Instruments / Console.app</strong> — CarPlay session logs on iPhone side</li>
+      <li><strong>Wireshark + USBPcap</strong> — iAP2 packet capture over USB</li>
+      <li><strong>CANoe / CANalyzer</strong> — HU integration signals (reverse gear, vehicle speed, steering angle)</li>
+      <li><strong>Apple's MFi Test Harness</strong> — For formal iAP2 compliance</li>
+      <li><strong>Android Auto Desktop Head Unit (DHU)</strong> — Emulator for AA UI regression</li>
+      <li><strong>Bluetooth Protocol Analyzer (Frontline / Ellisys)</strong> — for BT session traces</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What vehicle signals are mandatory inputs for both CarPlay and Android Auto?",
+    a: `<p>Both protocols require the HU to provide certain vehicle context signals to the connected phone/OS:</p>
+    <ul>
+      <li><strong>Reverse Gear Signal</strong> — switches map/navigation to rear camera view</li>
+      <li><strong>Night Mode Signal</strong> — triggers dark UI theme on the phone's projected display</li>
+      <li><strong>Drive Mode / Road Type</strong> (optional but recommended)</li>
+    </ul>
+    <p>These are typically sourced from CAN bus and fed to the HU via middleware. Test cases must cover CAN signal injection and verify correct UI behavior on the phone side.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "How do you handle concurrent audio sources — e.g., CarPlay music + vehicle radio?",
+    a: `<p>Audio management in infotainment involves an Audio Focus / Audio Policy framework:</p>
+    <ul>
+      <li>On AAOS: <code>AudioManager.requestAudioFocus()</code> with ducking/transient rules defined in OEM audio policy XML</li>
+      <li>For CarPlay: the HU implements an Audio Session Manager that respects iAP2 audio stream priorities</li>
+      <li>Common test cases: AM/FM interrupt during navigation guidance, phone call override of media, parking sensor beep ducking CarPlay audio</li>
+    </ul>
+    <div class="highlight">Always verify latency: navigation TTS prompt should duck media within 200–300 ms per OEM spec.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the CCC (Car Connectivity Consortium) and what standards does it govern?",
+    a: `<p>CCC is an industry alliance managing standards for phone-vehicle connectivity. Key standards:</p>
+    <ul>
+      <li><strong>MirrorLink</strong> — legacy projection standard (now mostly inactive)</li>
+      <li><strong>Digital Key</strong> — NFC/UWB-based virtual car key standard (ISO 18013-5 aligned)</li>
+      <li><strong>CCC-DS (Drive System)</strong> — specification for wireless digital key using UWB for precise ranging</li>
+    </ul>
+    <p>Apple and Google also participate in CCC; Digital Key 3.0 (UWB) is becoming common on premium vehicles and intersects with CarPlay/AAOS feature sets.</p>`
+  },
+
+  // ─── APPLE CARPLAY ─────────────────────────────────────────────────
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "Walk me through the Apple CarPlay wired connection setup sequence.",
+    a: `<p>The connection sequence over USB:</p>
+    <ol>
+      <li>iPhone detects USB connection; HU USB host controller enumerates the device</li>
+      <li>iAP2 Identification phase — iPhone queries HU for supported iAP2 features</li>
+      <li>Authentication exchange using Apple auth coprocessor on HU</li>
+      <li>iAP2 session opens; CarPlay capability declared via <code>SupportedExternalAccessoryProtocol</code></li>
+      <li>USB Audio Class interface activated for audio routing</li>
+      <li>CarPlay UI stream starts — H.264 video frames sent from iPhone to HU display</li>
+      <li>Touch events (HID) sent from HU touchscreen back to iPhone</li>
+    </ol>
+    <div class="highlight">Connection time target is typically under 3 seconds from cable plug to UI appearing — test for regressions here, especially after HU software updates.</div>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What are Apple's MFi certification requirements for a CarPlay head unit?",
+    a: `<ul>
+      <li>Integrate an Apple-approved <strong>authentication coprocessor</strong> (e.g., MFi Auth IC) on the HU PCB</li>
+      <li>Implement <strong>iAP2</strong> protocol stack with all CarPlay-required feature bundles</li>
+      <li>Pass Apple's <strong>MFi Compliance Test Harness (CTH)</strong> — automated iAP2 protocol conformance</li>
+      <li>Submit HU hardware and firmware for Apple's <strong>MFi Program Review</strong></li>
+      <li>Implement mandatory <strong>USB Audio Class 2.0</strong> support</li>
+      <li>Display meets Apple's <strong>HMI guidelines</strong> (resolution, aspect ratio, touch response time &lt;50ms)</li>
+      <li>Final <strong>Apple CarPlay entitlement</strong> granted per VIN/product line after successful audit</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What is the Wireless CarPlay connection flow using Bluetooth?",
+    a: `<p>Wireless CarPlay session initiation:</p>
+    <ol>
+      <li>iPhone previously paired with HU via BT (BT 4.0+ required)</li>
+      <li>User enters vehicle; HU detects BT connection</li>
+      <li>HU advertises CarPlay support over BT using Apple's proprietary service UUID</li>
+      <li>iPhone sends CarPlay capability beacon over BT</li>
+      <li>Wi-Fi Direct / P2P credentials exchanged over BT (out-of-band pairing)</li>
+      <li>Wi-Fi Direct connection established on 5GHz (802.11ac); BT used as fallback signaling</li>
+      <li>CarPlay session moves to Wi-Fi channel — same H.264/HID/audio as wired mode</li>
+    </ol>
+    <div class="highlight">Critical test: BT must be connected BEFORE Wi-Fi P2P. Test order-of-operations failures, especially on BT reconnect after engine restart.</div>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What is the CarPlay display resolution specification and what happens if non-compliant?",
+    a: `<p>Apple defines mandatory display tiers in the CarPlay Interface Guidelines:</p>
+    <ul>
+      <li><strong>Extra Wide (8.4"–10.25"+)</strong>: 1280×720 or 1920×720 aspect ratios</li>
+      <li><strong>Standard (7"–8")</strong>: 800×480 minimum, 1024×600 common</li>
+      <li>Pixel density must support 160+ PPI effective rendering</li>
+    </ul>
+    <p>Non-compliance during Apple's HMI review results in entitlement denial. OEMs must submit display specs pre-production for approval. Touch response time &lt;50ms and 60fps rendering are hard requirements.</p>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What are the key CarPlay test scenarios for a certification test plan?",
+    a: `<ul>
+      <li>USB connect/disconnect cycle stability (50+ cycles)</li>
+      <li>Wireless session setup time and reliability</li>
+      <li>Audio handover: media → phone call → navigation TTS</li>
+      <li>Reverse gear camera override behavior</li>
+      <li>Night mode signal response (&lt;1s UI change)</li>
+      <li>Screen orientation handling (landscape only)</li>
+      <li>CarPlay UI crash recovery / reconnect</li>
+      <li>Multiple iOS version compatibility (latest -2 versions min)</li>
+      <li>iAP2 session stability during concurrent USB charging</li>
+      <li>Siri voice activation from steering wheel buttons</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "How does CarPlay handle navigation handoff between Apple Maps and OEM navigation?",
+    a: `<p>When CarPlay navigation is active, the HU receives navigation-state metadata from the iPhone (current maneuver, distance, street name) via the iAP2 <strong>NavigationAppSupportedCapabilities</strong> bundle. The OEM can optionally display this in the instrument cluster (IC) by consuming a dedicated CAN/MOST signal or via AUTOSAR COM.</p>
+    <p>Handoff test cases:</p>
+    <ul>
+      <li>CarPlay navigation → OEM Nav: verify CarPlay nav gracefully clears from IC</li>
+      <li>OEM Nav active → CarPlay connected: verify IC source arbitration</li>
+      <li>Audio prompt conflict between both nav systems simultaneously</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What is the role of the 'CarPlay entitlement' and how is it granted?",
+    a: `<p>The CarPlay entitlement is a cryptographic permission Apple grants per product/model that allows the HU firmware to enable CarPlay functionality. Without it, even a fully iAP2-compliant HU will not activate CarPlay.</p>
+    <p>Process: OEM submits hardware + firmware → Apple MFi team audits compliance → entitlement certificate issued → embedded in HU firmware. Entitlements are VIN-range or SKU-specific. This is why a software update that changes the entitlement scope requires re-submission.</p>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What defects have you encountered in CarPlay certification and how did you debug them?",
+    a: `<p>Common issues and debug approach:</p>
+    <ul>
+      <li><strong>iAP2 auth timeout</strong>: Captured USB traffic with Wireshark/USBPcap; found auth coprocessor I2C communication delay. Root cause: HU firmware I2C timeout set too low.</li>
+      <li><strong>Audio dropout during calls</strong>: USB Audio Class interface reset mid-call. Reproduced with USB protocol analyzer; traced to USB hub power negotiation conflict.</li>
+      <li><strong>Wireless session fails on engine restart</strong>: BT reconnect completing before Wi-Fi P2P credentials exchange timed out. Fixed by adding retry logic in HU BT manager.</li>
+      <li><strong>Touch latency &gt;100ms</strong>: HU display driver was batching HID reports at 30Hz. Required driver change to 60Hz polling for Apple compliance.</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "Explain USB Audio Class and its role in CarPlay.",
+    a: `<p>USB Audio Class (UAC) 2.0 is the standard protocol that allows a USB-connected device to act as an audio source/sink without custom drivers. In CarPlay:</p>
+    <ul>
+      <li>The iPhone presents itself as a UAC 2.0 device</li>
+      <li>Audio from CarPlay apps (music, navigation TTS, calls) is routed as digital audio over USB to the HU's audio DSP</li>
+      <li>Microphone audio from the HU's mic is sent back to the iPhone via the same USB UAC interface</li>
+      <li>This eliminates Bluetooth A2DP for audio (lower latency, higher quality)</li>
+    </ul>
+    <div class="highlight">Test case: verify HU supports UAC 2.0 and not just UAC 1.0 — Apple mandates 2.0 for CarPlay.</div>`
+  },
+
+  // ─── ANDROID AUTO / AAOS ──────────────────────────────────────────
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the Android Open Automotive Alliance (OAA) and what does it require?",
+    a: `<p>The Open Automotive Alliance is Google's industry consortium for AAOS adoption. OEMs joining OAA agree to:</p>
+    <ul>
+      <li>Implement AAOS per AOSP guidelines and Google's CDD (Compatibility Definition Document)</li>
+      <li>Pass GMS (Google Mobile Services) automotive licensing requirements if shipping with Google apps</li>
+      <li>Comply with Google's Android Automotive Compatibility Test Suite (CTS)</li>
+      <li>Meet HMI safety guidelines (distraction guidelines per NHTSA/JAMA)</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "Explain the AOA (Android Open Accessory) protocol used in Android Auto.",
+    a: `<p>AOA (Android Open Accessory) 2.0 is the protocol that allows a USB host (the HU) to communicate with an Android phone in accessory mode.</p>
+    <ul>
+      <li><strong>AOA 1.0</strong>: basic accessory communication</li>
+      <li><strong>AOA 2.0</strong>: adds USB HID (for controls) and USB Audio support — required for Android Auto</li>
+    </ul>
+    <p>In the AA wired flow: phone switches to accessory mode, HU sends AOA identification strings, phone launches Android Auto app, session starts over AOA 2.0 transport. AOA 2.0 audio allows HU to present as audio source without phone-side drivers.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is AAOS CTS and VTS, and how do they differ?",
+    a: `<p><strong>CTS (Compatibility Test Suite)</strong>: Tests Android API compatibility — ensures apps written for Android Automotive will behave correctly on the HU. Covers API availability, behavior correctness, permission model, and UI standards.</p>
+    <p><strong>VTS (Vendor Test Suite)</strong>: Tests the HAL (Hardware Abstraction Layer) implementations — verifies that the vendor's hardware drivers (audio HAL, vehicle HAL / VHAL, camera HAL) conform to AOSP interface definitions.</p>
+    <div class="highlight">CTS = framework layer; VTS = HAL layer. Both must pass for GMS certification. VTS failures often indicate VHAL misimplementation — a common issue in new platform bring-up.</div>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is VHAL (Vehicle Hardware Abstraction Layer) and why is it important in AAOS?",
+    a: `<p>VHAL is the AAOS interface between the Android framework and the vehicle's network (CAN, LIN, FlexRay). It exposes vehicle properties to Android apps via <code>CarPropertyManager</code>.</p>
+    <p>Key vehicle properties exposed via VHAL:</p>
+    <ul>
+      <li><code>GEAR_SELECTION</code> — current gear (Park, Reverse, Drive)</li>
+      <li><code>VEHICLE_SPEED</code></li>
+      <li><code>NIGHT_MODE</code></li>
+      <li><code>HVAC_*</code> properties (fan speed, temperature)</li>
+      <li><code>INFO_FUEL_TYPE</code>, <code>EV_BATTERY_LEVEL</code></li>
+    </ul>
+    <p>VHAL implementation is OEM-specific and sits in the vendor partition. Its compliance is verified by VTS.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "How does Android Auto Wireless (AAWireless) work technically?",
+    a: `<p>Android Auto Wireless uses Wi-Fi as the primary transport:</p>
+    <ol>
+      <li>Bluetooth used for initial discovery and credential exchange</li>
+      <li>HU creates a Wi-Fi Direct group (GO mode) or uses SoftAP</li>
+      <li>Phone connects to HU Wi-Fi network (2.4GHz or 5GHz, 5GHz preferred)</li>
+      <li>AA session established over TCP sockets on Wi-Fi</li>
+      <li>H.264 video stream, PCM audio, and control channel multiplexed over the connection</li>
+    </ol>
+    <div class="highlight">Android 11+ added improved wireless AA reliability. Test must include: multiple BT disconnect/reconnect cycles, Wi-Fi interference scenarios (802.11 congested channels), and fallback to wired when wireless degrades.</div>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the Android for Cars App Library (ACAL) and what are its restrictions?",
+    a: `<p>ACAL (formerly Car App Library) is Google's framework for building third-party apps for Android Auto and AAOS. It enforces strict safety-driven UI constraints:</p>
+    <ul>
+      <li>Limited templates: Navigation, POI, List, Grid, Pane, Message templates only</li>
+      <li>No custom layouts — prevents complex distraction-inducing UIs</li>
+      <li>Text content limits per template (e.g., max 4 rows in a list while driving)</li>
+      <li>Google Play review required for AA app distribution</li>
+    </ul>
+    <p>ACAL apps run on both projection (Android Auto) and embedded (AAOS) with the same codebase, adapting at runtime via <code>AppManager.getHostInfo()</code>.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the role of the Android Automotive GMS license and what apps does it unlock?",
+    a: `<p>GMS (Google Mobile Services) for Automotive is a separate license OEMs must obtain from Google (distinct from phone GMS). It enables:</p>
+    <ul>
+      <li>Google Play Store for Automotive apps</li>
+      <li>Google Maps (embedded, full-featured AAOS version)</li>
+      <li>Google Assistant (always-on voice)</li>
+      <li>YouTube Music, Spotify (automotive versions)</li>
+    </ul>
+    <p>GMS certification requires passing CTS/VTS, signing a licensing agreement, and Google's additional HMI review. Volvo, Polestar, GM, Renault are examples of GMS-licensed AAOS vehicles.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "Explain the AAOS multi-display architecture.",
+    a: `<p>AAOS supports multi-display setups natively via <code>DisplayManager</code> and virtual display APIs:</p>
+    <ul>
+      <li><strong>Main HU display</strong>: primary infotainment</li>
+      <li><strong>Instrument Cluster (IC)</strong>: driven by <code>ClusterHomeManager</code> — can show navigation, media, phone</li>
+      <li><strong>Rear Seat Entertainment (RSE)</strong>: independent display with own app session</li>
+      <li><strong>HUD</strong>: minimal cluster data projection</li>
+    </ul>
+    <p>Each display can run its own Activity stack. The <code>CarOccupantZoneManager</code> API maps passengers to zones and displays. Test cases must verify zone-to-display assignment and audio focus per zone.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the Android Auto Desktop Head Unit (DHU) and how is it used in testing?",
+    a: `<p>DHU is Google's software emulator that simulates a head unit on a Linux/Mac/Windows PC. It connects to an Android phone via ADB and allows engineers to test Android Auto apps without physical hardware.</p>
+    <p>Useful for:</p>
+    <ul>
+      <li>Regression testing app UI across AA templates</li>
+      <li>Testing navigation TTS audio routing</li>
+      <li>Keyboard/voice input simulation</li>
+      <li>Simulating day/night mode and gear position signals</li>
+    </ul>
+    <div class="highlight">DHU does NOT replicate all real HU behaviors — iAP2/AOA timing, USB audio, and CAN signal integration must still be validated on actual hardware.</div>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is CarService in AAOS and what is its role?",
+    a: `<p><code>CarService</code> is the core system service in AAOS that acts as the bridge between the Android framework and vehicle hardware. It manages:</p>
+    <ul>
+      <li>VHAL communication</li>
+      <li>Audio focus policy (CarAudioService)</li>
+      <li>Power management (CarPowerManager)</li>
+      <li>UX restrictions — driving mode UI limits (CarUxRestrictionsManager)</li>
+      <li>Occupant zone and display management</li>
+    </ul>
+    <p>CarService runs as a persistent system app in the vendor partition and starts early in boot. Crashes in CarService are critical — test must cover watchdog recovery.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What are UX Restrictions in AAOS and which scenarios require testing?",
+    a: `<p>UX Restrictions (<code>CarUxRestrictions</code>) are safety-driven UI limitations enforced when the vehicle is in motion. They are defined in OEM's <code>ux_restriction_configuration.xml</code>.</p>
+    <p>Common restrictions while driving:</p>
+    <ul>
+      <li>No scrolling lists longer than N items</li>
+      <li>No text entry (keyboard disabled)</li>
+      <li>No video playback</li>
+      <li>Limited number of button presses to complete a task</li>
+    </ul>
+    <p>Test scenarios: speed threshold transitions (0→5 kph, 5→0), parked with brake engaged, valet mode. Violations of UX restrictions are a GMS certification blocker.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "Explain the AAOS power management states and their transitions.",
+    a: `<p>AAOS defines power states via <code>CarPowerManager</code> aligned with the vehicle's power mode (sourced from VHAL <code>AP_POWER_STATE_REQ</code>):</p>
+    <ul>
+      <li><strong>ON</strong>: Full operation</li>
+      <li><strong>SHUTDOWN_PREPARE</strong>: Apps notified, data saved</li>
+      <li><strong>DEEP_SLEEP</strong>: Suspend to RAM, quick wake</li>
+      <li><strong>HIBERNATION</strong>: Suspend to disk (Android 12+)</li>
+      <li><strong>OFF</strong>: Power removed</li>
+    </ul>
+    <div class="highlight">Key test: boot time (ignition ON to UI ready) — OEM targets typically 3–5 seconds for warm boot, 15–25 seconds for cold boot. Also test: data integrity after deep sleep wake.</div>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the role of SELinux in AAOS and how do you debug SELinux denials?",
+    a: `<p>SELinux (Security Enhanced Linux) enforces mandatory access control policies in AAOS. Each process has a security context, and inter-process communication requires explicit policy allowances.</p>
+    <p>In AAOS, SELinux denials frequently occur during:</p>
+    <ul>
+      <li>New HAL integration without updated policy</li>
+      <li>Custom OEM app accessing system APIs without VHAL permissions</li>
+      <li>CarService accessing new VHAL property</li>
+    </ul>
+    <p>Debug steps: <code>adb shell dmesg | grep "avc: denied"</code> or <code>adb logcat | grep SELinux</code>. Use <code>audit2allow</code> to generate policy additions. Never set <code>permissive 1</code> globally in production — targeted permissive domains only during development.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "How do you analyze a bugreport for Android Automotive issues?",
+    a: `<p>Steps for bugreport analysis:</p>
+    <ul>
+      <li>Generate: <code>adb bugreport bugreport.zip</code> — extracts to ~200–400MB zip</li>
+      <li>Open in <strong>Android Studio's Bug Report Analyzer</strong> or extract manually</li>
+      <li>Key files to check:
+        <ul>
+          <li><code>bugreport-*.txt</code> → system logs, ANR traces, battery stats</li>
+          <li><code>FS/data/log/</code> → OEM-specific CarService logs</li>
+          <li><code>proto/</code> → CarStatsService metrics</li>
+        </ul>
+      </li>
+      <li>Search for: <code>ANR</code>, <code>FATAL</code>, <code>NullPointerException</code>, <code>CarService</code> watchdog hits, VHAL errors</li>
+    </ul>
+    <div class="highlight">For large bugreports (&gt;500MB), avoid opening full text in an editor — use grep/awk pipelines or a custom bugreport analyzer tool.</div>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the difference between Android Auto's projection mode and AAOS native apps?",
+    a: `<p><strong>Android Auto projection</strong>: Phone runs the app logic, HU displays a rendered H.264 stream. App updates happen on the phone. HU is thin client. Latency depends on USB/Wi-Fi link quality.</p>
+    <p><strong>AAOS native apps</strong>: App APK installed directly on HU. Runs natively on AAOS. Access to vehicle APIs (<code>CarPropertyManager</code>, <code>CarAudioManager</code>). No phone dependency. Better performance, richer integration, but app must be built for AAOS (uses Car App Library or OEM framework).</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "How does Google Assistant integration work in AAOS?",
+    a: `<p>Google Assistant in AAOS runs as a privileged system app (AssistantApp). It integrates via:</p>
+    <ul>
+      <li><strong>VoiceInteractionService</strong>: intercepts always-on hotword ("Hey Google") via <code>SoundTrigger HAL</code></li>
+      <li><strong>CarVoiceInteractionSession</strong>: handles automotive-specific intents (play music, navigate, call)</li>
+      <li><strong>Media session integration</strong>: Assistant can control any media app via <code>MediaSessionManager</code></li>
+    </ul>
+    <p>Test cases: PTT (push-to-talk) steering wheel button, hotword in noisy cabin environment, assistant during active phone call (conflict handling), multi-language support.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is CarWatchdogService and why does it matter in AAOS testing?",
+    a: `<p><code>CarWatchdogService</code> monitors the health of critical AAOS processes (CarService, SystemServer, etc.) and triggers a reset if any process becomes unresponsive within a defined timeout (default 3 seconds for critical, 5 seconds for normal priority).</p>
+    <p>Apps must register with CarWatchdogService and send health pings in the watchdog loop. In testing:</p>
+    <ul>
+      <li>Inject artificial ANR in CarService → verify watchdog recovery and log</li>
+      <li>Verify no false watchdog kills during heavy CPU load (OTA update, media decode)</li>
+      <li>Check watchdog client list in bugreport to confirm all critical services are registered</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What are the typical ADB commands you use daily for AAOS/Android Auto testing?",
+    a: `<ul>
+      <li><code>adb logcat -v time | grep -i carplay</code> — filter logs by keyword</li>
+      <li><code>adb shell dumpsys car_service</code> — CarService state dump</li>
+      <li><code>adb shell dumpsys audio</code> — audio focus and routing state</li>
+      <li><code>adb shell cmd car_service inject-vhal-event 0x11400101 3</code> — inject gear change to Reverse</li>
+      <li><code>adb shell dumpsys activity</code> — app stack and foreground activity</li>
+      <li><code>adb shell input tap X Y</code> — simulate touch</li>
+      <li><code>adb bugreport</code> — full system snapshot</li>
+      <li><code>adb shell settings put global car_ux_restrictions_xml path</code> — override UX restriction config</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "How is Over-The-Air (OTA) update testing done for AAOS?",
+    a: `<p>AAOS OTA uses Android's A/B (seamless) update mechanism:</p>
+    <ul>
+      <li>Two system partitions (slot A and slot B) — update written to inactive slot in background</li>
+      <li>On next boot, bootloader switches slots; if boot fails, auto-rollback</li>
+      <li>Managed by <code>UpdateEngineService</code></li>
+    </ul>
+    <p>Test coverage:</p>
+    <ul>
+      <li>OTA during driving (power interruption simulation)</li>
+      <li>OTA rollback on failed boot</li>
+      <li>User data persistence post-OTA (settings, paired devices)</li>
+      <li>Verify no CarPlay/AA regression post-update</li>
+      <li>Delta OTA vs full OTA performance difference</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is Android Automotive's Trusted Platform Module (TPM) / security role?",
+    a: `<p>AAOS on modern SoCs (Qualcomm SA8155P, SA8295P, etc.) leverages:</p>
+    <ul>
+      <li><strong>Secure Element / TEE (Trusted Execution Environment)</strong>: ARM TrustZone for key storage, secure boot chain verification</li>
+      <li><strong>Android Keystore</strong>: Cryptographic key storage backed by TEE — used for GMS DRM, Google Pay in car, Digital Key</li>
+      <li><strong>Verified Boot</strong>: dm-verity ensures system partition integrity on every boot</li>
+    </ul>
+    <p>From a test perspective: verify verified boot is enforced (device should not boot if system partition tampered), test key attestation APIs for Digital Key feature.</p>`
+  },
+
+  // ─── MORE SHARED / PROCESS ─────────────────────────────────────────
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the difference between functional testing and certification testing?",
+    a: `<p><strong>Functional testing</strong>: Validates that features work as specified (connect, play audio, navigate, etc.). Conducted internally by OEM/Tier-1 teams throughout development. Pass/fail against internal test specs.</p>
+    <p><strong>Certification testing</strong>: Formal compliance validation against an external standards body's specification (Apple MFi, Google CTS/VTS, USB-IF, Wi-Fi Alliance). Often requires independent test labs or direct vendor audit. Results gate product release/go-to-market.</p>
+    <div class="highlight">In practice, internal functional test suites should mirror certification criteria to minimize surprises at formal submission.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the USB-IF certification and when is it required for infotainment?",
+    a: `<p>USB Implementers Forum (USB-IF) certification validates that a USB implementation correctly implements the USB specification (USB 2.0 Hi-Speed, USB 3.x, USB Type-C, USB Power Delivery).</p>
+    <p>For infotainment: required when the HU product is marketed as "USB Certified" or carries the USB logo. Tests include: electrical compliance (eye diagram, signal integrity), protocol compliance (enumeration, chapter 9 descriptors), and USB-C/PD spec if applicable. Apple mandates USB-IF certified cables/connectors for MFi CarPlay accessories.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "Explain how Bluetooth certification (BT-SIG qualification) applies to infotainment.",
+    a: `<p>Any product using Bluetooth must be Bluetooth SIG qualified before shipping. For infotainment HUs:</p>
+    <ul>
+      <li><strong>End Product Listing (EPL)</strong>: HU listed as a qualified Bluetooth end product using a qualified module/chip</li>
+      <li>If using a pre-qualified BT module: only Declaration of Compliance needed (simpler)</li>
+      <li>If custom BT stack or new chip: full Profile Tuning Suite (PTS) testing against each supported profile (HFP, A2DP, AVRCP, PBAP, MAP, SPP)</li>
+    </ul>
+    <p>CarPlay and AA Wireless both rely on BT profiles — BT-SIG qualification is therefore a prerequisite for both wireless certification paths.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is Wi-Fi Alliance certification and does it apply to automotive infotainment?",
+    a: `<p>Wi-Fi Alliance certification (Wi-Fi CERTIFIED™) validates interoperability of Wi-Fi implementations against the 802.11 spec. Relevant certifications for infotainment:</p>
+    <ul>
+      <li><strong>Wi-Fi CERTIFIED ac</strong> (802.11ac 5GHz) — mandatory for Wireless CarPlay/AA</li>
+      <li><strong>Wi-Fi Direct™</strong> — used for wireless projection sessions</li>
+      <li><strong>WPA3</strong> — increasingly required by OEMs for security posture</li>
+    </ul>
+    <p>OEMs using a pre-certified Wi-Fi module can typically leverage the module's certifications rather than re-certifying the full HU, but must maintain approved module configuration.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the NHTSA distraction guidelines and how does it impact HMI testing?",
+    a: `<p>NHTSA (US) and similar bodies (Euro NCAP, JAMA in Japan) publish driver distraction guidelines that limit how long and how complex a head unit interaction can be while driving.</p>
+    <p>Key limits (NHTSA 2012 Visual-Manual guidelines):</p>
+    <ul>
+      <li>Single task should require no more than <strong>2 seconds of glance time</strong></li>
+      <li>Total task no more than <strong>12 seconds</strong></li>
+      <li>No text entry of non-address data while driving</li>
+      <li>No display of video/images unrelated to driving</li>
+    </ul>
+    <div class="highlight">AAOS UX Restrictions enforce these computationally. Apple's CarPlay templates enforce them by design. HMI test must verify no OEM customization inadvertently bypasses these restrictions.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "How do you write a test plan for a new infotainment feature?",
+    a: `<p>Structure of a solid infotainment test plan:</p>
+    <ul>
+      <li><strong>Scope</strong>: Feature definition, supported platforms, software versions</li>
+      <li><strong>Test objectives</strong>: Functional, performance, certification, regression</li>
+      <li><strong>Test environment</strong>: Hardware (HU, phones, bench setup), software versions, tools</li>
+      <li><strong>Test cases</strong>: Happy path, negative/edge cases, interoperability, stress/soak</li>
+      <li><strong>Entry/exit criteria</strong>: Code freeze, pass rate thresholds</li>
+      <li><strong>Risk areas</strong>: Known flaky areas, external dependencies (Apple, Google APIs)</li>
+      <li><strong>Defect management</strong>: JIRA/ALM linkage, severity classification</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is ISO 26262 and how does it relate to infotainment system testing?",
+    a: `<p>ISO 26262 is the functional safety standard for automotive electronics. It defines Automotive Safety Integrity Levels (ASIL A–D).</p>
+    <p>Infotainment is typically classified <strong>QM (Quality Managed)</strong> — not safety-critical — but integration with safety-critical systems creates overlap:</p>
+    <ul>
+      <li>Instrument cluster IC receiving data from AAOS → IC may be ASIL B</li>
+      <li>Reverse camera feed via AAOS → camera display function may be ASIL B</li>
+      <li>CarPlay navigation overriding IC cluster → safety boundary analysis required</li>
+    </ul>
+    <p>Testers must understand the safety boundary: infotainment software crashes must NOT propagate to ASIL-rated components.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is AUTOSAR and how does it interface with AAOS/CarPlay systems?",
+    a: `<p>AUTOSAR (AUTomotive Open System ARchitecture) is the standard middleware platform for ECU software in classical automotive domains (AUTOSAR Classic for MCUs, AUTOSAR Adaptive for high-performance CPUs).</p>
+    <p>In infotainment context:</p>
+    <ul>
+      <li>Gateway ECU (running AUTOSAR Classic) bridges vehicle CAN bus to HU</li>
+      <li>AAOS VHAL receives vehicle data through an OEM middleware layer that translates AUTOSAR COM signals to VHAL properties</li>
+      <li>CarPlay's vehicle signal requirements (reverse gear, night mode) similarly sourced from AUTOSAR/CAN gateway</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is the instrument cluster (IC) integration test flow for infotainment?",
+    a: `<p>IC integration testing validates that data from the infotainment HU (AAOS/CarPlay navigation, media, phone) correctly renders on the driver's instrument cluster display.</p>
+    <p>Test steps:</p>
+    <ul>
+      <li>Establish CarPlay/AA session with active navigation</li>
+      <li>Verify navigation maneuver data (turn arrow, distance, street name) appears on IC</li>
+      <li>Test IC media metadata display (song title, artist) during media playback</li>
+      <li>Verify IC reverts to default cluster view when CarPlay/AA session ends</li>
+      <li>Test IC priority arbitration: navigation vs. phone call notification</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "How do you test voice recognition quality in CarPlay / AAOS?",
+    a: `<p>Voice recognition testing involves:</p>
+    <ul>
+      <li><strong>Activation path test</strong>: Steering wheel PTT, always-on hotword, touchscreen mic button</li>
+      <li><strong>Recognition accuracy</strong>: Standardized phrases at 65–70 dB SPL per ITU-T P.831; tested across languages/accents</li>
+      <li><strong>Cabin noise immunity</strong>: Test at 70 kph road noise, HVAC max, radio playing — SNR impact on WER (Word Error Rate)</li>
+      <li><strong>Echo cancellation</strong>: Full-duplex test — speak while audio plays at 70dB</li>
+      <li><strong>End-to-end latency</strong>: Hotword detected → response &lt;1.5 seconds</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What are common CarPlay HMI test failures that Apple flags in their review?",
+    a: `<ul>
+      <li>Touch response &gt; 50ms latency on tap events</li>
+      <li>Non-standard UI elements (OEM overlays) covering CarPlay chrome</li>
+      <li>CarPlay session not restoring correctly after phone lock/unlock</li>
+      <li>Status bar or soft keys from OEM HU UI visible over CarPlay screen</li>
+      <li>Incorrect handling of Siri button mapping (must be a dedicated button or confirmed steering wheel PTT)</li>
+      <li>Night mode delay &gt; 1 second after CAN signal assertion</li>
+      <li>Failure to clear CarPlay view when USB cable is disconnected</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the Android Automotive CDD (Compatibility Definition Document)?",
+    a: `<p>The AAOS CDD is Google's document defining the requirements a device must meet to be considered Android Automotive compatible. It covers:</p>
+    <ul>
+      <li>Hardware requirements (display resolution, touch, sensors)</li>
+      <li>Software requirements (API levels, VHAL properties, CarService)</li>
+      <li>Security requirements (verified boot, SELinux, encryption)</li>
+      <li>Performance baselines (boot time, rendering performance)</li>
+      <li>Connectivity requirements (BT, Wi-Fi, USB profiles)</li>
+    </ul>
+    <p>CTS tests are generated directly from CDD requirements — any CDD violation = CTS failure = GMS blocker.</p>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "Explain how multi-user support works in AAOS and what testing it requires.",
+    a: `<p>AAOS supports multiple Android user accounts — useful for family vehicles with personalized profiles (driver A sees their apps/wallpaper, driver B sees theirs).</p>
+    <p>Architecture: Headless System User (user 0) manages system services; individual driver accounts switch via <code>UserManager</code>. Each user has isolated data partition.</p>
+    <p>Test cases:</p>
+    <ul>
+      <li>User switch time (&lt; 2 seconds target)</li>
+      <li>User data isolation — verify user A cannot access user B's data</li>
+      <li>Bluetooth pairing persistence per user</li>
+      <li>CarPlay/AA reconnect after user switch</li>
+      <li>OTA behavior with multiple users (data migration)</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is CAPL scripting and how is it used in CarPlay/Android Auto testing?",
+    a: `<p>CAPL (Communication Access Programming Language) is Vector's proprietary scripting language for CANoe/CANalyzer. In CarPlay/AA testing:</p>
+    <ul>
+      <li>Simulate CAN signals: inject reverse gear, vehicle speed, night mode without physical vehicle</li>
+      <li>Automate test sequences: "shift to reverse → verify rear camera on HU → shift to drive → verify CarPlay screen restored"</li>
+      <li>Log and timestamp CAN events correlated with HU logcat for root cause analysis</li>
+      <li>Stress test: rapid gear change cycling to find race conditions in VHAL/CarPlay session manager</li>
+    </ul>
+    <div class="highlight">CAPL + ADB combined automation is highly valued — automating CAN stimulus while simultaneously capturing AAOS logcat is a powerful test setup.</div>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What metrics do you track for infotainment quality (KPIs)?",
+    a: `<ul>
+      <li><strong>Connection Time</strong>: Plug-in → CarPlay/AA UI displayed (target &lt;3s wired, &lt;5s wireless)</li>
+      <li><strong>Boot Time</strong>: Ignition ON → HU UI ready (cold &lt;25s, warm &lt;5s)</li>
+      <li><strong>Audio Latency</strong>: Source switch latency &lt;300ms</li>
+      <li><strong>Touch Response</strong>: &lt;50ms (CarPlay requirement)</li>
+      <li><strong>Defect Escape Rate</strong>: Defects found in certification vs. found internally</li>
+      <li><strong>First Time Pass Rate</strong>: % of certification test cycles passing on first submission</li>
+      <li><strong>MTBF</strong>: Mean time between failures during soak testing</li>
+    </ul>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What is regression testing strategy for infotainment releases?",
+    a: `<p>A tiered regression strategy:</p>
+    <ul>
+      <li><strong>Tier 1 (Smoke)</strong>: 20–30 critical cases — connection, audio, voice; run every build (&lt;1 hour)</li>
+      <li><strong>Tier 2 (Core regression)</strong>: 150–200 cases covering all features; run on release candidates (&lt;8 hours)</li>
+      <li><strong>Tier 3 (Full regression)</strong>: Complete test suite including edge cases, soak, and interoperability; run pre-certification (&lt;48 hours)</li>
+    </ul>
+    <p>Automation: Tier 1 and 2 should be ≥70% automated using ADB+Python scripts and CAPL. Manual testing focused on UX quality, audio perceptual quality, and novel edge cases.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "How do you validate audio quality in an infotainment system?",
+    a: `<ul>
+      <li><strong>Objective measurements</strong>: THD+N (Total Harmonic Distortion + Noise), SNR, frequency response using audio analyzers (AP APx series)</li>
+      <li><strong>Perceptual tests</strong>: Listening panel (MUSHRA score) for Bluetooth A2DP vs USB vs AM/FM quality comparison</li>
+      <li><strong>Functional tests</strong>: Mute/unmute pop noise, volume ramp linearity, fade/balance accuracy</li>
+      <li><strong>Echo cancellation</strong>: AEC performance for hands-free calls (PESQ score)</li>
+      <li><strong>Protocol-specific</strong>: Verify A2DP codec negotiation (SBC vs AAC vs aptX) via BT snoop log</li>
+    </ul>`
+  },
+  {
+    cat: "carplay",
+    tag: "CarPlay",
+    q: "What is the CarPlay 'alternate audio route' and how is it tested?",
+    a: `<p>CarPlay can route audio to the vehicle's speakers while the phone handles processing — this is the "alternate audio route." The HU receives PCM audio via USB Audio Class and feeds it to the amplifier/speaker system.</p>
+    <p>Test cases:</p>
+    <ul>
+      <li>Verify audio does NOT play from phone speaker when CarPlay is active</li>
+      <li>Confirm HU volume controls affect CarPlay audio (via iAP2 volume control messages)</li>
+      <li>Test mute/unmute transitions are glitch-free</li>
+      <li>Verify Siri audio (voice prompt) routes correctly during active media</li>
+    </ul>`
+  },
+  {
+    cat: "android",
+    tag: "Android Auto",
+    q: "What is the difference between AAOS system apps and vendor apps?",
+    a: `<p><strong>System apps</strong>: Located in <code>/system/app</code> or <code>/system/priv-app</code>. Part of AOSP or GMS. Updated via OTA of system partition or Play Store (if GMS). Examples: SystemUI, CarService, Dialer.</p>
+    <p><strong>Vendor apps</strong>: Located in <code>/vendor/app</code>. OEM-specific apps shipped with HU. Typically for HVAC control, vehicle settings, OEM navigation. Updated separately via vendor OTA or OEM app store.</p>
+    <p>Security boundary: vendor apps cannot access certain privileged APIs available only to priv-app. SELinux policy enforces this. Test must verify vendor apps don't inadvertently use system-level permissions beyond their grant.</p>`
+  },
+  {
+    cat: "shared",
+    tag: "Shared",
+    q: "What are the key challenges you've faced in infotainment certification projects?",
+    a: `<p>Common real-world challenges:</p>
+    <ul>
+      <li><strong>Apple MFi entitlement delays</strong>: Apple's review timelines (6–12 weeks) are on a fixed schedule — a single failed test can delay by a full cycle. Mitigation: early pre-submission internal audit.</li>
+      <li><strong>Google CTS flaky tests</strong>: Some CTS tests have environment dependencies (timing-sensitive, GPS-dependent). Strategy: dedicated CTS lab environment, re-run protocol for flaky tests.</li>
+      <li><strong>Multi-OEM compatibility</strong>: HU must work across 5+ iPhone models and 10+ Android phone models — matrix testing is expensive. Prioritize top-market-share devices.</li>
+      <li><strong>CAN signal timing</strong>: Night mode or reverse camera response timing varies by vehicle platform — CAPL scripting helps standardize stimulus timing in testing.</li>
+    </ul>`
+  },
+];
+
+const list = document.getElementById('qaList');
+const noResults = document.getElementById('noResults');
+const stats = document.getElementById('stats');
+const searchInput = document.getElementById('searchInput');
+const expandAllBtn = document.getElementById('expandAll');
+let currentCat = 'all';
+let expandedAll = false;
+
+function render(filter = 'all', search = '') {
+  list.innerHTML = '';
+  const q = search.toLowerCase().trim();
+  let visible = 0;
+  QA.forEach((item, i) => {
+    const matchCat = filter === 'all' || item.cat === filter;
+    const matchSearch = !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q);
+    if (!matchCat || !matchSearch) return;
+    visible++;
+    const div = document.createElement('div');
+    div.className = 'qa-item';
+    div.dataset.cat = item.cat;
+    div.innerHTML = `
+      <div class="q-bar" onclick="toggle(this.parentElement)">
+        <span class="q-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="q-text">${item.q}</span>
+        <span class="q-tag">${item.tag}</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="a-body">${item.a}</div>
+    `;
+    list.appendChild(div);
+  });
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+  stats.textContent = `Showing ${visible} of ${QA.length} questions`;
+}
+
+function toggle(el) {
+  el.classList.toggle('open');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    render(currentCat, searchInput.value);
+  });
+});
+
+searchInput.addEventListener('input', () => render(currentCat, searchInput.value));
+
+expandAllBtn.addEventListener('click', () => {
+  expandedAll = !expandedAll;
+  document.querySelectorAll('.qa-item').forEach(el => {
+    if (expandedAll) el.classList.add('open');
+    else el.classList.remove('open');
+  });
+  expandAllBtn.textContent = expandedAll ? 'Collapse All' : 'Expand All';
+});
+
+render();
+</script>
+</body>
+</html>
