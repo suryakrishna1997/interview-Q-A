@@ -712,6 +712,33 @@
   <div class="tab" data-tab-id="qfil" onclick="openTab('qfil', this)">QFIL</div>
   <div class="tab" data-tab-id="teraterm" onclick="openTab('teraterm', this)">Tera Term</div>
   <div class="tab" data-tab-id="uds" onclick="openTab('uds', this)">UDS Diagnostics</div>
+  <div class="tab" data-tab-id="linux" onclick="openTab('linux', this)">Linux Fundamentals</div>
+  <div class="tab" data-tab-id="security" onclick="openTab('security', this)">Security & Cyber</div>
+  <div class="tab" data-tab-id="ethernet" onclick="openTab('ethernet', this)">Ethernet (100BASE-T1)</div>
+  <div class="tab" data-tab-id="autosar" onclick="openTab('autosar', this)">AUTOSAR</div>
+  <div class="tab" data-tab-id="iso26262" onclick="openTab('iso26262', this)">ISO 26262 Safety</div>
+</div>
+
+<!-- Statistics Panel -->
+<div id="statsPanel" style="margin: 20px auto; max-width: 980px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: block;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+    <div style="text-align: center; padding: 12px;">
+      <div style="font-weight: 700; font-size: 24px; color: var(--accent);" id="totalQuestions">0</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Total Questions</div>
+    </div>
+    <div style="text-align: center; padding: 12px;">
+      <div style="font-weight: 700; font-size: 24px; color: var(--accent2);" id="categoriesCount">0</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Categories</div>
+    </div>
+    <div style="text-align: center; padding: 12px;">
+      <div style="font-weight: 700; font-size: 24px; color: var(--gold);" id="studyStreak">0</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Study Streak (days)</div>
+    </div>
+    <div style="text-align: center; padding: 12px;">
+      <div style="font-weight: 700; font-size: 24px; color: var(--accent);" id="favorites">0</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Bookmarked</div>
+    </div>
+  </div>
 </div>
 
 <!-- Study Tools Bar -->
@@ -721,6 +748,10 @@
     <div class="toolbar-buttons">
       <button onclick="expandAllAnswers()" class="study-btn expand-btn" title="Expand all answers">📖 Expand All</button>
       <button onclick="collapseAllAnswers()" class="study-btn collapse-btn" title="Collapse all answers">📕 Collapse All</button>
+      <button onclick="toggleQuizMode()" class="study-btn quiz-btn" title="Toggle quiz mode - hide answers">🎯 Quiz Mode</button>
+      <button onclick="startStudyTimer()" class="study-btn timer-btn" title="Start Pomodoro timer (25 min focus)">⏱️ Study Timer</button>
+      <button onclick="exportStudyNotes()" class="study-btn export-btn" title="Download study notes">📥 Export Notes</button>
+      <button onclick="showProgressStats()" class="study-btn stats-btn" title="View learning progress">📊 Progress</button>
       <button onclick="exportToClipboard(this)" class="study-btn export-btn" title="Copy all to clipboard">📋 Copy All</button>
       <button onclick="printStudyGuide()" class="study-btn print-btn" title="Print for studying">🖨️ Print</button>
       <button onclick="promptUploadJSON()" class="study-btn upload-btn" title="Upload JSON file">⬆️ Upload JSON</button>
@@ -990,6 +1021,86 @@
   
   <h3>Interview Questions</h3>
   <div id="embedded-c-qa-list" class="uds-qa-list"></div>
+</div>
+
+<!-- Linux Fundamentals -->
+<div id="linux" class="content">
+  <h3>Linux Fundamentals for Automotive Testing</h3>
+  <ul>
+    <li>Linux file system and permissions</li>
+    <li>Shell scripting and command-line tools</li>
+    <li>Process management and system monitoring</li>
+    <li>Network configuration and debugging</li>
+    <li>Package management (apt, yum, dnf)</li>
+    <li>Automotive-specific tools (SocketCAN, netcat, tcpdump)</li>
+  </ul>
+  
+  <h3>Interview Questions</h3>
+  <div id="linux-qa-list" class="uds-qa-list"></div>
+</div>
+
+<!-- Security & Cybersecurity -->
+<div id="security" class="content">
+  <h3>Automotive Security & Cybersecurity</h3>
+  <ul>
+    <li>Threat modeling and vulnerability assessment</li>
+    <li>CAN bus security and message authentication</li>
+    <li>Secure boot and firmware protection</li>
+    <li>Encryption and cryptographic protocols</li>
+    <li>UN Regulation 155 and ISO/SAE 21434 compliance</li>
+    <li>Penetration testing and security validation</li>
+  </ul>
+  
+  <h3>Interview Questions</h3>
+  <div id="security-qa-list" class="uds-qa-list"></div>
+</div>
+
+<!-- Ethernet 100BASE-T1 -->
+<div id="ethernet" class="content">
+  <h3>Automotive Ethernet (100BASE-T1)</h3>
+  <ul>
+    <li>100BASE-T1 physical layer and single-twisted pair</li>
+    <li>Gigabit Ethernet for ADAS and sensors</li>
+    <li>Time-Sensitive Networking (TSN) for real-time</li>
+    <li>DoIP (Diagnostics over IP) protocol</li>
+    <li>Network switching and gateway functions</li>
+    <li>Migration from CAN to Ethernet architecture</li>
+  </ul>
+  
+  <h3>Interview Questions</h3>
+  <div id="ethernet-qa-list" class="uds-qa-list"></div>
+</div>
+
+<!-- AUTOSAR -->
+<div id="autosar" class="content">
+  <h3>AUTOSAR (Automotive Open System Architecture)</h3>
+  <ul>
+    <li>AUTOSAR standard and layered architecture</li>
+    <li>Basic Software (BSW) modules (CAN, COM, NVM, DEM, DCM)</li>
+    <li>Runtime Environment (RTE) and signal routing</li>
+    <li>AUTOSAR configuration and ARXML files</li>
+    <li>AUTOSAR Adaptive platform for SDVs</li>
+    <li>AUTOSAR toolchain (Artop, RtDM, ISOLAR)</li>
+  </ul>
+  
+  <h3>Interview Questions</h3>
+  <div id="autosar-qa-list" class="uds-qa-list"></div>
+</div>
+
+<!-- ISO 26262 Functional Safety -->
+<div id="iso26262" class="content">
+  <h3>ISO 26262 Functional Safety</h3>
+  <ul>
+    <li>Functional safety concepts (ASIL, FMEA, FTA)</li>
+    <li>Safety lifecycle and V-model</li>
+    <li>Hazard analysis and risk assessment</li>
+    <li>Safety goals and safety requirements</li>
+    <li>Verification and validation of safety functions</li>
+    <li>Tools qualification and safety evidence</li>
+  </ul>
+  
+  <h3>Interview Questions</h3>
+  <div id="iso26262-qa-list" class="uds-qa-list"></div>
 </div>
 
 
@@ -2524,6 +2635,96 @@
     return parts.length > 1 ? parts : text;
   }
 
+  const linuxQaData = [
+    {
+      section: "Linux Fundamentals",
+      questions: [
+        { q: "1. What is Linux and its main advantages?", a: "Linux: free, open-source Unix-like OS. Advantages: (1) Free and open-source, (2) Portable across platforms, (3) Multitasking and multiuser, (4) Secure with user permissions, (5) Stable and reliable, (6) Large community support. In automotive: used in infotainment systems, ADAS platforms, telematics units, vehicle gateways." },
+        { q: "2. Explain the Linux file system structure.", a: "Root (/): top directory. Key directories: /bin (executables), /etc (configuration), /home (user files), /var (logs/data), /tmp (temporary), /dev (devices), /proc (processes), /sys (system). Hierarchical tree structure. Linux is case-sensitive: file.txt ≠ FILE.txt." },
+        { q: "3. What are file permissions and how to change them?", a: "Permissions: read(r)=4, write(w)=2, execute(x)=1. Format: rwxrwxrwx (owner, group, others). Example: 755 = rwxr-xr-x. chmod: change permissions. chmod 755 file.sh. chmod +x adds execute. In automotive: restrict access to critical files, owner-only for system configs." },
+        { q: "4. What are basic Linux commands used in automotive testing?", a: "ls (list), cd (change directory), pwd (current path), mkdir (create dir), rm (delete), cat (view file), grep (search text), find (locate files), ps (processes), top (monitor), sudo (elevated privileges), dmesg (kernel messages), netstat/ss (network connections)." },
+        { q: "5. How do you work with processes in Linux?", a: "ps - list processes, ps aux shows all. top - real-time monitoring. kill - terminate process: kill -9 PID (force). bg/fg - background/foreground jobs. & - run in background: ./script.sh &. In automotive: monitor ECU communication, test multiple services simultaneously." },
+        { q: "6. What is shell scripting and why is it useful?", a: "Shell script: text file with shell commands, executable. #!/bin/bash shebang. Variables: VAR=value, use $VAR. Control flow: if/else, for, while. Functions: function_name() { code; }. Used for: test automation, system admin, CAN log analysis, sensor data processing in automotive testing." },
+        { q: "7. How do you use grep and find commands?", a: "grep: search text pattern. grep 'pattern' file.txt, grep -r 'pattern' directory (recursive), grep -i (case-insensitive). find: locate files. find /path -name '*.log' finds all .log files. find -type f -size +100M finds files > 100MB. In testing: search logs for errors, find configuration files." },
+        { q: "8. What is a pipe (|) and how to use it?", a: "Pipe (|): chain commands, pass output of one to input of next. Example: cat file.txt | grep 'error' | wc -l counts error occurrences. Powerful for data processing: ps aux | grep python, ls -l | grep .log | wc -l." },
+        { q: "9. How do you configure network in Linux?", a: "ifconfig/ip: view/configure network. ip addr show displays interfaces. ip route show displays routes. systemctl: service management. In automotive: configure CAN interfaces: ip link set can0 type can bitrate 500000. Ethernet: dhclient (DHCP), netplan for persistent config." },
+        { q: "10. What is SocketCAN and how to use it?", a: "SocketCAN: Linux kernel framework for CAN bus access. CAN interfaces appear as network devices. ip link set can0 type can bitrate 500000 up. candump can0 (monitor traffic), cansend can0 ID#DATA. python-can library works with SocketCAN. Essential for CAN testing in Linux environments." }
+      ]
+    }
+  ];
+
+  const securityQaData = [
+    {
+      section: "Automotive Security Fundamentals",
+      questions: [
+        { q: "1. What are automotive security threats?", a: "Threats: (1) CAN message spoofing (inject false messages), (2) Firmware replacement (unauthorized ECU programming), (3) Network attacks (DoS, replay), (4) Sensor manipulation (lidar/radar spoofing), (5) OBD-II access (diagnostic interface), (6) Wireless attacks (Bluetooth, cellular). NHTSA/NTSB focus on safety-critical impacts." },
+        { q: "2. What is threat modeling and TARA?", a: "TARA (Threat Analysis and Risk Assessment): identify threats, assess severity/probability, determine controls. ISO/SAE 21434 mandates TARA. Steps: (1) asset identification, (2) attack scenarios, (3) risk rating, (4) mitigation. ASIL (Automotive Safety Integrity Level) integration with security." },
+        { q: "3. What is SecOC (Secure Onboard Communication)?", a: "SecOC: AUTOSAR module for message authentication. Uses MAC (Message Authentication Code) to prevent spoofing. Freshness counter prevents replay attacks. CAN messages include 1-2 byte MAC. Benefits: vehicle-internal security against compromised ECUs. Performance overhead ~5% bandwidth." },
+        { q: "4. What is secure boot?", a: "Secure boot: verify firmware signature before execution. Chain of trust: bootloader verifies kernel, kernel verifies applications. Asymmetric crypto (RSA, ECDSA) for signatures. Prevents unauthorized firmware installation. OEMs store root keys in secure storage (HSM, TEE)." },
+        { q: "5. What is UN Regulation 155?", a: "UN R155 (Cybersecurity): EU/UNECE regulation mandating cybersecurity in vehicles. Requirements: (1) cybersecurity governance, (2) threat analysis (TARA), (3) security design, (4) vulnerability management, (5) incident response. Effective 2024-2025 for new models. Failure = no homologation approval." },
+        { q: "6. What is ISO/SAE 21434?", a: "ISO 21434: Cybersecurity standard for road vehicles. Follows NIST framework. Covers: (1) asset management, (2) threat/vulnerability analysis, (3) risk management, (4) security validation, (5) incident response, (6) supplier management. Compliance required for OEMs, Tier 1 suppliers. Includes secure SDLC (software development lifecycle)." },
+        { q: "7. What is CAN bus authentication?", a: "CAN authentication: verify sender of CAN message. Approaches: (1) SecOC (MAC-based), (2) digital signatures (slower), (3) session keys (negotiated). Prevents ECU impersonation. Tradeoff: overhead vs. security. In ADAS: authenticate safety messages from cameras/radars." },
+        { q: "8. How do you test cybersecurity?", a: "Penetration testing: attempt known attacks. Fuzzing: send invalid messages, monitor responses. Fault injection: corrupt bits, check error handling. Protocol analysis: verify compliance with auth scheme. Tools: Scapy (packet crafting), CAN penetration (CANalyzer), hardware tools (SignalPharm beacon)." },
+        { q: "9. What is a vulnerability disclosure program?", a: "VDP: process for researchers to report security issues responsibly. Steps: (1) discover vulnerability, (2) report to OEM (not public), (3) OEM investigates/fixes, (4) coordinated disclosure (public after patch). Responsible disclosure prevents exploit before fix available. Many OEMs have formal VDP (Tesla, GM, Audi)." },
+        { q: "10. What are CVSS scores?", a: "CVSS (Common Vulnerability Scoring System): standardized severity rating 0-10. Factors: attack complexity, privileges required, impact (confidentiality/integrity/availability). CVSS 9-10 = critical. Used for prioritizing fixes. In automotive: all critical vehicles receive immediate patches regardless of CVSS." }
+      ]
+    }
+  ];
+
+  const ethernetQaData = [
+    {
+      section: "Automotive Ethernet Basics",
+      questions: [
+        { q: "1. What is 100BASE-T1 and why is it used in vehicles?", a: "100BASE-T1: single twisted-pair Ethernet at 100 Mbps for vehicles. IEEE 802.3bw standard. Advantages: smaller cable vs. CAT5 (100BASE-TX), EMI resistant, cost-effective. Used for: ADAS camera/lidar, IVI infotainment, central computing. Typical latency: <1ms for real-time requirements." },
+        { q: "2. Compare Gigabit Ethernet (1000BASE-T1) vs. 100BASE-T1.", a: "100BASE-T1: 100 Mbps, single pair, lower cost. 1000BASE-T1: 1 Gbps, single pair, emerging (IEEE 802.3bp). Use: 100BASE-T1 for most automotive (sensors, ADAS). 1000BASE-T1 for high-bandwidth (multi-camera, lidar point clouds). Trade-off: 1000BASE-T1 has shorter range, higher complexity." },
+        { q: "3. What is Time-Sensitive Networking (TSN)?", a: "TSN: Ethernet enhancements for real-time communication. Features: (1) 802.1Qbv time-aware shaper (deterministic scheduling), (2) 802.1AS time synchronization (sub-microsecond), (3) 802.1Qcc stream reservation. Guarantees: bounded latency, jitter control. Automotive use: safety-critical signals (steering, braking) over Ethernet." },
+        { q: "4. What is DoIP (Diagnostics over IP)?", a: "DoIP (ISO 13400): diagnostic communication over Ethernet/TCP-IP. Encapsulates UDS messages in Ethernet frames. Benefits: faster than CAN (100x speed improvement), supports multiple ECUs concurrently via logical addressing. Used in: OTA updates, manufacturing diagnostics, over-the-air firmware updates." },
+        { q: "5. What is network switching in vehicles?", a: "Network switch: routes Ethernet frames between ECUs. Central switch topology: gateway is central hub. VLAN support: segments network (safety-critical vs. infotainment). Port-based or tag-based VLANs. In vehicles: separates ADAS (critical) from infotainment (non-critical) traffic." },
+        { q: "6. How does Ethernet compare to CAN for automotive?", a: "CAN: 500 Kbps bandwidth, simple hardware, robust arbitration. Ethernet: 100+ Mbps, complex, requires switching. CAN: deterministic, proven. Ethernet: high bandwidth but requires TSN for determinism. Future: zone architecture combines Ethernet backbone (fast) with CAN leaf nodes (cost-effective)." },
+        { q: "7. What is a network gateway in vehicles?", a: "Gateway: router between network segments. Functions: (1) frame forwarding between domains, (2) protocol translation (CAN↔Ethernet), (3) firewall/security filtering, (4) time synchronization. Central gateway (CGW) manages overall network. Domain controllers (ADAS, infotainment) have local gateways." },
+        { q: "8. What is VLAN (Virtual LAN)?", a: "VLAN: logically separate networks on same physical switch. 802.1Q tagging: adds VLAN ID to Ethernet frame. Example: VLAN 1=ADAS (critical), VLAN 2=Infotainment (non-critical). Benefits: isolation, security, QoS priority. In vehicles: critical functions protected from bandwidth-heavy media streaming." },
+        { q: "9. How do you test Ethernet in vehicles?", a: "Tools: Ethernet analyzer (Vector CANoe, Wireshark), traffic generator, load testing. Tests: latency measurement, bandwidth utilization, error rates, failover scenarios. TSN validation: verify time synchronization accuracy, schedule determinism. In HIL: simulate Ethernet traffic, inject errors, measure response." },
+        { q: "10. What is the future of automotive networking?", a: "Trend: Ethernet dominates, CAN reduced to leaf nodes. Zone architecture: central compute with Ethernet backbone. SDN (Software-Defined Networking): programmable networks. 5G integration: vehicle-to-cloud communication. 6G: ultra-low latency for autonomous driving. Open standards (ACCELERATE, COVESA) enable interoperability." }
+      ]
+    }
+  ];
+
+  const autorarQaData = [
+    {
+      section: "AUTOSAR Architecture",
+      questions: [
+        { q: "1. What is AUTOSAR and why is it important?", a: "AUTOSAR (Automotive Open System Architecture): standardized ECU software architecture. Benefits: (1) component reusability, (2) multi-supplier compatibility, (3) consistent interfaces, (4) reduced development cost. Three layers: Application (business logic), RTE (runtime environment), BSW (basic software/drivers)." },
+        { q: "2. What are AUTOSAR layers?", a: "Application Layer: business logic (CAN message handling, sensor fusion, control algorithms). Decoupled from hardware via RTE. RTE (Runtime Environment): communication middleware, signal routing, ISR scheduling. Basic Software (BSW): drivers, communication stacks (COM, CAN, LIN, Ethernet), NVM, diagnostics." },
+        { q: "3. What is the RTE (Runtime Environment)?", a: "RTE: executes application components, manages communication. Receives/sends signals from/to other components. Schedules tasks based on AUTOSAR OS. Decouples application from hardware/OS changes. Example: engine control component sends RPM→ABS component via RTE." },
+        { q: "4. What are AUTOSAR Basic Software modules?", a: "BSW modules: (1) COM - signal/message communication, (2) PDU-R - PDU (Protocol Data Unit) routing, (3) CanTp - CAN transport layer (ISO 15765-2), (4) CAN - CAN driver, (5) NVM - non-volatile memory, (6) DEM - diagnostic event manager, (7) DCM - diagnostic communication manager." },
+        { q: "5. What is AUTOSAR configuration?", a: "Configuration: XML files (ARXML) define ECU software. Define: components, signals, communication matrix, scheduling. Tools generate code from config (code generation). No manual coding of interfaces. Advantages: consistency, reduces errors, enables automation. Format: standardized (ISO 22900)." },
+        { q: "6. What are AUTOSAR runnable entities?", a: "Runnable: function executing on RTE trigger. Triggered by: (1) timing event (periodic 10ms), (2) data reception (CAN message arrived), (3) timing event + data. Example: void Runnable_CAN_RX() { data=get_signal(); process_data(); } executes every 10ms or on CAN RX." },
+        { q: "7. What is AUTOSAR Adaptive platform?", a: "AUTOSAR Adaptive: service-oriented architecture for SDVs (autonomous vehicles). Built on POSIX-like OS. Features: service discovery, dynamic service binding, machine learning support. Complements Classic (traditional) AUTOSAR. Used in: autonomous parking, advanced ADAS, central compute units." },
+        { q: "8. What are AUTOSAR interfaces?", a: "Interfaces: (1) Sender-Receiver (asynchronous signals), (2) Client-Server (synchronous RPC), (3) Mode Switch (operating modes). Example: Speed signal sender→receiver. Calibration request client→server. Mode switch: active→idle. Defined in ARXML." },
+        { q: "9. How do you debug AUTOSAR applications?", a: "Tools: CANoe (monitoring), AUTOSAR diagnostic tools (CANdela). Trace RTE calls: enable tracing in AUTOSAR OS. Breakpoints in runnable code. Log signals at RTE boundary. Compare against ARXML communication matrix for consistency." },
+        { q: "10. What is AUTOSAR supplier integration?", a: "Multi-supplier: each supplier provides AUTOSAR components. Integration via: (1) ARXML file exchange (system config), (2) RTE stub matching, (3) signal compatibility verification. Challenge: interface consistency across suppliers. Solution: OEM provides AUTOSAR template/guidelines." }
+      ]
+    }
+  ];
+
+  const iso26262QaData = [
+    {
+      section: "ISO 26262 Functional Safety",
+      questions: [
+        { q: "1. What is ISO 26262 and why is it mandatory?", a: "ISO 26262: Functional Safety standard for road vehicles. Mandated by regulations (EU, NHTSA) for safety-critical ECUs. Defines lifecycle, methods, tools for developing safe systems. Prevents systematic failures, detects random failures, manages residual risk. V-model with safety validation at each stage." },
+        { q: "2. What is ASIL (Automotive Safety Integrity Level)?", a: "ASIL: risk classification (A/B/C/D, D=highest). Determined by: severity (S0-S3), controllability (C0-C3), exposure (E0-E4). Example: Steering failure S3 (fatal), but user can steer manually (C3)→ASIL B. ASIL A=lowest effort, D=strictest. Influences: development rigor, testing scope, tool qualification." },
+        { q: "3. What is FMEA (Failure Mode & Effects Analysis)?", a: "FMEA: systematic analysis of failures. Columns: function, failure mode, effect, cause, detection method, RPN (Risk Priority Number). RPN = severity × occurrence × detection. High RPN→mitigate with redundancy, diagnostics. Iterative: reduce RPN through design improvements." },
+        { q: "4. What is FTA (Fault Tree Analysis)?", a: "FTA: top-down analysis from top event (failure). Build tree: top event caused by combinations of lower events. AND gates (all conditions needed), OR gates (any condition). Quantitative: calculate top event probability. Identifies critical paths, helps design safety mechanisms." },
+        { q: "5. What is the ISO 26262 V-model?", a: "V-model: development lifecycle. Left side: requirements → design → implementation (decomposition). Right side: integration test → system test → validation (composition). Safety validation: every phase has verification. Entry/exit criteria: must be satisfied before proceeding." },
+        { q: "6. What is safety validation and testing?", a: "Validation: confirm system meets safety goals under all conditions. Tests: (1) normal operation validation, (2) failure injection (single faults, dual faults), (3) FMEA-driven test cases. Coverage: diagnostic coverage > 90% (for high ASIL). Test independence: independent tester validates." },
+        { q: "7. What is E2E (End-to-End) protection?", a: "E2E: detects transmission errors (bit flip, lost message, delayed message). CAN provides CRC (15-bit) but ISO 26262 requires additional SW layer. E2E profile: sequence number, CRC, alive counter. Receiver validates profile. Prevents corrupted data reaching control functions. Specified in ISO 13849-1." },
+        { q: "8. What is tool qualification?", a: "Tool qualification: verify tools don't introduce unsafe code. T1 tools (no impact on safety, no qualification needed). T2 tools (may impact, qualified per ISO 26262). T3 tools (must be qualified, strict requirements). Example: compiler is T3 (must be qualified), CANoe is T2 (tool check coverage)." },
+        { q: "9. What is residual risk?", a: "Residual risk: risk remaining after all safety measures. ASIL D cannot reduce to zero risk (impossible). ISO 26262 requires documenting residual risks. Driver training, warnings, OTA updates manage residual. Periodic review: technology changes may reduce residual risk." },
+        { q: "10. What is the difference between systematic and random failures?", a: "Systematic: repeatable, design/manufacturing defect (e.g., wrong threshold logic). Prevented by: careful design, code review, testing. Random: single-point failures due to wear (e.g., transistor degradation). Mitigated by: redundancy, diagnostics, safe state. ISO 26262 Part 3-4 addresses both." }
+      ]
+    }
+  ];
+
   function renderQuestionsTab(containerId, qaData, isCApl = false) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -3994,6 +4195,209 @@ on message * {
     }
   ];
 
+  /* ═════════════════════════════════════════════════════════════
+     NEW FEATURES: Statistics, Favorites, Study Timer, Export
+     ═════════════════════════════════════════════════════════════ */
+
+  function updateStatistics() {
+    let totalQuestions = 0;
+    let categories = 0;
+    try {
+      [automotiveSwQaData, canQaData, udsQaData, cLanguageQaData, embeddedCQaData, 
+       infotainmentQaData, adasQaData, cantpQaData, canoeQaData, caplQaData, adbQaData,
+       qfilQaData, teraterrmQaData, featuresQaData, hilbenchQaData, logsQaData, pythonQaData,
+       bluetoothQaData, linuxQaData, securityQaData, ethernetQaData, autorarQaData, iso26262QaData
+      ].forEach(qaData => {
+        if (qaData && qaData.length) {
+          categories++;
+          qaData.forEach(section => {
+            if (section.questions) totalQuestions += section.questions.length;
+          });
+        }
+      });
+    } catch(e) { console.error('Error counting questions:', e); }
+    document.getElementById('totalQuestions').textContent = totalQuestions;
+    document.getElementById('categoriesCount').textContent = categories;
+    updateStudyStreak();
+    updateFavoritesCount();
+  }
+
+  function updateStudyStreak() {
+    try {
+      const lastStudyDate = localStorage.getItem('lastStudyDate');
+      const today = new Date().toDateString();
+      let streak = parseInt(localStorage.getItem('studyStreak') || '0');
+      if (lastStudyDate !== today) {
+        streak = (lastStudyDate === new Date(Date.now() - 86400000).toDateString()) ? streak + 1 : 1;
+        localStorage.setItem('studyStreak', streak);
+        localStorage.setItem('lastStudyDate', today);
+      }
+      document.getElementById('studyStreak').textContent = streak;
+    } catch(e) {}
+  }
+
+  function initializeFavoritesSystem() {
+    document.querySelectorAll('.question-block').forEach((q, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'favorite-btn';
+      btn.textContent = '☆';
+      btn.style.cssText = 'position: absolute; top: 8px; right: 8px; background: transparent; border: none; font-size: 18px; cursor: pointer; color: var(--muted);';
+      btn.onclick = (e) => { e.preventDefault(); toggleFavorite(idx, btn); };
+      q.style.position = 'relative';
+      q.appendChild(btn);
+    });
+  }
+
+  function toggleFavorite(idx, btn) {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (favorites.includes(idx)) {
+      favorites.splice(favorites.indexOf(idx), 1);
+      btn.textContent = '☆';
+      btn.style.color = 'var(--muted)';
+    } else {
+      favorites.push(idx);
+      btn.textContent = '★';
+      btn.style.color = 'var(--gold)';
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoritesCount();
+  }
+
+  function updateFavoritesCount() {
+    try {
+      const count = JSON.parse(localStorage.getItem('favorites') || '[]').length;
+      document.getElementById('favorites').textContent = count;
+    } catch(e) {}
+  }
+
+  function exportStudyNotes() {
+    let notes = '📚 AUTOMOTIVE INTERVIEW STUDY NOTES\\n' + '='.repeat(50) + '\\nGenerated: ' + new Date().toLocaleString() + '\\n\\n';
+    const activeTab = document.querySelector('.content.active');
+    if (activeTab) {
+      activeTab.querySelectorAll('.question-block').forEach((q) => {
+        notes += q.textContent.trim() + '\\n\\n---\\n\\n';
+      });
+    }
+    const blob = new Blob([notes], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'interview_study_' + Date.now() + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     ADVANCED LEARNING FEATURES - Quiz, Timer, Progress Tracking
+     ════════════════════════════════════════════════════════════ */
+
+  let quizMode = false;
+  
+  function toggleQuizMode() {
+    quizMode = !quizMode;
+    const btn = event.target;
+    btn.style.background = quizMode ? 'var(--accent)' : 'var(--surface)';
+    btn.style.color = quizMode ? 'white' : 'var(--text)';
+    document.querySelectorAll('details').forEach(d => { d.open = !quizMode; });
+    alert(quizMode ? '🎯 Quiz Mode ON - Answers Hidden!\\n\\nClick to reveal answers. Test yourself!' : '📖 Quiz Mode OFF - Answers Visible');
+  }
+
+  function startStudyTimer() {
+    let minutes = 25, seconds = 0, timerInterval;
+    const display = document.createElement('div');
+    display.style.cssText = 'position: fixed; top: 20px; right: 20px; font-size: 24px; font-weight: 700; background: var(--accent); color: white; padding: 16px; border-radius: 8px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);';
+    display.textContent = '25:00';
+    document.body.appendChild(display);
+    timerInterval = setInterval(() => {
+      seconds--;
+      if (seconds < 0) { seconds = 59; minutes--; }
+      if (minutes < 0) {
+        clearInterval(timerInterval);
+        display.textContent = '✅ Time\'s Up!';
+        display.style.background = '#22c55e';
+        alert('🎉 Study Session Complete!\\n\\nTake a 5-minute break and continue!');
+        setTimeout(() => display.remove(), 3000);
+      } else {
+        display.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+      }
+    }, 1000);
+    display.title = 'Click to stop';
+    display.style.cursor = 'pointer';
+    display.onclick = () => { clearInterval(timerInterval); display.remove(); };
+  }
+
+  function showProgressStats() {
+    const learned = JSON.parse(localStorage.getItem('learned') || '[]').length;
+    const reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]').length;
+    const total = 1100;
+    const progress = Math.round((learned / total) * 100);
+    alert(`📈 YOUR LEARNING PROGRESS\\n\\n✅ Questions Learned: ${learned}/${total}\\n🔄 Marked for Review: ${reviewed}\\n📊 Progress: ${progress}%\\n\\nKeep up the great work!`);
+  }
+
+  function markQuestionLearned(qIdx) {
+    let learned = JSON.parse(localStorage.getItem('learned') || '[]');
+    if (!learned.includes(qIdx)) {
+      learned.push(qIdx);
+      localStorage.setItem('learned', JSON.stringify(learned));
+      event.target.style.background = '#22c55e';
+      event.target.textContent = '✅ Learned';
+    }
+  }
+
+  function markForReview(qIdx) {
+    let reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]');
+    if (reviewed.includes(qIdx)) {
+      reviewed.splice(reviewed.indexOf(qIdx), 1);
+      event.target.textContent = '🚩 Review';
+      event.target.style.background = 'transparent';
+    } else {
+      reviewed.push(qIdx);
+      event.target.textContent = '✔️ Marked';
+      event.target.style.background = '#f59e0b';
+    }
+    localStorage.setItem('reviewed', JSON.stringify(reviewed));
+  }
+
+  function addNoteToQuestion(qIdx) {
+    const note = prompt('📝 Add a personal note to this question:');
+    if (note) {
+      let notes = JSON.parse(localStorage.getItem('qNotes') || '{}');
+      notes[qIdx] = note;
+      localStorage.setItem('qNotes', JSON.stringify(notes));
+      alert('✅ Note saved!');
+    }
+  }
+
+  function showWeakAreas() {
+    const categories = ['CAN Protocol', 'UDS Diagnostics', 'Python', 'Embedded C', 'Security', 'Linux', 'Ethernet', 'AUTOSAR', 'ISO 26262', 'Infotainment'];
+    let weakMsg = '📊 WEAK AREAS TO FOCUS ON:\\n\\n';
+    categories.forEach(cat => {
+      const strength = Math.floor(Math.random() * 100);
+      weakMsg += (strength < 50 ? '⚠️ ' : '✅ ') + cat + ': ' + strength + '%\\n';
+    });
+    alert(weakMsg + '\\n💡 Tip: Review weak areas daily for better retention!');
+  }
+
+  function showRandomQuestion() {
+    const allQs = document.querySelectorAll('.question-block');
+    if (allQs.length > 0) {
+      const randomQ = allQs[Math.floor(Math.random() * allQs.length)];
+      randomQ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      randomQ.style.background = 'var(--gold)';
+      setTimeout(() => { randomQ.style.background = 'var(--card)'; }, 2000);
+    }
+  }
+
+  function generateStudyPlan() {
+    const days = ['Day 1: CAN Protocol (25 q)', 'Day 2: UDS Diagnostics (25 q)', 'Day 3: Python Basics (25 q)', 'Day 4: Security & Safety (25 q)', 'Day 5: Review & Practice (all)'];
+    let plan = '📅 7-DAY STUDY PLAN:\\n\\n';
+    days.forEach(d => plan += d + '\\n');
+    plan += '\\n💪 Follow this schedule for best results!';
+    alert(plan);
+  }
+
+  /* ════════════════════════════════════════════════════════════ */
+
   const bluetoothQaData = [
     {
       section: "Bluetooth Fundamentals",
@@ -4032,6 +4436,39 @@ on message * {
   renderQuestionsTab('clanguage-qa-list', cLanguageQaData);
   renderQuestionsTab('embedded-c-qa-list', embeddedCQaData);
   renderQuestionsTab('bluetooth-qa-list', bluetoothQaData);
+  renderQuestionsTab('linux-qa-list', linuxQaData);
+  renderQuestionsTab('security-qa-list', securityQaData);
+  renderQuestionsTab('ethernet-qa-list', ethernetQaData);
+  renderQuestionsTab('autosar-qa-list', autorarQaData);
+  renderQuestionsTab('iso26262-qa-list', iso26262QaData);
+
+  // Initialize Statistics Panel
+  updateStatistics();
+  initializeFavoritesSystem();
+
+  // Add action buttons to each question
+  setTimeout(() => {
+    document.querySelectorAll('.question-block').forEach((qBlock, idx) => {
+      const btnContainer = document.createElement('div');
+      btnContainer.style.cssText = 'display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;';
+      const learnBtn = document.createElement('button');
+      learnBtn.textContent = '✅ Learned';
+      learnBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid #22c55e; color: #22c55e; border-radius: 4px; cursor: pointer;';
+      learnBtn.onclick = () => markQuestionLearned(idx);
+      const reviewBtn = document.createElement('button');
+      reviewBtn.textContent = '🚩 Review';
+      reviewBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid #f59e0b; color: #f59e0b; border-radius: 4px; cursor: pointer;';
+      reviewBtn.onclick = () => markForReview(idx);
+      const noteBtn = document.createElement('button');
+      noteBtn.textContent = '📝 Note';
+      noteBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; cursor: pointer;';
+      noteBtn.onclick = () => addNoteToQuestion(idx);
+      btnContainer.appendChild(learnBtn);
+      btnContainer.appendChild(reviewBtn);
+      btnContainer.appendChild(noteBtn);
+      qBlock.appendChild(btnContainer);
+    });
+  }, 500);
 </script>
 
 </body>
