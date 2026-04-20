@@ -1,0 +1,18 @@
+Experience in Automotive infotainment modules (Bluetooth, Media, AA, CP, USB,RADIO,DAB, etc.).
+o Experience in Android auto & Carplay ( Wired & Wireless), Wi-Fi, USB, iAP2 certifications.
+o Strong end to end certification capability, including supplier documentation review, submission to partner systems (Google, Apple,
+USB IF, BT SIG, Wi Fi Alliance), and approvals required for vehicle launch.
+o Experience in identification, preparation of test plans & execute functional plans written by compliance of automotive infotainment.
+o Experience in leading certification programs from planning through approval.
+o Experience in Managing all certification submissions, test scheduling and compliance documentation.
+o Experience in Coordination with external test labs and certification authorities.
+o Experience in planning certification roadmaps, timelines and dependencies.
+o Experience in risk identification and mitigation planning.
+o Skilled in collaborating with cross functional teams.
+o Strong troubleshooting and failure analysis skills for addressing certification failures.
+o Proficiency with tools:
+Ellisys, Beagle, PTS suite, Wi Fi sniffers, RF chambers.
+o Basic Understanding in CAN/UDS protocols
+o Expérience JIRA, Confluence & ALM Tools.
+o Experience in Budget planning for certification cycles, lab costs and resource management.
+o Proven end to end certification knowledge from documentation readiness and submission to compliance
