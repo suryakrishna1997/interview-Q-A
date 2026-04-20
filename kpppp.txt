@@ -1,0 +1,24 @@
+Android Auto/CarPlay: "Explain the fundamental difference in the connection handshake between Wired AA and Wireless AA. Which layer (Wi-Fi or USB) is most common for failure during the initial connection phase?"
+Sniffer Usage: "If a customer reports that CarPlay disconnects intermittently when the vehicle is moving, walk me through how you would use an Ellisys or Beagle analyzer to identify if the issue is at the USB physical layer or the protocol layer."
+Bluetooth/Wi-Fi: "When performing Bluetooth SIG certification, how do you distinguish between a profile implementation error and a radio/RF physical layer issue? What role does the PTS (Profile Tuning Suite) play in this?"
+iAP2: "Can you explain the role of the iAP2 (iPhone Accessory Protocol) in the CarPlay ecosystem? How do you troubleshoot a failure where the device is recognized but media control commands are not being sent?"
+Connectivity: "Describe a scenario where you had to use a Wi-Fi Sniffer to debug a wireless projection issue. What specific frames (e.g., Beacon, Probe Request, Association) were you looking for?"
+Category 2: Process & Certification Management
+These focus on your ability to manage the "End-to-End" lifecycle and deal with external bodies (Google, Apple, USB-IF).
+
+Submission Workflow: "Walk me through the lifecycle of a USB-IF certification. From the moment the hardware is ready to the moment the certificate is issued, what are the critical documentation checkpoints?"
+Roadmap & Dependency: "How do you manage certification timelines when there is a delay in the Silicon/SoC arrival? How do you communicate this risk to the vehicle launch program manager?"
+Vendor/Lab Management: "Describe your experience coordinating with External Test Labs. How do you handle a situation where a lab returns a 'Fail' report that you believe is a false positive due to their test setup?"
+Documentation: "What are the most common reasons for a certification submission being rejected by Apple or Google during the review phase, and how do you prevent this?"
+Category 3: Troubleshooting, Risk & Failure Analysis
+These test your seniority—how you handle things when they go wrong.
+
+Failure Analysis: "Tell me about a time a major certification (e.g., Android Auto) failed just weeks before a vehicle SOP (Start of Production). What was your root cause analysis (RCA) process, and how did you mitigate the risk to the launch?"
+Risk Mitigation: "In a multi-module infotainment system, how do you identify 'hidden' dependencies? (e.g., How might a firmware update for the Bluetooth stack impact the Wi-Fi certification status?)"
+Cross-functional Conflict: "A developer insists that a bug is 'not reproducible' in their lab, but it fails in the certification lab. How do you bridge this gap and drive a resolution?"
+Category 4: Strategic & Financial Management
+These are for the 'Lead' aspect of your profile.
+
+Budgeting: "How do you approach budget planning for a global vehicle program involving multiple certification bodies, multiple test labs, and expensive hardware like RF Chambers?"
+Resource Management: "If you are managing certification for three different vehicle models simultaneously, how do you prioritize lab time and engineering resources?"
+Tooling Strategy: "Besides the standard sniffers, how do you use JIRA/ALM to track the traceability between a failed test case in the lab and the subsequent software fix from the development team?"
