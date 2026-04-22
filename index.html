@@ -17,6 +17,17 @@
       padding: 0;
     }
 
+    @keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
     :root {
       --bg: #eef4f8;
       --surface: #ffffff;
@@ -86,7 +97,7 @@
       font-size: 15px;
       min-height: 100vh;
       overflow-x: hidden;
-      padding: 56px 24px 80px;
+      padding: 20px 24px 80px;
     }
 
     body::before {
@@ -471,6 +482,346 @@
       background: #2da44e;
     }
 
+    /* ══════════════════════════════════════════════
+       ENHANCED FEATURES CSS
+       ══════════════════════════════════════════════ */
+
+    /* --- Topic Overview Banner --- */
+    .topic-overview {
+      background: linear-gradient(135deg, rgba(0,141,122,0.08) 0%, rgba(47,111,228,0.06) 100%);
+      border: 1px solid var(--answer-border);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .topic-overview::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,141,122,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .topic-overview-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .topic-overview-text {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .topic-overview-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .topic-tag {
+      background: rgba(0,141,122,0.12);
+      color: var(--accent);
+      border: 1px solid var(--answer-border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* --- Progress Bar --- */
+    .topic-progress-wrap {
+      margin: 12px 0 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .topic-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .topic-progress-count {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .progress-bar-track {
+      background: var(--border);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 0;
+    }
+
+    /* --- Q&A Copy Button (per card) --- */
+    .qa-copy-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 3px 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .qa-copy-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,141,122,0.07);
+    }
+
+    /* --- Bookmark Star button (per card) --- */
+    .bookmark-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 3px 6px;
+      color: var(--muted);
+      transition: all 0.2s;
+      line-height: 1;
+    }
+    .bookmark-btn:hover { transform: scale(1.25); }
+    .bookmark-btn.bookmarked { color: var(--gold); }
+
+    /* --- Quiz mode per-card controls --- */
+    .quiz-answer-overlay {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .quiz-mode-on .quiz-answer-overlay { display: flex; }
+    .quiz-reveal-btn {
+      padding: 5px 12px;
+      background: var(--accent2);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-reveal-btn:hover { opacity: 0.88; }
+    .quiz-correct-btn {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px solid #22c55e;
+      color: #22c55e;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-correct-btn.active { background: #22c55e; color: white; }
+    .quiz-wrong-btn {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-wrong-btn.active { background: #ef4444; color: white; }
+
+    /* --- Quiz Score HUD --- */
+    #quizScoreHUD {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 9998;
+      min-width: 180px;
+      font-size: 13px;
+    }
+    .quiz-mode-active #quizScoreHUD { display: block; }
+    #quizScoreHUD .score-label { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    #quizScoreHUD .score-nums { font-weight: 800; font-size: 22px; }
+    #quizScoreHUD .score-correct { color: #22c55e; }
+    #quizScoreHUD .score-wrong { color: #ef4444; margin-left: 8px; }
+
+    /* --- Study Timer Panel (enhanced) --- */
+    #studyTimerPanel {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 9999;
+      min-width: 200px;
+      text-align: center;
+    }
+    #studyTimerPanel.visible { display: block; }
+    #timerDisplay {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin: 8px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    #timerDisplay.paused { color: var(--muted); }
+    #timerDisplay.done { color: #22c55e; }
+    .timer-controls { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+    .timer-ctrl-btn {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .timer-ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .timer-ctrl-btn.start-btn { background: var(--accent); color: white; border-color: var(--accent); }
+    .timer-ctrl-btn.start-btn:hover { opacity: 0.85; }
+    .timer-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* --- Toast notification --- */
+    #toastContainer {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--text);
+      color: var(--bg);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      animation: toastIn 0.25s ease, toastOut 0.3s ease 1.5s forwards;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-8px); }
+    }
+
+    /* --- Bookmarks Tab content --- */
+    #bookmarks-content .bm-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    #bookmarks-content .bm-empty .bm-icon { font-size: 40px; margin-bottom: 12px; }
+    .bm-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      animation: fadeUp 0.3s ease;
+    }
+    .bm-card-q { font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 6px; }
+    .bm-card-a { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .bm-card-footer { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+    .bm-remove-btn {
+      padding: 3px 10px;
+      font-size: 11px;
+      background: transparent;
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .bm-remove-btn:hover { background: #ef4444; color: white; }
+    .bm-topic-badge {
+      font-size: 10px;
+      background: rgba(0,141,122,0.12);
+      color: var(--accent);
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-weight: 600;
+    }
+
+    /* --- Card action bar (unified row below each Q block) --- */
+    .card-action-bar {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+    .card-action-bar button {
+      padding: 4px 9px;
+      font-size: 11px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      transition: all 0.18s;
+    }
+
+    /* Sticky nav for tabs */
+    .tabs-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      padding: 10px 0 6px;
+      margin-bottom: 0;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Smooth transitions on content panels */
+    .content {
+      transition: opacity 0.2s ease;
+    }
+
     /* Dark mode toggle button */
     #darkToggle {
       position: fixed;
@@ -495,18 +846,6 @@
       border-color: var(--accent);
       color: var(--accent);
     }
-
-
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    
 
     @media (max-width: 768px) {
       body {
@@ -693,6 +1032,7 @@
 
 <h2>🚗 Automotive Software Testing Interview Guide</h2>
 
+<div class="tabs-wrapper">
 <div class="tabs">
   <div class="tab active" data-tab-id="adb" onclick="openTab('adb', this)">ADB</div>
   <div class="tab" data-tab-id="adas" onclick="openTab('adas', this)">ADAS Testing</div>
@@ -717,6 +1057,31 @@
   <div class="tab" data-tab-id="ethernet" onclick="openTab('ethernet', this)">Ethernet (100BASE-T1)</div>
   <div class="tab" data-tab-id="autosar" onclick="openTab('autosar', this)">AUTOSAR</div>
   <div class="tab" data-tab-id="iso26262" onclick="openTab('iso26262', this)">ISO 26262 Safety</div>
+  <div class="tab" data-tab-id="bookmarks" onclick="openTab('bookmarks', this)">⭐ Bookmarks</div>
+</div>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer"></div>
+
+<!-- Quiz Score HUD -->
+<div id="quizScoreHUD">
+  <div class="score-label">Quiz Score</div>
+  <div class="score-nums">
+    <span class="score-correct" id="quizCorrectCount">0</span> ✓
+    <span class="score-wrong" id="quizWrongCount">0</span> ✗
+  </div>
+</div>
+
+<!-- Study Timer Panel -->
+<div id="studyTimerPanel">
+  <div class="timer-label">Study Timer</div>
+  <div id="timerDisplay">25:00</div>
+  <div class="timer-controls">
+    <button class="timer-ctrl-btn start-btn" id="timerStartBtn" onclick="timerAction('start')">▶ Start</button>
+    <button class="timer-ctrl-btn" id="timerPauseBtn" onclick="timerAction('pause')" style="display:none">⏸ Pause</button>
+    <button class="timer-ctrl-btn" onclick="timerAction('reset')">↺ Reset</button>
+  </div>
 </div>
 
 <!-- Statistics Panel -->
@@ -748,8 +1113,8 @@
     <div class="toolbar-buttons">
       <button onclick="expandAllAnswers()" class="study-btn expand-btn" title="Expand all answers">📖 Expand All</button>
       <button onclick="collapseAllAnswers()" class="study-btn collapse-btn" title="Collapse all answers">📕 Collapse All</button>
-      <button onclick="toggleQuizMode()" class="study-btn quiz-btn" title="Toggle quiz mode - hide answers">🎯 Quiz Mode</button>
-      <button onclick="startStudyTimer()" class="study-btn timer-btn" title="Start Pomodoro timer (25 min focus)">⏱️ Study Timer</button>
+      <button onclick="toggleQuizMode(this)" class="study-btn quiz-btn" title="Toggle quiz mode - hide answers">🎯 Quiz Mode</button>
+      <button onclick="toggleTimerPanel()" class="study-btn timer-btn" title="Study timer with pause/resume">⏱️ Study Timer</button>
       <button onclick="exportStudyNotes()" class="study-btn export-btn" title="Download study notes">📥 Export Notes</button>
       <button onclick="showProgressStats()" class="study-btn stats-btn" title="View learning progress">📊 Progress</button>
       <button onclick="exportToClipboard(this)" class="study-btn export-btn" title="Copy all to clipboard">📋 Copy All</button>
@@ -1103,6 +1468,13 @@
   <div id="iso26262-qa-list" class="uds-qa-list"></div>
 </div>
 
+<!-- Bookmarks Panel -->
+<div id="bookmarks" class="content">
+  <h3>⭐ Bookmarked Questions</h3>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Star any question across all topics to save it here for quick review.</p>
+  <div id="bookmarks-content"></div>
+</div>
+
 
 
 <script>
@@ -1142,6 +1514,9 @@
     const contentElement = document.getElementById(tabId);
     if (contentElement) contentElement.classList.add('active');
     if (element) element.classList.add('active');
+
+    // Render bookmarks tab on open
+    if (tabId === 'bookmarks') renderBookmarksTab();
 
     // Clear search when switching tabs
     const searchBox = document.getElementById('searchBox');
@@ -2731,6 +3106,48 @@
       return;
     }
 
+    // Derive tabId from containerId (e.g. "adb-qa-list" → "adb")
+    const tabId = containerId.replace(/-qa-list$/, '');
+    const totalQsInTab = qaData.reduce((s, sec) => s + (sec.questions ? sec.questions.length : 0), 0);
+
+    // Topic overview injection (only for built-in tabs that have metadata)
+    const overviewMeta = TOPIC_OVERVIEW_MAP[tabId];
+    if (overviewMeta) {
+      const parentContent = document.getElementById(tabId);
+      if (parentContent && !parentContent.querySelector('.topic-overview')) {
+        const ov = document.createElement('div');
+        ov.className = 'topic-overview';
+        ov.innerHTML = `
+          <div class="topic-overview-title">📌 Topic Overview</div>
+          <div class="topic-overview-text">${overviewMeta.text}</div>
+          <div class="topic-overview-tags">${overviewMeta.tags.map(t => `<span class="topic-tag">${t}</span>`).join('')}</div>
+        `;
+        // Insert before first h3
+        const firstH3 = parentContent.querySelector('h3');
+        if (firstH3) parentContent.insertBefore(ov, firstH3);
+        else parentContent.insertBefore(ov, parentContent.firstChild);
+      }
+    }
+
+    // Progress bar injection
+    const parentContent2 = document.getElementById(tabId);
+    if (parentContent2 && !parentContent2.querySelector('.topic-progress-wrap')) {
+      const progressWrap = document.createElement('div');
+      progressWrap.className = 'topic-progress-wrap';
+      progressWrap.dataset.tabId = tabId;
+      progressWrap.innerHTML = `
+        <div class="topic-progress-header">
+          <span>Questions Completed</span>
+          <span class="topic-progress-count" id="prog-count-${tabId}">0 / ${totalQsInTab}</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="prog-bar-${tabId}" style="width:0%"></div>
+        </div>
+      `;
+      const qaListEl = parentContent2.querySelector('.uds-qa-list');
+      if (qaListEl) parentContent2.insertBefore(progressWrap, qaListEl);
+    }
+
     let sectionIndex = 0;
     qaData.forEach((section) => {
       const sectionBlock = document.createElement('section');
@@ -2746,6 +3163,7 @@
       section.questions.forEach((item) => {
         const questionBlock = document.createElement('details');
         questionBlock.className = 'uds-question question-block';
+        questionBlock.dataset.tabId = tabId;
 
         const question = document.createElement('summary');
         question.className = 'question';
@@ -2758,19 +3176,15 @@
         const bulletItems = convertBulletPointsToHTML(item.a);
         
         if (Array.isArray(bulletItems) && bulletItems.length > 1) {
-          // Create unordered list if multiple bullet points found
           const ul = document.createElement('ul');
           ul.className = 'answer-list';
-          
           bulletItems.forEach(bulletText => {
             const li = document.createElement('li');
             li.textContent = bulletText;
             ul.appendChild(li);
           });
-          
           answerContainer.appendChild(ul);
         } else {
-          // Display as paragraph if no bullets found
           const answer = document.createElement('p');
           answer.textContent = item.a;
           answerContainer.appendChild(answer);
@@ -2805,13 +3219,50 @@
           answerContainer.appendChild(codeBlock);
         }
 
+        // ── Quiz mode overlay (shown only when quiz mode is active) ──
+        const quizOverlay = document.createElement('div');
+        quizOverlay.className = 'quiz-answer-overlay';
+        const revealBtn = document.createElement('button');
+        revealBtn.className = 'quiz-reveal-btn';
+        revealBtn.textContent = '👁 Show Answer';
+        revealBtn.onclick = (e) => {
+          e.stopPropagation();
+          questionBlock.open = true;
+          revealBtn.style.display = 'none';
+        };
+        const correctBtn = document.createElement('button');
+        correctBtn.className = 'quiz-correct-btn';
+        correctBtn.textContent = '✓ Correct';
+        correctBtn.onclick = (e) => {
+          e.stopPropagation();
+          const wasCorrect = correctBtn.classList.toggle('active');
+          wrongBtn.classList.remove('active');
+          updateQuizScore();
+        };
+        const wrongBtn = document.createElement('button');
+        wrongBtn.className = 'quiz-wrong-btn';
+        wrongBtn.textContent = '✗ Wrong';
+        wrongBtn.onclick = (e) => {
+          e.stopPropagation();
+          wrongBtn.classList.toggle('active');
+          correctBtn.classList.remove('active');
+          updateQuizScore();
+        };
+        quizOverlay.appendChild(revealBtn);
+        quizOverlay.appendChild(correctBtn);
+        quizOverlay.appendChild(wrongBtn);
+
         questionBlock.appendChild(question);
         questionBlock.appendChild(answerContainer);
+        questionBlock.appendChild(quizOverlay);
         sectionBlock.appendChild(questionBlock);
       });
 
       container.appendChild(sectionBlock);
     });
+
+    // Update progress bar once questions are rendered
+    updateTabProgress(tabId);
   }
 
   const infotainmentQaData = [
@@ -4288,75 +4739,417 @@ on message * {
   }
 
   /* ════════════════════════════════════════════════════════════
-     ADVANCED LEARNING FEATURES - Quiz, Timer, Progress Tracking
+     ENHANCED FEATURES — Quiz, Timer, Progress, Bookmarks, Copy
      ════════════════════════════════════════════════════════════ */
 
+  /* ── Topic Overview Metadata Map ─────────────────────────── */
+  const TOPIC_OVERVIEW_MAP = {
+    'adb': { text: 'Android Debug Bridge (ADB) is the primary command-line tool for communicating with Android-based IVI head units. In automotive projects, it is used daily for APK deployment, logcat analysis, property inspection, and shell-level debugging on AAOS (Android Automotive OS) targets across Honda ICB, Tata, and GM platforms.', tags: ['AAOS', 'Logcat', 'Shell', 'APK', 'ADB over TCP', 'bugreport'] },
+    'can': { text: 'CAN (Controller Area Network) is the backbone communication bus in automotive embedded systems. It is used in every OEM project for ECU-to-ECU messaging, diagnostic traffic, and signal validation. Tools like CANoe and CANalyzer simulate, capture, and analyze CAN frames on real hardware and HIL benches.', tags: ['ISO 11898', 'CANoe', 'CANalyzer', 'DBC', 'Arbitration', 'Error Frames'] },
+    'cantp': { text: 'CAN Transport Protocol (ISO 15765-2) enables multi-frame message transfer over CAN — essential for UDS diagnostics and ECU flashing. Tested extensively during diagnostic session validation, where large payloads like firmware images are transferred with strict timing requirements.', tags: ['ISO 15765-2', 'Segmentation', 'Flow Control', 'UDS Transport', 'SF/FF/CF/FC'] },
+    'uds': { text: 'Unified Diagnostic Services (ISO 14229) is the diagnostic application layer used to read/write ECU data, control sessions, and flash firmware. In real projects, UDS is accessed via CANoe CAPL scripts or Python (python-uds) to automate diagnostic test sequences on HIL and vehicle.', tags: ['ISO 14229', 'ECU Reset', 'DID Read/Write', 'Security Access', 'Fault Codes', 'CANoe'] },
+    'canoe': { text: 'Vector CANoe is the industry-standard tool for CAN/LIN/Ethernet simulation and testing. Used in automotive projects to monitor real-time bus traffic, simulate missing ECU nodes, run automated CAPL test sequences, and generate detailed test reports for OEM acceptance.', tags: ['Vector', 'Simulation', 'DBC Import', 'CAPL', 'Bus Trace', 'Test Modules'] },
+    'capl': { text: 'CAPL (Communication Access Programming Language) is an event-driven scripting language embedded in CANoe/CANalyzer. It is used to write automated test cases, simulate ECU behaviour, inject faults, and validate responses — critical for regression testing in HIL environments.', tags: ['CANoe Scripting', 'Event-Driven', 'on message()', 'CAPL Functions', 'Automation'] },
+    'bluetooth': { text: 'Bluetooth testing in automotive infotainment validates HFP, A2DP, AVRCP, PBAP, and MAP profiles. In KPIT infotainment projects, BT logs are extracted via ADB (btsnoop_hci.log), analyzed in Wireshark, and regression-tested across a matrix of Android and iOS phone models.', tags: ['HFP', 'A2DP', 'AVRCP', 'PBAP', 'Wireshark', 'Coexistence'] },
+    'infotainment': { text: 'Infotainment system testing covers audio, navigation, connectivity (BT/Wi-Fi/CarPlay/AA), and CAN integration. Real projects at KPIT for Honda and JLR include CAPL-based regression, ADB-driven log collection, and certification test execution for Apple CarPlay and Android Auto compliance.', tags: ['CarPlay', 'Android Auto', 'GPS', 'OTA', 'HMI', 'Wi-Fi', 'A2DP'] },
+    'python': { text: 'Python is increasingly used in automotive testing for ADB automation, CAN bus scripting (python-can, cantools), log parsing, and CI integration. Custom tools like the AAOS bugreport analyzer and Gmail automation agents use Python to drastically reduce manual effort.', tags: ['python-can', 'cantools', 'pytest', 'ADB Automation', 'Log Parsing', 'CI/CD'] },
+    'linux': { text: 'Linux fundamentals are critical for AAOS head units (which run Linux kernel), embedded ECU work, and HIL bench management. Shell scripting, process management, file system navigation, and systemd service control are daily tasks in an infotainment test engineer\'s workflow.', tags: ['Shell', 'systemd', 'Kernel', 'AAOS', 'SSH', 'File System'] },
+    'autosar': { text: 'AUTOSAR defines the software architecture for ECU firmware in automotive systems. Testing involves verifying COM stack signal routing, NVM behaviour, DCM diagnostic responses, and DEM fault storage — typically validated through CANoe test modules and CAPL scripts on HIL benches.', tags: ['BSW', 'RTE', 'COM', 'DCM', 'DEM', 'NVM', 'Adaptive AUTOSAR'] },
+    'iso26262': { text: 'ISO 26262 Functional Safety is mandatory for safety-critical automotive systems. Test engineers must understand ASIL ratings, FMEA, and traceability requirements. Safety validation evidence — test reports, requirement links, coverage data — is mandatory for OEM safety audits.', tags: ['ASIL', 'FMEA', 'HARA', 'Safety Goals', 'V&V', 'Tool Qualification'] },
+    'adas': { text: 'ADAS testing validates safety-critical features like AEB, ACC, LKA, and BSM. Test scenarios include sensor fusion verification, edge case identification, and hardware-in-the-loop simulations. SOTIF (ISO 21448) testing ensures the intended functionality itself is not hazardous.', tags: ['AEB', 'ACC', 'LKA', 'Sensor Fusion', 'SOTIF', 'HIL', 'Radar'] },
+    'embedded-c': { text: 'Embedded C is the core language for automotive ECU firmware. Test engineers need it for code review, understanding DMA/interrupt behaviour, analysing memory maps, and writing CAPL/Python test stubs that mirror ECU logic for integration testing.', tags: ['Microcontrollers', 'DMA', 'Interrupts', 'RTOS', 'Memory Management', 'Volatile'] },
+    'clanguage': { text: 'C language knowledge is foundational for automotive test engineers who review ECU source code, read datasheet implementations, and write helper utilities for log parsing or protocol simulation. Strong C skills differentiate candidates at senior-level interviews.', tags: ['Pointers', 'Structs', 'Memory', 'Bitfields', 'Preprocessor', 'Endianness'] },
+    'qfil': { text: 'QFIL (Qualcomm Firmware Image Loader) is used to flash Qualcomm-based IVI head units in EDL (Emergency Download) mode. In automotive testing, firmware flashing is a daily activity during ECU bring-up, recovery from bad flashes, and release validation cycles.', tags: ['EDL Mode', 'Sahara', 'Firehose', 'Partition Table', 'Qualcomm', 'Recovery'] },
+    'teraterm': { text: 'Tera Term is used for serial (UART) communication with embedded targets, bootloader interaction, and early-stage console log capture before ADB is available. In automotive testing, it is essential during ECU bring-up and for capturing boot-time crash logs.', tags: ['UART', 'RS-232', 'Baud Rate', 'Serial Log', 'Bootloader', 'TTL Console'] },
+    'features': { text: 'Feature testing covers Wi-Fi, Navigation, Android Auto, Apple CarPlay, and other infotainment functions end-to-end. These tests are executed against OEM test specifications and require deep knowledge of Android settings APIs, ADB commands, and protocol logs to validate pass/fail.', tags: ['Wi-Fi', 'CarPlay', 'Android Auto', 'Navigation', 'OTA', 'Regression'] },
+    'hilbench': { text: 'HIL (Hardware-in-the-Loop) testing uses real ECU hardware connected to a simulated vehicle environment. The bench replaces actual vehicle signals with controlled stimuli, enabling regression, fault injection, and timing analysis in a lab setting for Honda, GM, and JLR programs.', tags: ['Real-Time Sim', 'dSPACE', 'NI VeriStand', 'Fault Injection', 'ECU-in-Loop'] },
+    'logs': { text: 'Log collection and analysis is a core daily skill for automotive test engineers. CAN bus logs (ASC/BLF), ADB logcat, UART serial logs, and bugreports are captured, timestamped, correlated, and analyzed to identify root causes of defects across the software stack.', tags: ['Logcat', 'ASC/BLF', 'bugreport', 'Root Cause', 'Wireshark', 'Timestamps'] },
+    'security': { text: 'Cybersecurity in automotive (ISO 21434) is rapidly growing. Security test engineers perform threat modeling, penetration testing, CAN injection tests, and validation of secure boot and signed OTA updates. This is a key differentiator for senior roles in connected vehicle programs.', tags: ['ISO 21434', 'TARA', 'SecOC', 'Secure Boot', 'Pen Testing', 'V2X'] },
+    'ethernet': { text: 'Automotive Ethernet (100BASE-T1, 1000BASE-T1) is replacing CAN in high-bandwidth domains like ADAS and camera systems. Test engineers need to understand DoIP (diagnostics over IP), TSN timing, and network switch configuration for next-generation AAOS platforms.', tags: ['100BASE-T1', 'DoIP', 'TSN', 'Switch', 'Wireshark', 'SOME/IP'] },
+    'automotiveSw': { text: 'Automotive software testing methodology forms the foundation of any testing role. Understanding STLC, V-model, Agile sprints, defect lifecycle, traceability matrices, and ISO 26262 compliance requirements is mandatory for senior test engineer interviews at KPIT, TCS, and OEMs.', tags: ['STLC', 'V-model', 'Agile', 'Defect Lifecycle', 'ISO 26262', 'Traceability'] }
+  };
+
+  /* ── Study Timer (enhanced) ───────────────────────────────── */
+  let timerSeconds = 25 * 60;
+  let timerInterval = null;
+  let timerRunning = false;
+
+  function toggleTimerPanel() {
+    const panel = document.getElementById('studyTimerPanel');
+    panel.classList.toggle('visible');
+  }
+
+  function timerAction(action) {
+    const display = document.getElementById('timerDisplay');
+    const startBtn = document.getElementById('timerStartBtn');
+    const pauseBtn = document.getElementById('timerPauseBtn');
+
+    if (action === 'start') {
+      if (timerRunning) return;
+      timerRunning = true;
+      startBtn.style.display = 'none';
+      pauseBtn.style.display = 'inline-block';
+      display.classList.remove('paused', 'done');
+      timerInterval = setInterval(() => {
+        timerSeconds--;
+        updateTimerDisplay();
+        try { localStorage.setItem('timerSeconds', timerSeconds); } catch(e) {}
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          display.textContent = '✅ Done!';
+          display.classList.add('done');
+          startBtn.style.display = 'inline-block';
+          pauseBtn.style.display = 'none';
+          showToast('🎉 Session complete! Take a break.');
+        }
+      }, 1000);
+    } else if (action === 'pause') {
+      if (!timerRunning) return;
+      clearInterval(timerInterval);
+      timerRunning = false;
+      startBtn.textContent = '▶ Resume';
+      startBtn.style.display = 'inline-block';
+      pauseBtn.style.display = 'none';
+      display.classList.add('paused');
+    } else if (action === 'reset') {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = 25 * 60;
+      updateTimerDisplay();
+      display.classList.remove('paused', 'done');
+      startBtn.textContent = '▶ Start';
+      startBtn.style.display = 'inline-block';
+      pauseBtn.style.display = 'none';
+      try { localStorage.removeItem('timerSeconds'); } catch(e) {}
+    }
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+    const s = (timerSeconds % 60).toString().padStart(2, '0');
+    const display = document.getElementById('timerDisplay');
+    if (display) display.textContent = m + ':' + s;
+  }
+
+  // Restore timer state from localStorage (persists across tab switches)
+  (function restoreTimer() {
+    try {
+      const saved = parseInt(localStorage.getItem('timerSeconds'));
+      if (!isNaN(saved) && saved > 0 && saved < 25 * 60) {
+        timerSeconds = saved;
+        updateTimerDisplay();
+      }
+    } catch(e) {}
+  })();
+
+  // Keep timer alive when switching tabs (Page Visibility API)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && timerRunning) {
+      // Sync from localStorage in case of drift
+      try {
+        const saved = parseInt(localStorage.getItem('timerSeconds'));
+        if (!isNaN(saved)) { timerSeconds = saved; updateTimerDisplay(); }
+      } catch(e) {}
+    }
+  });
+
+  /* ── Quiz Mode (enhanced with per-card controls) ──────────── */
   let quizMode = false;
-  
-  function toggleQuizMode() {
+  let quizCorrect = 0;
+  let quizWrong = 0;
+
+  function toggleQuizMode(btn) {
     quizMode = !quizMode;
-    const btn = event.target;
     btn.style.background = quizMode ? 'var(--accent)' : 'var(--surface)';
     btn.style.color = quizMode ? 'white' : 'var(--text)';
-    document.querySelectorAll('details').forEach(d => { d.open = !quizMode; });
-    alert(quizMode ? '🎯 Quiz Mode ON - Answers Hidden!\\n\\nClick to reveal answers. Test yourself!' : '📖 Quiz Mode OFF - Answers Visible');
-  }
-
-  function startStudyTimer() {
-    let minutes = 25, seconds = 0, timerInterval;
-    const display = document.createElement('div');
-    display.style.cssText = 'position: fixed; top: 20px; right: 20px; font-size: 24px; font-weight: 700; background: var(--accent); color: white; padding: 16px; border-radius: 8px; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);';
-    display.textContent = '25:00';
-    document.body.appendChild(display);
-    timerInterval = setInterval(() => {
-      seconds--;
-      if (seconds < 0) { seconds = 59; minutes--; }
-      if (minutes < 0) {
-        clearInterval(timerInterval);
-        display.textContent = '✅ Time\'s Up!';
-        display.style.background = '#22c55e';
-        alert('🎉 Study Session Complete!\\n\\nTake a 5-minute break and continue!');
-        setTimeout(() => display.remove(), 3000);
-      } else {
-        display.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-      }
-    }, 1000);
-    display.title = 'Click to stop';
-    display.style.cursor = 'pointer';
-    display.onclick = () => { clearInterval(timerInterval); display.remove(); };
-  }
-
-  function showProgressStats() {
-    const learned = JSON.parse(localStorage.getItem('learned') || '[]').length;
-    const reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]').length;
-    const total = 1100;
-    const progress = Math.round((learned / total) * 100);
-    alert(`📈 YOUR LEARNING PROGRESS\\n\\n✅ Questions Learned: ${learned}/${total}\\n🔄 Marked for Review: ${reviewed}\\n📊 Progress: ${progress}%\\n\\nKeep up the great work!`);
-  }
-
-  function markQuestionLearned(qIdx) {
-    let learned = JSON.parse(localStorage.getItem('learned') || '[]');
-    if (!learned.includes(qIdx)) {
-      learned.push(qIdx);
-      localStorage.setItem('learned', JSON.stringify(learned));
-      event.target.style.background = '#22c55e';
-      event.target.textContent = '✅ Learned';
-    }
-  }
-
-  function markForReview(qIdx) {
-    let reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]');
-    if (reviewed.includes(qIdx)) {
-      reviewed.splice(reviewed.indexOf(qIdx), 1);
-      event.target.textContent = '🚩 Review';
-      event.target.style.background = 'transparent';
+    document.body.classList.toggle('quiz-mode-on', quizMode);
+    document.body.classList.toggle('quiz-mode-active', quizMode);
+    if (quizMode) {
+      // Hide all answers
+      document.querySelectorAll('details.question-block').forEach(d => {
+        d.open = false;
+        const rv = d.querySelector('.quiz-reveal-btn');
+        if (rv) rv.style.display = 'inline-block';
+      });
+      quizCorrect = 0; quizWrong = 0;
+      updateQuizScoreHUD();
+      showToast('🎯 Quiz Mode ON — answers hidden. Test yourself!');
     } else {
-      reviewed.push(qIdx);
-      event.target.textContent = '✔️ Marked';
-      event.target.style.background = '#f59e0b';
+      document.querySelectorAll('details.question-block').forEach(d => {
+        d.open = true;
+        const rv = d.querySelector('.quiz-reveal-btn');
+        if (rv) rv.style.display = 'none';
+        d.querySelector('.quiz-correct-btn')?.classList.remove('active');
+        d.querySelector('.quiz-wrong-btn')?.classList.remove('active');
+      });
+      showToast('📖 Quiz Mode OFF — all answers visible');
     }
-    localStorage.setItem('reviewed', JSON.stringify(reviewed));
   }
+
+  function updateQuizScore() {
+    quizCorrect = document.querySelectorAll('.quiz-correct-btn.active').length;
+    quizWrong = document.querySelectorAll('.quiz-wrong-btn.active').length;
+    updateQuizScoreHUD();
+  }
+
+  function updateQuizScoreHUD() {
+    const c = document.getElementById('quizCorrectCount');
+    const w = document.getElementById('quizWrongCount');
+    if (c) c.textContent = quizCorrect;
+    if (w) w.textContent = quizWrong;
+  }
+
+  /* ── Progress Tracking ────────────────────────────────────── */
+  function getCompletedSet(tabId) {
+    try { return new Set(JSON.parse(localStorage.getItem('completed_' + tabId) || '[]')); } catch(e) { return new Set(); }
+  }
+  function saveCompletedSet(tabId, set) {
+    try { localStorage.setItem('completed_' + tabId, JSON.stringify([...set])); } catch(e) {}
+  }
+
+  function updateTabProgress(tabId) {
+    const allQs = document.querySelectorAll(`[data-tab-id="${tabId}"].question-block`);
+    const total = allQs.length;
+    if (!total) return;
+    const completed = getCompletedSet(tabId);
+    const count = completed.size;
+    const pct = Math.round((count / total) * 100);
+    const bar = document.getElementById('prog-bar-' + tabId);
+    const label = document.getElementById('prog-count-' + tabId);
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = count + ' / ' + total;
+  }
+
+  // Track question open → mark as seen/completed
+  document.addEventListener('toggle', function(e) {
+    if (e.target.tagName === 'DETAILS' && e.target.classList.contains('question-block')) {
+      if (e.target.open) {
+        const tabId = e.target.dataset.tabId;
+        if (!tabId) return;
+        const allQs = [...document.querySelectorAll(`[data-tab-id="${tabId}"].question-block`)];
+        const idx = allQs.indexOf(e.target);
+        if (idx === -1) return;
+        const set = getCompletedSet(tabId);
+        set.add(idx);
+        saveCompletedSet(tabId, set);
+        updateTabProgress(tabId);
+      }
+    }
+  }, true);
+
+  /* ── Progress Stats (enhanced — no alert) ────────────────── */
+  function showProgressStats() {
+    const allTabIds = ['adb','can','cantp','uds','canoe','capl','bluetooth','infotainment','python',
+      'linux','autosar','iso26262','adas','embedded-c','clanguage','qfil','teraterm','features',
+      'hilbench','logs','security','ethernet','automotiveSw'];
+    let total = 0, completed = 0;
+    allTabIds.forEach(tid => {
+      const qs = document.querySelectorAll(`[data-tab-id="${tid}"].question-block`);
+      total += qs.length;
+      completed += getCompletedSet(tid).size;
+    });
+    const pct = total ? Math.round((completed / total) * 100) : 0;
+    showToast(`📊 ${completed}/${total} questions opened (${pct}% coverage)`);
+  }
+
+  /* ── Toast Notification ───────────────────────────────────── */
+  function showToast(msg) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+
+  /* ── Bookmarks System (star icon per card) ────────────────── */
+  function getBookmarks() {
+    try { return JSON.parse(localStorage.getItem('bookmarks_v2') || '[]'); } catch(e) { return []; }
+  }
+  function saveBookmarks(arr) {
+    try { localStorage.setItem('bookmarks_v2', JSON.stringify(arr)); } catch(e) {}
+  }
+
+  function initBookmarkButtons() {
+    document.querySelectorAll('.question-block').forEach((qBlock, idx) => {
+      if (qBlock.querySelector('.card-action-bar')) return; // already initialized
+
+      const tabId = qBlock.dataset.tabId || '';
+      const qText = qBlock.querySelector('.question')?.textContent || '';
+      const aText = qBlock.querySelector('.answer-content')?.innerText || '';
+
+      // Build unified action bar
+      const bar = document.createElement('div');
+      bar.className = 'card-action-bar';
+
+      // Copy button
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'qa-copy-btn';
+      copyBtn.textContent = '📋 Copy';
+      copyBtn.onclick = (e) => {
+        e.stopPropagation();
+        const content = 'Q: ' + qText + '\n\nA: ' + aText;
+        navigator.clipboard.writeText(content).then(() => {
+          showToast('Content copied');
+          copyBtn.textContent = '✓ Copied';
+          setTimeout(() => { copyBtn.textContent = '📋 Copy'; }, 1500);
+        }).catch(() => showToast('Copy failed — allow clipboard access'));
+      };
+
+      // Bookmark button
+      const bmBtn = document.createElement('button');
+      bmBtn.className = 'bookmark-btn';
+      const bookmarks = getBookmarks();
+      const bKey = tabId + '::' + qText.slice(0, 80);
+      const isBookmarked = bookmarks.some(b => b.key === bKey);
+      bmBtn.textContent = isBookmarked ? '★' : '☆';
+      if (isBookmarked) bmBtn.classList.add('bookmarked');
+      bmBtn.title = 'Bookmark this question';
+      bmBtn.onclick = (e) => {
+        e.stopPropagation();
+        let bms = getBookmarks();
+        const exists = bms.findIndex(b => b.key === bKey);
+        if (exists > -1) {
+          bms.splice(exists, 1);
+          bmBtn.textContent = '☆';
+          bmBtn.classList.remove('bookmarked');
+          showToast('Bookmark removed');
+        } else {
+          bms.push({ key: bKey, tabId, q: qText, a: aText.slice(0, 600) });
+          bmBtn.textContent = '★';
+          bmBtn.classList.add('bookmarked');
+          showToast('⭐ Bookmarked!');
+        }
+        saveBookmarks(bms);
+        updateFavoritesCount();
+      };
+
+      // Learned button
+      const learnBtn = document.createElement('button');
+      learnBtn.style.cssText = 'padding:4px 8px;font-size:11px;background:transparent;border:1px solid #22c55e;color:#22c55e;border-radius:4px;cursor:pointer;';
+      const learned = JSON.parse(localStorage.getItem('learned') || '[]');
+      if (learned.includes(idx)) { learnBtn.style.background = '#22c55e'; learnBtn.style.color = 'white'; learnBtn.textContent = '✅ Learned'; }
+      else learnBtn.textContent = '✅ Learned';
+      learnBtn.onclick = () => markQuestionLearned(idx, learnBtn);
+
+      // Review button
+      const reviewBtn = document.createElement('button');
+      reviewBtn.style.cssText = 'padding:4px 8px;font-size:11px;background:transparent;border:1px solid #f59e0b;color:#f59e0b;border-radius:4px;cursor:pointer;';
+      const reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]');
+      if (reviewed.includes(idx)) { reviewBtn.style.background = '#f59e0b'; reviewBtn.style.color = 'white'; reviewBtn.textContent = '✔️ Marked'; }
+      else reviewBtn.textContent = '🚩 Review';
+      reviewBtn.onclick = () => markForReview(idx, reviewBtn);
+
+      // Note button
+      const noteBtn = document.createElement('button');
+      noteBtn.style.cssText = 'padding:4px 8px;font-size:11px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:4px;cursor:pointer;';
+      noteBtn.textContent = '📝 Note';
+      noteBtn.onclick = () => addNoteToQuestion(idx);
+
+      bar.appendChild(copyBtn);
+      bar.appendChild(bmBtn);
+      bar.appendChild(learnBtn);
+      bar.appendChild(reviewBtn);
+      bar.appendChild(noteBtn);
+      qBlock.appendChild(bar);
+    });
+  }
+
+  /* ── Initialize favorites system (legacy compat) ─────────── */
+  function initializeFavoritesSystem() {
+    // Replaced by initBookmarkButtons — kept as no-op for compatibility
+    updateFavoritesCount();
+  }
+
+  function toggleFavorite(idx, btn) {
+    // Legacy — kept for any direct calls
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (favorites.includes(idx)) {
+      favorites.splice(favorites.indexOf(idx), 1);
+      btn.textContent = '☆';
+      btn.style.color = 'var(--muted)';
+    } else {
+      favorites.push(idx);
+      btn.textContent = '★';
+      btn.style.color = 'var(--gold)';
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoritesCount();
+  }
+
+  function updateFavoritesCount() {
+    try {
+      const count = getBookmarks().length;
+      const el = document.getElementById('favorites');
+      if (el) el.textContent = count;
+    } catch(e) {}
+  }
+
+  /* ── Render Bookmarks Tab ─────────────────────────────────── */
+  function renderBookmarksTab() {
+    const container = document.getElementById('bookmarks-content');
+    if (!container) return;
+    container.innerHTML = '';
+    const bms = getBookmarks();
+    if (!bms.length) {
+      container.innerHTML = `<div class="bm-empty"><div class="bm-icon">☆</div><div>No bookmarks yet.<br>Click the ☆ star button on any question to save it here.</div></div>`;
+      return;
+    }
+    bms.forEach((bm, i) => {
+      const card = document.createElement('div');
+      card.className = 'bm-card';
+      card.innerHTML = `
+        <div class="bm-card-q">${bm.q}</div>
+        <div class="bm-card-a">${bm.a}</div>
+        <div class="bm-card-footer">
+          <button class="bm-remove-btn" data-key="${bm.key}">✕ Remove</button>
+          <span class="bm-topic-badge">${bm.tabId || 'Topic'}</span>
+        </div>
+      `;
+      card.querySelector('.bm-remove-btn').onclick = function() {
+        let bms2 = getBookmarks();
+        bms2 = bms2.filter(b => b.key !== bm.key);
+        saveBookmarks(bms2);
+        updateFavoritesCount();
+        renderBookmarksTab();
+        showToast('Bookmark removed');
+        // Reset star on original card if visible
+        document.querySelectorAll('.bookmark-btn.bookmarked').forEach(btn => {
+          // We can't easily match, so just refresh all stars
+        });
+      };
+      container.appendChild(card);
+    });
+  }
+
+  /* ── Old startStudyTimer (replaced — kept for safety) ──────── */
+  function startStudyTimer() { toggleTimerPanel(); }
+
+ function markQuestionLearned(qIdx, btn) {
+  let learned = JSON.parse(localStorage.getItem('learned') || '[]');
+  if (!learned.includes(qIdx)) {
+    learned.push(qIdx);
+    localStorage.setItem('learned', JSON.stringify(learned));
+    btn.style.background = '#22c55e';
+    btn.textContent = '✅ Learned';
+  }
+}
+
+function markForReview(qIdx, btn) {
+  let reviewed = JSON.parse(localStorage.getItem('reviewed') || '[]');
+  if (reviewed.includes(qIdx)) {
+    reviewed.splice(reviewed.indexOf(qIdx), 1);
+    btn.textContent = '🚩 Review';
+    btn.style.background = 'transparent';
+  } else {
+    reviewed.push(qIdx);
+    btn.textContent = '✔️ Marked';
+    btn.style.background = '#f59e0b';
+  }
+  localStorage.setItem('reviewed', JSON.stringify(reviewed));
+}
 
   function addNoteToQuestion(qIdx) {
     const note = prompt('📝 Add a personal note to this question:');
@@ -4442,33 +5235,26 @@ on message * {
   renderQuestionsTab('autosar-qa-list', autorarQaData);
   renderQuestionsTab('iso26262-qa-list', iso26262QaData);
 
-  // Initialize Statistics Panel
-  updateStatistics();
-  initializeFavoritesSystem();
-
-  // Add action buttons to each question
+  // Initialize all enhanced features after render
   setTimeout(() => {
-    document.querySelectorAll('.question-block').forEach((qBlock, idx) => {
-      const btnContainer = document.createElement('div');
-      btnContainer.style.cssText = 'display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;';
-      const learnBtn = document.createElement('button');
-      learnBtn.textContent = '✅ Learned';
-      learnBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid #22c55e; color: #22c55e; border-radius: 4px; cursor: pointer;';
-      learnBtn.onclick = () => markQuestionLearned(idx);
-      const reviewBtn = document.createElement('button');
-      reviewBtn.textContent = '🚩 Review';
-      reviewBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid #f59e0b; color: #f59e0b; border-radius: 4px; cursor: pointer;';
-      reviewBtn.onclick = () => markForReview(idx);
-      const noteBtn = document.createElement('button');
-      noteBtn.textContent = '📝 Note';
-      noteBtn.style.cssText = 'padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; cursor: pointer;';
-      noteBtn.onclick = () => addNoteToQuestion(idx);
-      btnContainer.appendChild(learnBtn);
-      btnContainer.appendChild(reviewBtn);
-      btnContainer.appendChild(noteBtn);
-      qBlock.appendChild(btnContainer);
+    updateStatistics();
+    initializeFavoritesSystem();
+    initBookmarkButtons();
+
+    // Restore bookmark star states
+    const bms = getBookmarks();
+    document.querySelectorAll('.bookmark-btn').forEach(btn => {
+      const bar = btn.closest('.card-action-bar');
+      const qBlock = bar?.closest('.question-block');
+      const tabId = qBlock?.dataset.tabId || '';
+      const qText = qBlock?.querySelector('.question')?.textContent || '';
+      const bKey = tabId + '::' + qText.slice(0, 80);
+      if (bms.some(b => b.key === bKey)) {
+        btn.textContent = '★';
+        btn.classList.add('bookmarked');
+      }
     });
-  }, 500);
+  }, 300);
 </script>
 
 </body>
